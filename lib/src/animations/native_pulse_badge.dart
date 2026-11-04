@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 /// Insignia de notificación con pulso expansivo suave.
@@ -61,7 +63,7 @@ class _NativePulseBadgeState extends State<NativePulseBadge>
                       height: 14,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: widget.badgeColor.withValues(alpha: opacity * 0.6),
+                        color: widget.badgeColor.withOpacity(opacity * 0.6),
                       ),
                     ),
                   ),

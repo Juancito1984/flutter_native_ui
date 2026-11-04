@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -83,7 +85,7 @@ class _SpinnerPainter extends CustomPainter {
     );
 
     final trackPaint = Paint()
-      ..color = color.withValues(alpha: 0.15)
+      ..color = color.withOpacity(0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawOval(rect, trackPaint);
@@ -91,7 +93,7 @@ class _SpinnerPainter extends CustomPainter {
     final sweepPaint = Paint()
       ..shader = SweepGradient(
         colors: [
-          color.withValues(alpha: 0.0),
+          color.withOpacity(0.0),
           color,
         ],
         stops: const [0.0, 1.0],

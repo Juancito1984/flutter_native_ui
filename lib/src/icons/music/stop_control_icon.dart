@@ -1,0 +1,56 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/material.dart';
+
+/// Icono vectorial de botón Stop/Detener para música.
+class StopControlIcon extends StatelessWidget {
+  final double size;
+  final Color color;
+
+  const StopControlIcon({
+    super.key,
+    this.size = 24.0,
+    this.color = const Color(0xFFF44336),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(
+        size: Size(size, size),
+        painter: _StopControlPainter(color: color),
+      ),
+    );
+  }
+}
+
+class _StopControlPainter extends CustomPainter {
+  final Color color;
+
+  const _StopControlPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final scale = size.width / 24.0;
+    canvas.scale(scale, scale);
+
+    final bgPaint = Paint()
+      ..color = color.withOpacity(0.15)
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(const Offset(12, 12), 11, bgPaint);
+
+    final stopPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+
+    final stopRect = RRect.fromLTRBR(8, 8, 16, 16, const Radius.circular(1.5));
+    canvas.drawRRect(stopRect, stopPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _StopControlPainter oldDelegate) =>
+      oldDelegate.color != color;
+}

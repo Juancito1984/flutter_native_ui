@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 /// Animación nativa de carga/subida de datos a la nube (Upload).
@@ -98,7 +100,7 @@ class _DataUploadPainter extends CustomPainter {
     final opacity = (1.0 - progress).clamp(0.0, 1.0);
 
     final arrowPaint = Paint()
-      ..color = arrowColor.withValues(alpha: opacity)
+      ..color = arrowColor.withOpacity(opacity)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.2
       ..strokeCap = StrokeCap.round

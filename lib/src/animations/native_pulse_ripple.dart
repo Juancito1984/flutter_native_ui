@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 /// Animación de ondas expansivas de pulso/radar.
@@ -58,9 +60,9 @@ class _NativePulseRippleState extends State<NativePulseRipple>
                 height: radius * 2,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: rippleColor.withValues(alpha: opacity * 0.4),
+                  color: rippleColor.withOpacity(opacity * 0.4),
                   border: Border.all(
-                    color: rippleColor.withValues(alpha: opacity),
+                    color: rippleColor.withOpacity(opacity),
                     width: 1.5,
                   ),
                 ),
@@ -72,6 +74,7 @@ class _NativePulseRippleState extends State<NativePulseRipple>
                   shape: BoxShape.circle,
                   color: rippleColor,
                 ),
+
               ),
             ],
           ),

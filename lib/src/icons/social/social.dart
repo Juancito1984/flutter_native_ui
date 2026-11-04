@@ -1,0 +1,10 @@
+export 'apple_icon.dart';
+export 'facebook_icon.dart';
+export 'github_icon.dart';
+export 'google_icon.dart';
+export 'instagram_icon.dart';
+export 'linkedin_icon.dart';
+export 'tiktok_icon.dart';
+export 'twitter_x_icon.dart';
+export 'whatsapp_icon.dart';
+export 'youtube_icon.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 /// Corazón pulsante vectorial nativo con resplandor.
@@ -78,7 +80,7 @@ class _HeartPainter extends CustomPainter {
     final height = size.height;
 
     final shadowPaint = Paint()
-      ..color = color.withValues(alpha: 0.35)
+      ..color = color.withOpacity(0.35)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
 
     final heartPaint = Paint()

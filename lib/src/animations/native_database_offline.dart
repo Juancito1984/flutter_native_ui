@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 /// Animación nativa de base de datos offline/desactivada con alerta.
@@ -87,7 +89,7 @@ class _DatabaseOfflinePainter extends CustomPainter {
 
     // Pulsing Red Warning Slash
     final alertPaint = Paint()
-      ..color = const Color(0xFFD32F2F).withValues(alpha: alertOpacity)
+      ..color = const Color(0xFFD32F2F).withOpacity(alertOpacity)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
       ..strokeCap = StrokeCap.round

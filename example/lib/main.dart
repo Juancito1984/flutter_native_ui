@@ -179,6 +179,13 @@ class ExampleIconsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            Text('Mis botones'),
+            ListTile(
+              leading: FirebaseIcon(size: 30,),
+              title: Text('Firebase'),
+            ),
+
             _buildSectionTitle('🔥 Firebase & Nube'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
@@ -217,6 +224,40 @@ class ExampleIconsScreen extends StatelessWidget {
             _buildIconGrid(const [
               _IconItem(name: 'Sparkles (IA)', icon: SparklesIcon(size: 36)),
               _IconItem(name: 'Seguridad', icon: ShieldCheckIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('🏗️ Ingeniería y Construcción'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Ingeniero', icon: HardhatWorkerIcon(size: 36)),
+              _IconItem(name: 'Cuadrilla', icon: WorkCrewIcon(size: 36)),
+              _IconItem(name: 'Excavadora', icon: ExcavatorIcon(size: 36)),
+              _IconItem(name: 'Volqueta', icon: DumpTruckIcon(size: 36)),
+              _IconItem(name: 'Tractor', icon: TractorIcon(size: 36)),
+              _IconItem(name: 'Herramientas', icon: EngineeringToolsIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('🎵 Música y Audio'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Partitura', icon: MusicSheetIcon(size: 36)),
+              _IconItem(name: 'Acordes', icon: MusicChordsIcon(size: 36)),
+              _IconItem(name: 'Play', icon: PlayControlIcon(size: 36)),
+              _IconItem(name: 'Pause', icon: PauseControlIcon(size: 36)),
+              _IconItem(name: 'Stop', icon: StopControlIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('⚽ Fútbol y Deportes'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Balón', icon: SoccerBallIcon(size: 36)),
+              _IconItem(name: 'Jugador', icon: SoccerPlayerIcon(size: 36)),
+              _IconItem(name: 'Equipo', icon: SoccerTeamIcon(size: 36)),
+              _IconItem(name: 'T. Amarilla', icon: YellowCardIcon(size: 36)),
+              _IconItem(name: 'T. Roja', icon: RedCardIcon(size: 36)),
+              _IconItem(name: 'Doble Tarjeta', icon: RefereeCardIcon(size: 36)),
+              _IconItem(name: 'Silbato', icon: RefereeWhistleIcon(size: 36)),
+              _IconItem(name: 'Calendario', icon: MatchCalendarIcon(size: 36)),
             ]),
           ],
         ),
@@ -323,6 +364,34 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
                     _AnimContainer(
                       title: 'Base Desactivada',
                       widget: NativeDatabaseOffline(size: 48),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              '🏗️ 🎵 ⚽ Animaciones Temáticas por Categoría',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [
+                    _AnimContainer(
+                      title: 'Excavando',
+                      widget: NativeExcavatorDigging(size: 48),
+                    ),
+                    _AnimContainer(
+                      title: 'Ecualizador',
+                      widget: NativeAudioEqualizer(width: 48, height: 36),
+                    ),
+                    _AnimContainer(
+                      title: 'Rebote Balón',
+                      widget: NativeSoccerBallBounce(size: 48),
                     ),
                   ],
                 ),
