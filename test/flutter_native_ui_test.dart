@@ -33,7 +33,7 @@ void main() {
     });
   });
 
-  group('Iconos Vectoriales Nativos - Nuevas Categorías (Ingeniería, Música, Fútbol)', () {
+  group('Iconos Vectoriales Nativos - Categorías Temáticas', () {
     testWidgets('Iconos de Ingeniería renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -91,6 +91,8 @@ void main() {
                 SoccerBallIcon(size: 36),
                 SoccerPlayerIcon(size: 36),
                 SoccerTeamIcon(size: 36),
+                YellowCardIcon(size: 36),
+                RedCardIcon(size: 36),
                 RefereeCardIcon(size: 36),
                 RefereeWhistleIcon(size: 36),
                 MatchCalendarIcon(size: 36),
@@ -102,9 +104,36 @@ void main() {
       expect(find.byType(SoccerBallIcon), findsOneWidget);
       expect(find.byType(SoccerPlayerIcon), findsOneWidget);
       expect(find.byType(SoccerTeamIcon), findsOneWidget);
+      expect(find.byType(YellowCardIcon), findsOneWidget);
+      expect(find.byType(RedCardIcon), findsOneWidget);
       expect(find.byType(RefereeCardIcon), findsOneWidget);
       expect(find.byType(RefereeWhistleIcon), findsOneWidget);
       expect(find.byType(MatchCalendarIcon), findsOneWidget);
+    });
+
+    testWidgets('Iconos de Farmacia y Salud renderizan correctamente', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Column(
+              children: [
+                PillIcon(size: 36),
+                SyringeIcon(size: 36),
+                StethoscopeIcon(size: 36),
+                FirstAidKitIcon(size: 36),
+                HospitalBuildingIcon(size: 36),
+                MedicineBottleIcon(size: 36),
+              ],
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(PillIcon), findsOneWidget);
+      expect(find.byType(SyringeIcon), findsOneWidget);
+      expect(find.byType(StethoscopeIcon), findsOneWidget);
+      expect(find.byType(FirstAidKitIcon), findsOneWidget);
+      expect(find.byType(HospitalBuildingIcon), findsOneWidget);
+      expect(find.byType(MedicineBottleIcon), findsOneWidget);
     });
   });
 
@@ -120,26 +149,26 @@ void main() {
       expect(find.byType(NativeCloudSync), findsOneWidget);
     });
 
-    testWidgets('NativeLoadingSpinner renders and animates correctly', (WidgetTester tester) async {
+    testWidgets('NativeHeartbeatPulse renders and animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: NativeLoadingSpinner(size: 40)),
+          home: Scaffold(body: NativeHeartbeatPulse(width: 64, height: 36)),
         ),
       );
-      expect(find.byType(NativeLoadingSpinner), findsOneWidget);
+      expect(find.byType(NativeHeartbeatPulse), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 500));
-      expect(find.byType(NativeLoadingSpinner), findsOneWidget);
+      expect(find.byType(NativeHeartbeatPulse), findsOneWidget);
     });
 
-    testWidgets('NativeSuccessCheckmark renders correctly', (WidgetTester tester) async {
+    testWidgets('NativePillDrip renders and animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: NativeSuccessCheckmark(size: 44)),
+          home: Scaffold(body: NativePillDrip(size: 48)),
         ),
       );
-      expect(find.byType(NativeSuccessCheckmark), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 300));
-      expect(find.byType(NativeSuccessCheckmark), findsOneWidget);
+      expect(find.byType(NativePillDrip), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byType(NativePillDrip), findsOneWidget);
     });
   });
 }

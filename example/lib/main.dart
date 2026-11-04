@@ -180,11 +180,7 @@ class ExampleIconsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Text('Mis botones'),
-            ListTile(
-              leading: FirebaseIcon(size: 30,),
-              title: Text('Firebase'),
-            ),
+           
 
             _buildSectionTitle('🔥 Firebase & Nube'),
             const SizedBox(height: 12),
@@ -258,6 +254,17 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Doble Tarjeta', icon: RefereeCardIcon(size: 36)),
               _IconItem(name: 'Silbato', icon: RefereeWhistleIcon(size: 36)),
               _IconItem(name: 'Calendario', icon: MatchCalendarIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('💊 Farmacia y Salud'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Pastilla', icon: PillIcon(size: 36)),
+              _IconItem(name: 'Jeringa', icon: SyringeIcon(size: 36)),
+              _IconItem(name: 'Estetoscopio', icon: StethoscopeIcon(size: 36)),
+              _IconItem(name: 'Botiquín', icon: FirstAidKitIcon(size: 36)),
+              _IconItem(name: 'Hospital', icon: HospitalBuildingIcon(size: 36)),
+              _IconItem(name: 'Medicina', icon: MedicineBottleIcon(size: 36)),
             ]),
           ],
         ),
@@ -371,15 +378,17 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
             ),
             const SizedBox(height: 24),
             const Text(
-              '🏗️ 🎵 ⚽ Animaciones Temáticas por Categoría',
+              '🏗️ 🎵 ⚽ 💊 Animaciones Temáticas por Categoría',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceAround,
+                  spacing: 16,
+                  runSpacing: 16,
                   children: const [
                     _AnimContainer(
                       title: 'Excavando',
@@ -392,6 +401,14 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
                     _AnimContainer(
                       title: 'Rebote Balón',
                       widget: NativeSoccerBallBounce(size: 48),
+                    ),
+                    _AnimContainer(
+                      title: 'Pulso ECG',
+                      widget: NativeHeartbeatPulse(width: 54, height: 36),
+                    ),
+                    _AnimContainer(
+                      title: 'Píldora Halo',
+                      widget: NativePillDrip(size: 48),
                     ),
                   ],
                 ),
