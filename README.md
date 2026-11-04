@@ -1,64 +1,78 @@
 # flutter_native_ui 🎨⚡
 
-Un conjunto de **iconos vectoriales** y **animaciones nativas en Flutter** ultra fluidas (60-120 FPS), sin dependencias pesadas y optimizadas para rendimiento y adaptabilidad a temas claros y oscuros. Desarrollado por **NyK**.
+Un paquete completo de **iconos vectoriales nativos** y **animaciones en Flutter de alto rendimiento** (60-120 FPS), sin dependencias externas pesadas, 100% adaptable a temas claros y oscuros.
 
 ---
 
-## ✨ Características
+## 👨‍💻 Autoría / Author
 
-- 🎯 **Iconos Vectoriales Nativos**: Google, Facebook, Apple, GitHub, Instagram, Twitter/X y más.
-- ⚡ **Animaciones Nativas de Alto Rendimiento**:
-  - `NativeLoadingSpinner` (Spinner de carga suave con degradado).
-  - `NativePulsingHeart` (Corazón pulsante con resplandor difuminado).
-  - `NativeBouncingDots` (Puntos saltarines animadas).
-  - `NativePulseRipple` (Efecto de onda de pulso/radar).
-  - `NativeSkeletonShimmer` (Carga de contenido esqueleto / Shimmer).
-- 🎨 **100% Personalizable**: Control total sobre colores, tamaños, velocidades y bordes.
-- 🌓 **Adaptativo**: Respeta el tema claro/oscuro (`ThemeData`) automáticamente.
+- **Autor / Author**: Ing. Juan Pablo Gosalvez
+- **Marca / Brand**: NyK
+- **Contacto / Email**: [ingejpablo@gmail.com](mailto:ingejpablo@gmail.com)
+- **Licencia / License**: MIT
 
 ---
 
-## 📦 Instalación
+## 🌐 Documentación Completa / Documentation
 
-Agrega `flutter_native_ui` a tu archivo `pubspec.yaml`:
+- 🇪🇸 **[Español (README_ES.md)](README_ES.md)**
+- 🇬🇧 **[English (README_EN.md)](README_EN.md)**
+
+---
+
+## ✨ Características / Summary Features
+
+- 🚀 **0 Dependencias Externas**: Renderizado vectorial puro con `CustomPainter` y `AnimationController`.
+- 🎯 **15 Iconos Vectoriales Nativos**:
+  - 🔥 **Firebase & Cloud**: `FirebaseIcon`, `FirestoreIcon`, `FirebaseAuthIcon`, `CloudStorageIcon`, `DatabaseDisabledIcon`.
+  - 📱 **Redes & Auth**: `GoogleIcon`, `FacebookIcon`, `AppleIcon`, `GitHubIcon`, `InstagramIcon`, `TwitterXIcon`, `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`.
+  - 💳 **Pagos**: `VisaIcon`, `MastercardIcon`, `PayPalIcon`.
+  - ✦ **UI & Sistema**: `SparklesIcon`, `ShieldCheckIcon`.
+- ⚡ **10 Animaciones Nativas (60-120 FPS)**:
+  - 🔥 **Firebase & Cloud**: `NativeCloudSync`, `NativeDataUpload`, `NativeDataDownload`, `NativeDatabaseOffline`.
+  - 🌀 **Cargadores**: `NativeLoadingSpinner`, `NativePulsingHeart`, `NativePulseRipple`, `NativeBouncingDots`.
+  - ✅ **Feedback**: `NativeSuccessCheckmark`, `NativeErrorCross`, `NativeWaveBars`.
+  - ✨ **UI Avanzada**: `NativeShimmerButton`, `NativePulseBadge`, `NativeSkeletonShimmer`.
+
+---
+
+## 📦 Instalación / Installation
+
+```bash
+flutter pub add flutter_native_ui
+```
+
+O agrégalo a tu `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui:
-    path: ../path/to/flutter_native_ui  # O versión de pub.dev cuando se publique
+  flutter_native_ui: ^0.3.0
 ```
-
----
-
-## 💻 Ejemplo de Uso
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_native_ui/flutter_native_ui.dart';
 
-class DemonstrationScreen extends StatelessWidget {
-  const DemonstrationScreen({super.key});
+class QuickDemo extends StatelessWidget {
+  const QuickDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('flutter_native_ui Demo')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            // Iconos Vectoriales
-            GoogleIcon(size: 32),
-            FacebookIcon(size: 32),
-            AppleIcon(size: 32),
+            // Iconos Firebase y Redes
+            FirebaseIcon(size: 36),
+            GoogleIcon(size: 36),
             
-            SizedBox(height: 24),
+            SizedBox(height: 20),
             
             // Animaciones Nativas
+            NativeCloudSync(size: 48),
             NativeLoadingSpinner(size: 40),
-            NativePulsingHeart(size: 48),
-            NativeBouncingDots(size: 10),
-            NativePulseRipple(size: 60),
+            NativePulsingHeart(size: 44),
           ],
         ),
       ),
@@ -66,3 +80,9 @@ class DemonstrationScreen extends StatelessWidget {
   }
 }
 ```
+
+---
+
+## 📄 Licencia / License
+
+MIT License - Copyright (c) 2025 **Ing. Juan Pablo Gosalvez (NyK)**.

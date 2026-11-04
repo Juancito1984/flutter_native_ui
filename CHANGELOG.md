@@ -1,15 +1,19 @@
+## 0.3.0
+
+* Colección Firebase & Cloud:
+  - Iconos: `FirebaseIcon`, `FirestoreIcon`, `FirebaseAuthIcon`, `CloudStorageIcon`, `DatabaseDisabledIcon`.
+  - Animaciones:
+    * `NativeCloudSync`: Sincronización continua de datos en la nube con rotación de flechas.
+    * `NativeDataUpload`: Animación de subida/guardado de datos a Firebase/Nube.
+    * `NativeDataDownload`: Animación de descarga/consulta de datos desde la nube.
+    * `NativeDatabaseOffline`: Animación de base de datos desactivada/desconectada con pulso de alerta.
+
 ## 0.2.0
 
 * Nuevos Iconos Vectoriales Nativos:
-  - `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`.
-  - Iconos de pagos: `VisaIcon`, `MastercardIcon`, `PayPalIcon`.
-  - Iconos de UI: `SparklesIcon` (IA/Magia), `ShieldCheckIcon` (Seguridad/Verificado).
-* Nuevas Animaciones Nativas (60-120 FPS):
-  - `NativeSuccessCheckmark`: Animación de éxito (Checkmark animado).
-  - `NativeErrorCross`: Animación de error (Cruz animada).
-  - `NativeWaveBars`: Ecualizador de ondas de audio.
-  - `NativeShimmerButton`: Botón interactivo con brillo metálico Shimmer.
-  - `NativePulseBadge`: Insignia de notificación pulsante con halo.
+  - `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`, `VisaIcon`, `MastercardIcon`, `PayPalIcon`, `SparklesIcon`, `ShieldCheckIcon`.
+* Nuevas Animaciones Nativas:
+  - `NativeSuccessCheckmark`, `NativeErrorCross`, `NativeWaveBars`, `NativeShimmerButton`, `NativePulseBadge`.
 
 ## 0.0.1
 

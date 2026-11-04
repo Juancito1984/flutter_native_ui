@@ -1,5 +1,10 @@
 export 'apple_icon.dart';
+export 'cloud_storage_icon.dart';
+export 'database_disabled_icon.dart';
 export 'facebook_icon.dart';
+export 'firebase_auth_icon.dart';
+export 'firebase_icon.dart';
+export 'firestore_icon.dart';
 export 'github_icon.dart';
 export 'google_icon.dart';
 export 'instagram_icon.dart';
