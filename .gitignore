@@ -1,0 +1,14 @@
+# Archivos generados de Flutter y Dart
+.dart_tool/
+.packages
+build/
+.pub/
+
+# IDE y configuración personal
+.idea/
+*.iml
+.vscode/
+
+# SO
+.DS_Store
+Thumbs.db
