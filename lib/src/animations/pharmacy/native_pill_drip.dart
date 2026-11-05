@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -41,25 +43,27 @@ class _NativePillDripState extends State<NativePillDrip>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final floatY = math.sin(_controller.value * math.pi) * 4.0;
-        final glowScale = 0.8 + (_controller.value * 0.4);
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final floatY = math.sin(_controller.value * math.pi) * 4.0;
+          final glowScale = 0.8 + (_controller.value * 0.4);
 
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _PillDripPainter(
-              floatY: floatY,
-              glowScale: glowScale,
-              primaryColor: widget.primaryColor,
-              secondaryColor: widget.secondaryColor,
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _PillDripPainter(
+                floatY: floatY,
+                glowScale: glowScale,
+                primaryColor: widget.primaryColor,
+                secondaryColor: widget.secondaryColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -84,7 +88,6 @@ class _PillDripPainter extends CustomPainter {
 
     // Glow Halo behind pill
     final glowPaint = Paint()
-      // ignore: deprecated_member_use
       ..color = primaryColor.withOpacity(0.25 * glowScale)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(const Offset(12, 12), 9 * glowScale, glowPaint);

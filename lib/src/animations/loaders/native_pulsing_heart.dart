@@ -2,31 +2,27 @@
 
 import 'package:flutter/material.dart';
 
-/// Corazón pulsante vectorial nativo con resplandor.
+/// Corazón latiendo con animación suave de pulso y escala.
 class NativePulsingHeart extends StatefulWidget {
   final double size;
   final Color color;
   final Duration duration;
-  final double minScale;
-  final double maxScale;
 
   const NativePulsingHeart({
     super.key,
     this.size = 48.0,
     this.color = const Color(0xFFE53935),
-    this.duration = const Duration(milliseconds: 800),
-    this.minScale = 0.85,
-    this.maxScale = 1.18,
+    this.duration = const Duration(milliseconds: 1000),
   });
 
   @override
   State<NativePulsingHeart> createState() => _NativePulsingHeartState();
 }
 
+
 class _NativePulsingHeartState extends State<NativePulsingHeart>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _scaleAnimation;
 
   @override
   void initState() {
@@ -35,16 +31,6 @@ class _NativePulsingHeartState extends State<NativePulsingHeart>
       vsync: this,
       duration: widget.duration,
     )..repeat(reverse: true);
-
-    _scaleAnimation = Tween<double>(
-      begin: widget.minScale,
-      end: widget.maxScale,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
   }
 
   @override
@@ -55,15 +41,25 @@ class _NativePulsingHeartState extends State<NativePulsingHeart>
 
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnimation,
-      child: SizedBox(
-        width: widget.size,
-        height: widget.size,
-        child: CustomPaint(
-          size: Size(widget.size, widget.size),
-          painter: _HeartPainter(color: widget.color),
-        ),
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final scale = 0.88 + (_controller.value * 0.24);
+
+          return Transform.scale(
+            scale: scale,
+            child: SizedBox(
+              width: widget.size,
+              height: widget.size,
+              child: CustomPaint(
+                painter: _HeartPainter(
+                  color: widget.color,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -76,48 +72,24 @@ class _HeartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final width = size.width;
-    final height = size.height;
-
-    final shadowPaint = Paint()
-      ..color = color.withOpacity(0.35)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
+    final scale = size.width / 24.0;
+    canvas.scale(scale, scale);
 
     final heartPaint = Paint()
       ..color = color
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final path = Path();
-    path.moveTo(width * 0.5, height * 0.85);
+    final path = Path()
+      ..moveTo(12, 21.35)
+      ..cubicTo(5.4, 15.36, 2, 12.28, 2, 8.5)
+      ..cubicTo(2, 5.42, 4.42, 3, 7.5, 3)
+      ..cubicTo(9.24, 3, 10.91, 3.81, 12, 5.09)
+      ..cubicTo(13.09, 3.81, 14.76, 3, 16.5, 3)
+      ..cubicTo(19.58, 3, 22, 5.42, 22, 8.5)
+      ..cubicTo(22, 12.28, 18.6, 15.36, 12, 21.35)
+      ..close();
 
-    path.cubicTo(
-      width * 0.15, height * 0.6,
-      0, height * 0.38,
-      width * 0.25, height * 0.16,
-    );
-
-    path.cubicTo(
-      width * 0.4, height * 0.02,
-      width * 0.5, height * 0.25,
-      width * 0.5, height * 0.25,
-    );
-
-    path.cubicTo(
-      width * 0.5, height * 0.25,
-      width * 0.6, height * 0.02,
-      width * 0.75, height * 0.16,
-    );
-
-    path.cubicTo(
-      width, height * 0.38,
-      width * 0.85, height * 0.6,
-      width * 0.5, height * 0.85,
-    );
-
-    path.close();
-
-    canvas.drawPath(path, shadowPaint);
     canvas.drawPath(path, heartPaint);
   }
 

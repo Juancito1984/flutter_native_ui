@@ -52,25 +52,27 @@ class _NativeSkeletonShimmerState extends State<NativeSkeletonShimmer>
             ? (constraints.hasBoundedWidth ? constraints.maxWidth : 200.0)
             : widget.width;
 
-        return AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            final dx = _controller.value * 2 - 0.5;
+        return RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final dx = _controller.value * 2 - 0.5;
 
-            return Container(
-              width: effectiveWidth,
-              height: widget.height,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widget.borderRadius),
-                gradient: LinearGradient(
-                  begin: Alignment(dx - 1, 0),
-                  end: Alignment(dx + 1, 0),
-                  colors: [base, highlight, base],
-                  stops: const [0.0, 0.5, 1.0],
+              return Container(
+                width: effectiveWidth,
+                height: widget.height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widget.borderRadius),
+                  gradient: LinearGradient(
+                    begin: Alignment(dx - 1, 0),
+                    end: Alignment(dx + 1, 0),
+                    colors: [base, highlight, base],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

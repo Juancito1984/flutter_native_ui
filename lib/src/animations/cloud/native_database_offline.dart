@@ -38,19 +38,21 @@ class _NativeDatabaseOfflineState extends State<NativeDatabaseOffline>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _DatabaseOfflinePainter(
-              alertOpacity: 0.3 + (_controller.value * 0.7),
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _DatabaseOfflinePainter(
+                alertOpacity: 0.3 + (_controller.value * 0.7),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

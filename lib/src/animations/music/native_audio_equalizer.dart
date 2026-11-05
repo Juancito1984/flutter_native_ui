@@ -41,20 +41,22 @@ class _NativeAudioEqualizerState extends State<NativeAudioEqualizer>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.width,
-          height: widget.height,
-          child: CustomPaint(
-            painter: _AudioEqualizerPainter(
-              progress: _controller.value,
-              activeColor: widget.activeColor,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.width,
+            height: widget.height,
+            child: CustomPaint(
+              painter: _AudioEqualizerPainter(
+                progress: _controller.value,
+                activeColor: widget.activeColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -41,28 +41,30 @@ class _NativeWaveBarsState extends State<NativeWaveBars>
   Widget build(BuildContext context) {
     final barColor = widget.color ?? Theme.of(context).colorScheme.primary;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(4, (index) {
-            final phase = index * 0.7;
-            final val = math.sin((_controller.value * math.pi) + phase).abs();
-            final currentHeight = math.max(6.0, val * widget.height);
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(4, (index) {
+              final phase = index * 0.7;
+              final val = math.sin((_controller.value * math.pi) + phase).abs();
+              final currentHeight = math.max(6.0, val * widget.height);
 
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 2.5),
-              width: 4.5,
-              height: currentHeight,
-              decoration: BoxDecoration(
-                color: barColor,
-                borderRadius: BorderRadius.circular(3),
-              ),
-            );
-          }),
-        );
-      },
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                width: 4.5,
+                height: currentHeight,
+                decoration: BoxDecoration(
+                  color: barColor,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              );
+            }),
+          );
+        },
+      ),
     );
   }
 }

@@ -42,20 +42,22 @@ class _NativeHeartbeatPulseState extends State<NativeHeartbeatPulse>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.width,
-          height: widget.height,
-          child: CustomPaint(
-            painter: _HeartbeatPulsePainter(
-              progress: _controller.value,
-              lineColor: widget.lineColor,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.width,
+            height: widget.height,
+            child: CustomPaint(
+              painter: _HeartbeatPulsePainter(
+                progress: _controller.value,
+                lineColor: widget.lineColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

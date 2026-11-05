@@ -49,24 +49,26 @@ class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final bounceY = (1.0 - _bounceAnimation.value) * (widget.size * 0.45);
-        final shadowScale = 0.3 + (_shadowAnimation.value * 0.7);
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final bounceY = (1.0 - _bounceAnimation.value) * (widget.size * 0.45);
+          final shadowScale = 0.3 + (_shadowAnimation.value * 0.7);
 
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _SoccerBallBouncePainter(
-              bounceY: bounceY,
-              shadowScale: shadowScale,
-              rotationAngle: _controller.value * math.pi,
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _SoccerBallBouncePainter(
+                bounceY: bounceY,
+                shadowScale: shadowScale,
+                rotationAngle: _controller.value * math.pi,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

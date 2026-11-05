@@ -130,7 +130,8 @@ class DemoHomeScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
+                  color: Theme.of(context).colorScheme.primaryContainer
+                      .withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: leadingWidget,
@@ -179,9 +180,6 @@ class ExampleIconsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-           
-
             _buildSectionTitle('🔥 Firebase & Nube'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
@@ -189,7 +187,10 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Firestore', icon: FirestoreIcon(size: 36)),
               _IconItem(name: 'Auth', icon: FirebaseAuthIcon(size: 36)),
               _IconItem(name: 'Storage', icon: CloudStorageIcon(size: 36)),
-              _IconItem(name: 'Base Offline', icon: DatabaseDisabledIcon(size: 36)),
+              _IconItem(
+                name: 'Base Offline',
+                icon: DatabaseDisabledIcon(size: 36),
+              ),
             ]),
             const SizedBox(height: 24),
             _buildSectionTitle('Redes Sociales y Autenticación'),
@@ -230,7 +231,10 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Excavadora', icon: ExcavatorIcon(size: 36)),
               _IconItem(name: 'Volqueta', icon: DumpTruckIcon(size: 36)),
               _IconItem(name: 'Tractor', icon: TractorIcon(size: 36)),
-              _IconItem(name: 'Herramientas', icon: EngineeringToolsIcon(size: 36)),
+              _IconItem(
+                name: 'Herramientas',
+                icon: EngineeringToolsIcon(size: 36),
+              ),
             ]),
             const SizedBox(height: 24),
             _buildSectionTitle('🎵 Música y Audio'),
@@ -294,7 +298,9 @@ class ExampleIconsScreen extends StatelessWidget {
         final item = items[index];
         return Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -302,7 +308,10 @@ class ExampleIconsScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 item.name,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -317,7 +326,8 @@ class ExampleAnimacionesScreen extends StatefulWidget {
   const ExampleAnimacionesScreen({super.key});
 
   @override
-  State<ExampleAnimacionesScreen> createState() => _ExampleAnimacionesScreenState();
+  State<ExampleAnimacionesScreen> createState() =>
+      _ExampleAnimacionesScreenState();
 }
 
 class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
@@ -340,11 +350,10 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Catálogo de Animaciones Nativas')),
-      body: SingleChildScrollView(
+      body: ListView(
+        addAutomaticKeepAlives: false,
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        children: [
             const Text(
               '🔥 Firebase & Sincronización en Nube',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -468,10 +477,7 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
                       onTap: _replayCross,
                       child: _AnimContainer(
                         title: 'Error (Toca aquí)',
-                        widget: NativeErrorCross(
-                          key: _crossKey,
-                          size: 48,
-                        ),
+                        widget: NativeErrorCross(key: _crossKey, size: 48),
                       ),
                     ),
                     const _AnimContainer(
@@ -549,10 +555,7 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
                             height: 14,
                           ),
                           SizedBox(height: 10),
-                          NativeSkeletonShimmer(
-                            width: 160,
-                            height: 12,
-                          ),
+                          NativeSkeletonShimmer(width: 160, height: 12),
                         ],
                       ),
                     ),
@@ -562,9 +565,8 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
+    }
 }
 
 class _IconItem {
@@ -578,25 +580,21 @@ class _AnimContainer extends StatelessWidget {
   final String title;
   final Widget widget;
 
-  const _AnimContainer({
-    required this.title,
-    required this.widget,
-  });
+  const _AnimContainer({required this.title, required this.widget});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 56,
-          child: Center(child: widget),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
-        ),
-      ],
+    return RepaintBoundary(
+      child: Column(
+        children: [
+          SizedBox(height: 56, child: Center(child: widget)),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
     );
   }
 }

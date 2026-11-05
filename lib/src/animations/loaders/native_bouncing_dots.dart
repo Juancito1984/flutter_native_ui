@@ -41,31 +41,33 @@ class _NativeBouncingDotsState extends State<NativeBouncingDots>
   Widget build(BuildContext context) {
     final dotColor = widget.color ?? Theme.of(context).colorScheme.primary;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(3, (index) {
-            final delay = index * 0.2;
-            final val = math.sin((_controller.value * 2 * math.pi) - delay);
-            final dy = -math.max(0.0, val) * widget.size;
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(3, (index) {
+              final delay = index * 0.2;
+              final val = math.sin((_controller.value * 2 * math.pi) - delay);
+              final dy = -math.max(0.0, val) * widget.size;
 
-            return Transform.translate(
-              offset: Offset(0, dy),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: widget.size * 0.3),
-                width: widget.size,
-                height: widget.size,
-                decoration: BoxDecoration(
-                  color: dotColor,
-                  shape: BoxShape.circle,
+              return Transform.translate(
+                offset: Offset(0, dy),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: widget.size * 0.3),
+                  width: widget.size,
+                  height: widget.size,
+                  decoration: BoxDecoration(
+                    color: dotColor,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-            );
-          }),
-        );
-      },
+              );
+            }),
+          );
+        },
+      ),
     );
   }
 }

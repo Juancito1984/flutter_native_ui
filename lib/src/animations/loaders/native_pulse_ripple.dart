@@ -42,44 +42,45 @@ class _NativePulseRippleState extends State<NativePulseRipple>
   Widget build(BuildContext context) {
     final rippleColor = widget.color ?? Theme.of(context).colorScheme.primary;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final progress = _controller.value;
-        final radius = (widget.size / 2) * progress;
-        final opacity = (1.0 - progress).clamp(0.0, 1.0);
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final progress = _controller.value;
+          final radius = (widget.size / 2) * progress;
+          final opacity = (1.0 - progress).clamp(0.0, 1.0);
 
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: radius * 2,
-                height: radius * 2,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: rippleColor.withOpacity(opacity * 0.4),
-                  border: Border.all(
-                    color: rippleColor.withOpacity(opacity),
-                    width: 1.5,
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: radius * 2,
+                  height: radius * 2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: rippleColor.withOpacity(opacity * 0.4),
+                    border: Border.all(
+                      color: rippleColor.withOpacity(opacity),
+                      width: 1.5,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: widget.size * 0.25,
-                height: widget.size * 0.25,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: rippleColor,
+                Container(
+                  width: widget.size * 0.25,
+                  height: widget.size * 0.25,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: rippleColor,
+                  ),
                 ),
-
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

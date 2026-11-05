@@ -39,20 +39,22 @@ class _NativeExcavatorDiggingState extends State<NativeExcavatorDigging>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _ExcavatorDiggingPainter(
-              armAngle: math.sin(_controller.value * math.pi) * 0.35,
-              bodyColor: widget.bodyColor,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _ExcavatorDiggingPainter(
+                armAngle: math.sin(_controller.value * math.pi) * 0.35,
+                bodyColor: widget.bodyColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -3,17 +3,17 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Spinner de carga nativo ultra fluido (60-120 FPS).
+/// Spinner nativo con gradiente giratorio.
 class NativeLoadingSpinner extends StatefulWidget {
   final double size;
-  final Color? color;
+  final Color color;
   final double strokeWidth;
   final Duration duration;
 
   const NativeLoadingSpinner({
     super.key,
-    this.size = 40.0,
-    this.color,
+    this.size = 48.0,
+    this.color = const Color(0xFF0288D1),
     this.strokeWidth = 4.0,
     this.duration = const Duration(milliseconds: 1000),
   });
@@ -43,25 +43,25 @@ class _NativeLoadingSpinnerState extends State<NativeLoadingSpinner>
 
   @override
   Widget build(BuildContext context) {
-    final spinnerColor = widget.color ?? Theme.of(context).colorScheme.primary;
-
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: _controller.value * 2 * math.pi,
-          child: SizedBox(
-            width: widget.size,
-            height: widget.size,
-            child: CustomPaint(
-              painter: _SpinnerPainter(
-                color: spinnerColor,
-                strokeWidth: widget.strokeWidth,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.rotate(
+            angle: _controller.value * 2 * math.pi,
+            child: SizedBox(
+              width: widget.size,
+              height: widget.size,
+              child: CustomPaint(
+                painter: _SpinnerPainter(
+                  color: widget.color,
+                  strokeWidth: widget.strokeWidth,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

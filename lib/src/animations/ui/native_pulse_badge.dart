@@ -2,17 +2,19 @@
 
 import 'package:flutter/material.dart';
 
-/// Insignia de notificación con pulso expansivo suave.
+/// Insignia/Badge con animación de halo pulsante.
 class NativePulseBadge extends StatefulWidget {
   final Widget child;
   final String? count;
   final Color badgeColor;
+  final Duration duration;
 
   const NativePulseBadge({
     super.key,
     required this.child,
     this.count,
-    this.badgeColor = const Color(0xFFE53935),
+    this.badgeColor = const Color(0xFFD32F2F),
+    this.duration = const Duration(milliseconds: 1400),
   });
 
   @override
@@ -28,7 +30,7 @@ class _NativePulseBadgeState extends State<NativePulseBadge>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1400),
+      duration: widget.duration,
     )..repeat();
   }
 
@@ -40,60 +42,65 @@ class _NativePulseBadgeState extends State<NativePulseBadge>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        widget.child,
-        Positioned(
-          top: -3,
-          right: -3,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              final scale = 1.0 + _controller.value * 0.6;
-              final opacity = 1.0 - _controller.value;
+    return RepaintBoundary(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          widget.child,
+          Positioned(
+            top: -4,
+            right: -4,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                final scale = 1.0 + (_controller.value * 0.8);
+                final opacity = (1.0 - _controller.value).clamp(0.0, 1.0);
 
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  Transform.scale(
-                    scale: scale,
-                    child: Container(
-                      width: 14,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: widget.badgeColor.withOpacity(opacity * 0.6),
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Pulsing Halo Ring
+                    Transform.scale(
+                      scale: scale,
+                      child: Container(
+                        width: 18,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: widget.badgeColor.withOpacity(opacity * 0.6),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      color: widget.badgeColor,
-                      shape: BoxShape.circle,
+                    // Solid Badge Center
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: widget.badgeColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: widget.count != null
+                          ? Text(
+                              widget.count!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          : null,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 10,
-                      minHeight: 10,
-                    ),
-                    child: widget.count != null
-                        ? Text(
-                            widget.count!,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        : null,
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

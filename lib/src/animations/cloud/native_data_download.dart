@@ -42,21 +42,23 @@ class _NativeDataDownloadState extends State<NativeDataDownload>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _DataDownloadPainter(
-              progress: _controller.value,
-              cloudColor: widget.cloudColor,
-              arrowColor: widget.arrowColor,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _DataDownloadPainter(
+                progress: _controller.value,
+                cloudColor: widget.cloudColor,
+                arrowColor: widget.arrowColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

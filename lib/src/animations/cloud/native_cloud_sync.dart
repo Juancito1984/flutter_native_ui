@@ -41,21 +41,23 @@ class _NativeCloudSyncState extends State<NativeCloudSync>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: CustomPaint(
-            painter: _CloudSyncPainter(
-              angle: _controller.value * 2 * math.pi,
-              cloudColor: widget.cloudColor,
-              syncColor: widget.syncColor,
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: CustomPaint(
+              painter: _CloudSyncPainter(
+                angle: _controller.value * 2 * math.pi,
+                cloudColor: widget.cloudColor,
+                syncColor: widget.syncColor,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

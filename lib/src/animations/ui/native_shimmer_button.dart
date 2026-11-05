@@ -47,53 +47,48 @@ class _NativeShimmerButtonState extends State<NativeShimmerButton>
     final bg = widget.backgroundColor ?? Theme.of(context).colorScheme.primary;
     final txt = widget.textColor ?? Theme.of(context).colorScheme.onPrimary;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final dx = _controller.value * 3 - 1;
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final dx = _controller.value * 3 - 1;
 
-        return Container(
-          height: widget.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              begin: Alignment(dx - 1, -0.5),
-              end: Alignment(dx + 1, 0.5),
-              colors: [
-                bg,
-                bg.withOpacity(0.85),
-                Colors.white.withOpacity(0.6),
-                bg.withOpacity(0.85),
-                bg,
-              ],
-              stops: const [0.0, 0.4, 0.5, 0.6, 1.0],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: bg.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
+          return Container(
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                begin: Alignment(dx - 1, -0.5),
+                end: Alignment(dx + 1, 0.5),
+                colors: [
+                  bg,
+                  bg.withOpacity(0.85),
+                  Colors.white.withOpacity(0.6),
+                  bg.withOpacity(0.85),
+                  bg,
+                ],
+                stops: const [0.0, 0.4, 0.5, 0.6, 1.0],
               ),
-            ],
+            ),
+            child: child,
+          );
+        },
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          child: child,
-        );
-      },
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        onPressed: widget.onPressed,
-        child: Text(
-          widget.text,
-          style: TextStyle(
-            color: txt,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+          onPressed: widget.onPressed,
+          child: Text(
+            widget.text,
+            style: TextStyle(
+              color: txt,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

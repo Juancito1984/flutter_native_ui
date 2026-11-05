@@ -23,16 +23,21 @@ Un paquete completo de **iconos vectoriales nativos** y **animaciones en Flutter
 ## ✨ Características / Summary Features
 
 - 🚀 **0 Dependencias Externas**: Renderizado vectorial puro con `CustomPainter` y `AnimationController`.
-- 🎯 **15 Iconos Vectoriales Nativos**:
+- 🎯 **39 Iconos Vectoriales Nativos**:
   - 🔥 **Firebase & Cloud**: `FirebaseIcon`, `FirestoreIcon`, `FirebaseAuthIcon`, `CloudStorageIcon`, `DatabaseDisabledIcon`.
   - 📱 **Redes & Auth**: `GoogleIcon`, `FacebookIcon`, `AppleIcon`, `GitHubIcon`, `InstagramIcon`, `TwitterXIcon`, `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`.
   - 💳 **Pagos**: `VisaIcon`, `MastercardIcon`, `PayPalIcon`.
   - ✦ **UI & Sistema**: `SparklesIcon`, `ShieldCheckIcon`.
-- ⚡ **10 Animaciones Nativas (60-120 FPS)**:
+  - 🏗️ **Ingeniería**: `HardhatWorkerIcon`, `WorkCrewIcon`, `ExcavatorIcon`, `DumpTruckIcon`, `TractorIcon`, `EngineeringToolsIcon`.
+  - 🎵 **Música**: `MusicSheetIcon`, `MusicChordsIcon`, `PlayControlIcon`, `PauseControlIcon`, `StopControlIcon`.
+  - ⚽ **Fútbol**: `SoccerBallIcon`, `SoccerPlayerIcon`, `SoccerTeamIcon`, `YellowCardIcon`, `RedCardIcon`, `RefereeCardIcon`, `RefereeWhistleIcon`, `MatchCalendarIcon`.
+  - 💊 **Farmacia & Salud**: `PillIcon`, `SyringeIcon`, `StethoscopeIcon`, `FirstAidKitIcon`, `HospitalBuildingIcon`, `MedicineBottleIcon`.
+- ⚡ **19 Animaciones Nativas (60-120 FPS)**:
   - 🔥 **Firebase & Cloud**: `NativeCloudSync`, `NativeDataUpload`, `NativeDataDownload`, `NativeDatabaseOffline`.
   - 🌀 **Cargadores**: `NativeLoadingSpinner`, `NativePulsingHeart`, `NativePulseRipple`, `NativeBouncingDots`.
   - ✅ **Feedback**: `NativeSuccessCheckmark`, `NativeErrorCross`, `NativeWaveBars`.
   - ✨ **UI Avanzada**: `NativeShimmerButton`, `NativePulseBadge`, `NativeSkeletonShimmer`.
+  - 🎭 **Temáticas**: `NativeExcavatorDigging`, `NativeAudioEqualizer`, `NativeSoccerBallBounce`, `NativeHeartbeatPulse`, `NativePillDrip`.
 
 ---
 
@@ -46,7 +51,7 @@ O agrégalo a tu `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui: ^0.3.0
+  flutter_native_ui: ^0.4.0
 ```
 
 ```dart
@@ -63,16 +68,17 @@ class QuickDemo extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            // Iconos Firebase y Redes
+            // Iconos
             FirebaseIcon(size: 36),
-            GoogleIcon(size: 36),
+            HardhatWorkerIcon(size: 36),
+            PillIcon(size: 36),
             
             SizedBox(height: 20),
             
             // Animaciones Nativas
             NativeCloudSync(size: 48),
-            NativeLoadingSpinner(size: 40),
-            NativePulsingHeart(size: 44),
+            NativeHeartbeatPulse(width: 60, height: 36),
+            NativeSoccerBallBounce(size: 48),
           ],
         ),
       ),
