@@ -51,15 +51,20 @@ class _NativeShimmerButtonState extends State<NativeShimmerButton>
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          final dx = _controller.value * 3 - 1;
+          final t = _controller.value;
+          final p1 = (t - 0.3).clamp(0.0, 1.0);
+          final p2 = (t - 0.15).clamp(0.0, 1.0);
+          final p3 = t.clamp(0.0, 1.0);
+          final p4 = (t + 0.15).clamp(0.0, 1.0);
+          final p5 = (t + 0.3).clamp(0.0, 1.0);
 
           return Container(
             height: widget.height,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               gradient: LinearGradient(
-                begin: Alignment(dx - 1, -0.5),
-                end: Alignment(dx + 1, 0.5),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
                   bg,
                   bg.withOpacity(0.85),
@@ -67,7 +72,7 @@ class _NativeShimmerButtonState extends State<NativeShimmerButton>
                   bg.withOpacity(0.85),
                   bg,
                 ],
-                stops: const [0.0, 0.4, 0.5, 0.6, 1.0],
+                stops: [p1, p2, p3, p4, p5],
               ),
             ),
             child: child,

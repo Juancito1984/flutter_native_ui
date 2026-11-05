@@ -1,8 +1,14 @@
+export 'automotive/automotive.dart';
 export 'cloud/cloud.dart';
+export 'ecommerce/ecommerce.dart';
+export 'education/education.dart';
 export 'engineering/engineering.dart';
+export 'finance/finance.dart';
+export 'food/food.dart';
 export 'football/football.dart';
 export 'music/music.dart';
 export 'payments/payments.dart';
 export 'pharmacy/pharmacy.dart';
 export 'social/social.dart';
 export 'system/system.dart';
+export 'travel/travel.dart';

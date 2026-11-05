@@ -1,8 +1,13 @@
 export 'cloud/cloud.dart';
+export 'ecommerce/ecommerce.dart';
+export 'education/education.dart';
 export 'engineering/engineering.dart';
 export 'feedback/feedback.dart';
+export 'finance/finance.dart';
+export 'food/food.dart';
 export 'football/football.dart';
 export 'loaders/loaders.dart';
 export 'music/music.dart';
 export 'pharmacy/pharmacy.dart';
+export 'travel/travel.dart';
 export 'ui/ui.dart';

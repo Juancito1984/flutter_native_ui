@@ -56,7 +56,10 @@ class _NativeSkeletonShimmerState extends State<NativeSkeletonShimmer>
           child: AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
-              final dx = _controller.value * 2 - 0.5;
+              final t = _controller.value;
+              final startStop = (t - 0.3).clamp(0.0, 1.0);
+              final midStop = t.clamp(0.0, 1.0);
+              final endStop = (t + 0.3).clamp(0.0, 1.0);
 
               return Container(
                 width: effectiveWidth,
@@ -64,10 +67,10 @@ class _NativeSkeletonShimmerState extends State<NativeSkeletonShimmer>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(widget.borderRadius),
                   gradient: LinearGradient(
-                    begin: Alignment(dx - 1, 0),
-                    end: Alignment(dx + 1, 0),
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                     colors: [base, highlight, base],
-                    stops: const [0.0, 0.5, 1.0],
+                    stops: [startStop, midStop, endStop],
                   ),
                 ),
               );

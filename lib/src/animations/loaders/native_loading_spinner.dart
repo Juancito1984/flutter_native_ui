@@ -90,14 +90,8 @@ class _SpinnerPainter extends CustomPainter {
       ..strokeWidth = strokeWidth;
     canvas.drawOval(rect, trackPaint);
 
-    final sweepPaint = Paint()
-      ..shader = SweepGradient(
-        colors: [
-          color.withOpacity(0.0),
-          color,
-        ],
-        stops: const [0.0, 1.0],
-      ).createShader(rect)
+    final arcPaint = Paint()
+      ..color = color
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth;
@@ -105,9 +99,9 @@ class _SpinnerPainter extends CustomPainter {
     canvas.drawArc(
       rect,
       0,
-      math.pi * 1.5,
+      math.pi * 1.3,
       false,
-      sweepPaint,
+      arcPaint,
     );
   }
 

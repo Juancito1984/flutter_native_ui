@@ -13,6 +13,20 @@ A complete package of **native vector icons** and **high-performance Flutter ani
 
 ---
 
+## ☕ Support the Project
+
+If this package has been helpful and you'd like to support its ongoing development, maintenance, and the addition of new icons and animations, feel free to contribute:
+
+- 💳 **PayPal**: [paypal.me/NyKservice](https://paypal.me/NyKservice)
+- 🅿️ **Patreon**: [patreon.com/JuanPabloGosalvez](https://www.patreon.com/c/JuanPabloGosalvez)
+- 🟡 **Binance Pay**: Crypto contribution
+- 🌐 **Airtm**: [Airtm Contact](mailto:ingejpablo@gmail.com)
+- 🌮 **Taqueños**: Voluntary support
+
+Your support is greatly appreciated to keep this project 100% free, open-source, and constantly evolving!
+
+---
+
 ## 🌐 Language / Idioma
 
 - [English (README_EN.md)](README_EN.md)
@@ -23,7 +37,7 @@ A complete package of **native vector icons** and **high-performance Flutter ani
 ## ✨ Key Features
 
 - 🚀 **Zero External Dependencies**: Pure native rendering with `CustomPainter` and `AnimationController`.
-- 🎯 **39 Native Vector Icons**:
+- 🎯 **66 Native Vector Icons**:
   - **Firebase & Cloud**: `FirebaseIcon`, `FirestoreIcon`, `FirebaseAuthIcon`, `CloudStorageIcon`, `DatabaseDisabledIcon`.
   - **Social & Auth**: `GoogleIcon`, `FacebookIcon`, `AppleIcon`, `GitHubIcon`, `InstagramIcon`, `TwitterXIcon`, `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`.
   - **Payment Gateways**: `VisaIcon`, `MastercardIcon`, `PayPalIcon`.
@@ -32,12 +46,18 @@ A complete package of **native vector icons** and **high-performance Flutter ani
   - 🎵 **Music**: `MusicSheetIcon`, `MusicChordsIcon`, `PlayControlIcon`, `PauseControlIcon`, `StopControlIcon`.
   - ⚽ **Football**: `SoccerBallIcon`, `SoccerPlayerIcon`, `SoccerTeamIcon`, `YellowCardIcon`, `RedCardIcon`, `RefereeCardIcon`, `RefereeWhistleIcon`, `MatchCalendarIcon`.
   - 💊 **Pharmacy & Health**: `PillIcon`, `SyringeIcon`, `StethoscopeIcon`, `FirstAidKitIcon`, `HospitalBuildingIcon`, `MedicineBottleIcon`.
-- ⚡ **19 Ultra-Smooth Native Animations (60-120 FPS)**:
+  - 🛒 **E-Commerce**: `ShoppingBagIcon`, `ShoppingCartIcon`, `TagDiscountIcon`, `DeliveryTruckIcon`, `BarcodeQrIcon`.
+  - 🍔 **Food**: `RestaurantPlateIcon`, `BurgerPizzaIcon`, `CoffeeCupIcon`, `DeliveryMotorcycleIcon`, `ChefHatIcon`.
+  - 💼 **Finance**: `WalletIcon`, `PiggyBankIcon`, `BitcoinCryptoIcon`, `TrendingChartIcon`, `BankBuildingIcon`.
+  - ✈️ **Travel**: `AirplaneIcon`, `SuitcaseIcon`, `MapPinIcon`, `CompassIcon`, `HotelBedIcon`.
+  - 🎓 **Education**: `GraduationCapIcon`, `BookOpenIcon`, `CertificateAwardIcon`, `IdeaBulbIcon`.
+  - 🚗 **Automotive**: `CarIcon`, `FuelGasIcon`, `SpeedometerIcon`, `CarKeyIcon`.
+- ⚡ **24 Ultra-Smooth Native Animations (60-120 FPS)**:
   - **Firebase & Cloud**: `NativeCloudSync`, `NativeDataUpload`, `NativeDataDownload`, `NativeDatabaseOffline`.
   - **Spinners & Loaders**: `NativeLoadingSpinner`, `NativePulsingHeart`, `NativePulseRipple`, `NativeBouncingDots`.
   - **Feedback & Status**: `NativeSuccessCheckmark`, `NativeErrorCross`, `NativeWaveBars`.
   - **Interactive UI**: `NativeShimmerButton`, `NativePulseBadge`, `NativeSkeletonShimmer`.
-  - 🎭 **Thematic**: `NativeExcavatorDigging`, `NativeAudioEqualizer`, `NativeSoccerBallBounce`, `NativeHeartbeatPulse`, `NativePillDrip`.
+  - 🎭 **Thematic**: `NativeExcavatorDigging`, `NativeAudioEqualizer`, `NativeSoccerBallBounce`, `NativeHeartbeatPulse`, `NativePillDrip`, `NativeCartBadgePulse`, `NativeCoffeeSteam`, `NativeCryptoChartUp`, `NativeFlightTakeoff`, `NativeIdeaBulbGlow`.
 - 🌓 **Theme Adaptive**: Fully customizable colors and automatic support for Light & Dark themes (`ThemeData`).
 
 ---
@@ -52,7 +72,7 @@ Or manually add it to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_native_ui: ^0.4.0
+  flutter_native_ui: ^1.0.0
 ```
 
 ---
@@ -68,24 +88,9 @@ import 'package:flutter_native_ui/flutter_native_ui.dart';
 
 ### 2. Vector Icons Usage
 ```dart
-// Pharmacy & Health
-const PillIcon(size: 36)
-const SyringeIcon(size: 36)
-const StethoscopeIcon(size: 36)
-const FirstAidKitIcon(size: 36)
-const HospitalBuildingIcon(size: 36)
-const MedicineBottleIcon(size: 36)
-```
-
----
-
-### 3. Native Animations Usage
-```dart
-// ECG Heartbeat Pulse
-const NativeHeartbeatPulse(width: 60, height: 36)
-
-// Floating Pill Halo
-const NativePillDrip(size: 48)
+// E-Commerce & Shopping
+const ShoppingBagIcon(size: 36)
+const ShoppingCartIcon(size: 36)
 ```
 
 ---
