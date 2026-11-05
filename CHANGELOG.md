@@ -1,7 +1,8 @@
 ## 1.0.1
 
-* **Actualización de Documentación y Nombre Oficial**:
-  - Nombre oficial actualizado a `flutter_native_ui_nyk`.
+* **Actualización de Enlaces, Documentación y Nombre Oficial**:
+  - Nombre oficial publicado en pub.dev: `flutter_native_ui_nyk`.
+  - Actualización de las URLs oficiales del repositorio GitHub (`Juancito1984/flutter_native_ui`), Homepage e Issue Tracker.
   - Enlaces de patrocinio refinados para PayPal y Patreon.
 
 ## 1.0.0
