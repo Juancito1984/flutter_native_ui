@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_native_ui/flutter_native_ui.dart';
+import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 
 void main() {
   group('Iconos Vectoriales Nativos - Categorías Básicas', () {

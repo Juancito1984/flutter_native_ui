@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_native_ui:
+  flutter_native_ui_nyk:
     path: ../
 
 dev_dependencies:

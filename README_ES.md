@@ -1,4 +1,4 @@
-# flutter_native_ui 🎨⚡
+# flutter_native_ui_nyk 🎨⚡
 
 Un paquete completo de **iconos vectoriales nativos** y **animaciones en Flutter de alto rendimiento** (60-120 FPS), sin dependencias externas pesadas, 100% adaptable a temas claros y oscuros.
 
@@ -64,14 +64,14 @@ Si este paquete te ha sido útil y deseas apoyar su desarrollo continuo, manteni
 Agrega `flutter_native_ui` a las dependencias de tu proyecto con el siguiente comando:
 
 ```bash
-flutter pub add flutter_native_ui
+flutter pub add flutter_native_ui_nyk
 ```
 
 O agrégalo manualmente a tu archivo `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui: ^1.0.0
+  flutter_native_ui_nyk: ^1.0.0
 ```
 
 ---
@@ -80,7 +80,7 @@ dependencies:
 
 ### 1. Importación
 ```dart
-import 'package:flutter_native_ui/flutter_native_ui.dart';
+import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 ```
 
 ---

@@ -1,4 +1,4 @@
-# flutter_native_ui 🎨⚡
+# flutter_native_ui_nyk 🎨⚡
 
 A complete package of **native vector icons** and **high-performance Flutter animations** (60-120 FPS), zero heavy external dependencies, 100% theme adaptive for Light & Dark mode.
 
@@ -62,14 +62,14 @@ Your support is greatly appreciated to keep this project 100% free, open-source,
 ## 📦 Installation
 
 ```bash
-flutter pub add flutter_native_ui
+flutter pub add flutter_native_ui_nyk
 ```
 
 Or manually add it to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_native_ui: ^1.0.0
+  flutter_native_ui_nyk: ^1.0.0
 ```
 
 ---
@@ -78,7 +78,7 @@ dependencies:
 
 ### 1. Import
 ```dart
-import 'package:flutter_native_ui/flutter_native_ui.dart';
+import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 ```
 
 ---
