@@ -19,9 +19,6 @@ Si este paquete te ha sido útil y deseas apoyar su desarrollo continuo, manteni
 
 - 💳 **PayPal**: [paypal.me/NyKservice](https://paypal.me/NyKservice)
 - 🅿️ **Patreon**: [patreon.com/JuanPabloGosalvez](https://www.patreon.com/c/JuanPabloGosalvez)
-- 🟡 **Binance Pay**: Contribución en Cripto
-- 🌐 **Airtm**: [Contacto Airtm](mailto:ingejpablo@gmail.com)
-- 🌮 **Taqueños**: Apoyo voluntario
 
 ¡Tu contribución es enormemente apreciada para mantener este proyecto 100% libre, gratuito y en constante evolución!
 

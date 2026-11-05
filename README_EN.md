@@ -19,9 +19,6 @@ If this package has been helpful and you'd like to support its ongoing developme
 
 - 💳 **PayPal**: [paypal.me/NyKservice](https://paypal.me/NyKservice)
 - 🅿️ **Patreon**: [patreon.com/JuanPabloGosalvez](https://www.patreon.com/c/JuanPabloGosalvez)
-- 🟡 **Binance Pay**: Crypto contribution
-- 🌐 **Airtm**: [Airtm Contact](mailto:ingejpablo@gmail.com)
-- 🌮 **Taqueños**: Voluntary support
 
 Your support is greatly appreciated to keep this project 100% free, open-source, and constantly evolving!
 
