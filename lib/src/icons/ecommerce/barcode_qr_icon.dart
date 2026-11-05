@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//y
 /// Icono vectorial de escáner de código de barras / QR.
 class BarcodeQrIcon extends StatelessWidget {
   final double size;
