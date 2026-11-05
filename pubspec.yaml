@@ -1,9 +1,10 @@
 name: flutter_native_ui_nyk
 description: "Paquete de UI nativa para Flutter con iconos vectoriales y animaciones de alto rendimiento (60-120 FPS)."
-version: 1.0.0
-homepage: https://github.com/NyK/flutter_native_ui
-repository: https://github.com/NyK/flutter_native_ui
-issue_tracker: https://github.com/NyK/flutter_native_ui/issues
+version: 1.0.1
+
+homepage: https://github.com/Juancito1984/flutter_native_ui
+repository: https://github.com/Juancito1984/flutter_native_ui
+issue_tracker: https://github.com/Juancito1984/flutter_native_ui
 
 funding:
   - https://paypal.me/NyKservice
