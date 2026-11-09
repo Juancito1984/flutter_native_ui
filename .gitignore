@@ -3,7 +3,7 @@
 .packages
 build/
 .pub/
-doc/
+**/doc/api/
 
 # IDE y configuración personal
 .idea/

@@ -1,3 +1,11 @@
+## 1.0.2
+
+* **Reestructuración de Documentación Bilingüe y Validación de URLs**:
+  - Reorganización completa de la documentación bilingüe en el directorio `doc/` (`doc/es/` y `doc/en/`) con guías individuales para `vector_icons.md`, `native_animations.md` y `performance_and_architecture.md`.
+  - Estructuración de portada principal alineada con los estándares oficiales de Flutter.
+  - Corrección en `.gitignore` para permitir el rastreo e inclusión del directorio `doc/` en el paquete publicado.
+  - Verificación y validación de URLs públicas del repositorio en GitHub (`Juancito1984/flutter_native_ui`).
+
 ## 1.0.1
 
 * **Actualización de Enlaces, Documentación y Nombre Oficial**:

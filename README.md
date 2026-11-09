@@ -1,101 +1,122 @@
-# flutter_native_ui_nyk 🎨⚡
+# flutter_native_ui_nyk
 
-Un paquete completo de **iconos vectoriales nativos** y **animaciones en Flutter de alto rendimiento** (60-120 FPS), sin dependencias externas pesadas, 100% adaptable a temas claros y oscuros.
+A complete package of **66 native vector icons** and **24 high-performance Flutter animations (60–120 FPS)**. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies** and full Material 3 light & dark theme adaptability.
 
----
-
-## 👨‍💻 Autoría / Author
-
-- **Autor / Author**: Ing. Juan Pablo Gosalvez
-- **Marca / Brand**: NyK
-- **Contacto / Email**: [ingejpablo@gmail.com](mailto:ingejpablo@gmail.com)
-- **Licencia / License**: MIT
+[![pub package](https://img.shields.io/pub/v/flutter_native_ui_nyk.svg)](https://pub.dev/packages/flutter_native_ui_nyk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.10.0-02569B?logo=flutter)](https://flutter.dev)
 
 ---
 
-## ☕ Apoya el Proyecto / Support the Project
+## 📚 Documentation by Language / Documentación por Idioma
 
-Si este paquete te ha sido útil y deseas apoyar su desarrollo continuo, mantenimiento y la incorporación de nuevos iconos y animaciones, puedes realizar una contribución voluntaria:
+Select your preferred language to access full component documentation, property tables, architecture technical details, and copy-paste code examples:
+
+* 🇪🇸 **[Documentación Completa en Español (`doc/es/`)](doc/es/README.md)**
+  * Guías detalladas de cada icono y animación, tablas de parámetros, optimizaciones en GPU y ejemplos en español.
+* 🇺🇸 **[Full English Documentation Hub (`doc/en/`)](doc/en/README.md)**
+  * Exhaustive guides for vector icons and animations, properties reference tables, architecture breakdown, and code samples in English.
+
+---
+
+## ☕ Support the Project / Apoya el Proyecto
+
+If this package has been helpful and you'd like to support its ongoing development and maintenance, feel free to contribute:
 
 - 💳 **PayPal**: [paypal.me/NyKservice](https://paypal.me/NyKservice)
 - 🅿️ **Patreon**: [patreon.com/JuanPabloGosalvez](https://www.patreon.com/c/JuanPabloGosalvez)
 
-¡Tu contribución es enormemente apreciada para mantener este proyecto 100% libre, gratuito y en constante evolución!
+Your support is greatly appreciated to keep this project 100% free, open-source, and constantly evolving!
 
 ---
 
-## 🌐 Documentación Completa / Documentation
+## 🌟 Key Features
 
-- 🇪🇸 **[Español (README_ES.md)](README_ES.md)**
-- 🇬🇧 **[English (README_EN.md)](README_EN.md)**
-
----
-
-## ✨ Características / Summary Features
-
-- 🚀 **0 Dependencias Externas**: Renderizado vectorial puro con `CustomPainter` y `AnimationController`.
-- 🎯 **66 Iconos Vectoriales Nativos**:
-  - 🔥 **Firebase & Cloud**: `FirebaseIcon`, `FirestoreIcon`, `FirebaseAuthIcon`, `CloudStorageIcon`, `DatabaseDisabledIcon`.
-  - 📱 **Redes & Auth**: `GoogleIcon`, `FacebookIcon`, `AppleIcon`, `GitHubIcon`, `InstagramIcon`, `TwitterXIcon`, `LinkedInIcon`, `TikTokIcon`, `WhatsAppIcon`, `YouTubeIcon`.
-  - 💳 **Pagos**: `VisaIcon`, `MastercardIcon`, `PayPalIcon`.
-  - ✦ **UI & Sistema**: `SparklesIcon`, `ShieldCheckIcon`.
-  - 🏗️ **Ingeniería**: `HardhatWorkerIcon`, `WorkCrewIcon`, `ExcavatorIcon`, `DumpTruckIcon`, `TractorIcon`, `EngineeringToolsIcon`.
-  - 🎵 **Música**: `MusicSheetIcon`, `MusicChordsIcon`, `PlayControlIcon`, `PauseControlIcon`, `StopControlIcon`.
-  - ⚽ **Fútbol**: `SoccerBallIcon`, `SoccerPlayerIcon`, `SoccerTeamIcon`, `YellowCardIcon`, `RedCardIcon`, `RefereeCardIcon`, `RefereeWhistleIcon`, `MatchCalendarIcon`.
-  - 💊 **Farmacia & Salud**: `PillIcon`, `SyringeIcon`, `StethoscopeIcon`, `FirstAidKitIcon`, `HospitalBuildingIcon`, `MedicineBottleIcon`.
-  - 🛒 **E-Commerce**: `ShoppingBagIcon`, `ShoppingCartIcon`, `TagDiscountIcon`, `DeliveryTruckIcon`, `BarcodeQrIcon`.
-  - 🍔 **Gastronomía**: `RestaurantPlateIcon`, `BurgerPizzaIcon`, `CoffeeCupIcon`, `DeliveryMotorcycleIcon`, `ChefHatIcon`.
-  - 💼 **Finanzas**: `WalletIcon`, `PiggyBankIcon`, `BitcoinCryptoIcon`, `TrendingChartIcon`, `BankBuildingIcon`.
-  - ✈️ **Viajes**: `AirplaneIcon`, `SuitcaseIcon`, `MapPinIcon`, `CompassIcon`, `HotelBedIcon`.
-  - 🎓 **Educación**: `GraduationCapIcon`, `BookOpenIcon`, `CertificateAwardIcon`, `IdeaBulbIcon`.
-  - 🚗 **Automotriz**: `CarIcon`, `FuelGasIcon`, `SpeedometerIcon`, `CarKeyIcon`.
-- ⚡ **24 Animaciones Nativas (60-120 FPS)**:
-  - 🔥 **Firebase & Cloud**: `NativeCloudSync`, `NativeDataUpload`, `NativeDataDownload`, `NativeDatabaseOffline`.
-  - 🌀 **Cargadores**: `NativeLoadingSpinner`, `NativePulsingHeart`, `NativePulseRipple`, `NativeBouncingDots`.
-  - ✅ **Feedback**: `NativeSuccessCheckmark`, `NativeErrorCross`, `NativeWaveBars`.
-  - ✨ **UI Avanzada**: `NativeShimmerButton`, `NativePulseBadge`, `NativeSkeletonShimmer`.
-  - 🎭 **Temáticas**: `NativeExcavatorDigging`, `NativeAudioEqualizer`, `NativeSoccerBallBounce`, `NativeHeartbeatPulse`, `NativePillDrip`, `NativeCartBadgePulse`, `NativeCoffeeSteam`, `NativeCryptoChartUp`, `NativeFlightTakeoff`, `NativeIdeaBulbGlow`.
+- 🚀 **Zero External Dependencies**: Pure native canvas rendering with `CustomPainter` and `AnimationController`.
+- 🎯 **66 Native Vector Icons**: Geometrically drawn and crisp at any resolution across 14 industry categories.
+- ⚡ **24 Ultra-Smooth Native Animations (60–120 FPS)**: Render layers isolated with `RepaintBoundary` for zero GPU repaint lag.
+- 🌓 **Theme Adaptive**: Automatic support for Flutter light and dark theme color schemes (`ThemeData`).
+- 📦 **14 Industry Categories**: Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
 
 ---
 
-## 📦 Instalación / Installation
+## 🧩 Component Catalog & Quick Links
 
-```bash
-flutter pub add flutter_native_ui_nyk
-```
+| Component / Module | Summary | 🇺🇸 English Docs | 🇪🇸 Documentación ES |
+| :--- | :--- | :--- | :--- |
+| **`Vector Icons`** | 66 native vector icons across 14 industry categories with custom sizing and coloring | [📖 View Docs](doc/en/vector_icons.md) | [📖 Ver Guía](doc/es/vector_icons.md) |
+| **`Native Animations`** | 24 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` | [📖 View Docs](doc/en/native_animations.md) | [📖 Ver Guía](doc/es/native_animations.md) |
+| **`Performance & Architecture`** | Hardware rendering, zero external dependencies, matrix scaling & ThemeData adaptability | [📖 View Docs](doc/en/performance_and_architecture.md) | [📖 Ver Guía](doc/es/performance_and_architecture.md) |
 
-O agrégalo a tu `pubspec.yaml`:
+---
+
+## 🚀 Getting Started
+
+Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.0.0
+  flutter_native_ui_nyk: ^1.0.1
 ```
+
+Run:
+
+```bash
+flutter pub get
+```
+
+---
+
+## 💻 Quick Example
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 
-class QuickDemo extends StatelessWidget {
-  const QuickDemo({super.key});
+class QuickDemoPage extends StatelessWidget {
+  const QuickDemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Native UI Demo'),
+        actions: const [
+          SparklesIcon(size: 28),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            // Iconos
-            FirebaseIcon(size: 36),
-            ShoppingBagIcon(size: 36),
-            CoffeeCupIcon(size: 36),
+          children: [
+            // Vector icons
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FirebaseIcon(size: 40),
+                SizedBox(width: 16),
+                ShoppingBagIcon(size: 40),
+                SizedBox(width: 16),
+                CoffeeCupIcon(size: 40),
+              ],
+            ),
+            const SizedBox(height: 32),
             
-            SizedBox(height: 20),
-            
-            // Animaciones Nativas
-            NativeCloudSync(size: 48),
-            NativeCoffeeSteam(size: 48),
-            NativeFlightTakeoff(size: 48),
+            // Native animations
+            const NativeCloudSync(size: 56),
+            const SizedBox(height: 16),
+            const NativeCoffeeSteam(size: 56),
+            const SizedBox(height: 32),
+
+            // Interactive Shimmer Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: NativeShimmerButton(
+                text: 'Sign In with Google',
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ),
@@ -106,6 +127,6 @@ class QuickDemo extends StatelessWidget {
 
 ---
 
-## 📄 Licencia / License
+## 📄 License
 
 MIT License - Copyright (c) 2025 **Ing. Juan Pablo Gosalvez (NyK)**.
