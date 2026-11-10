@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de Apple.
+/// Icono vectorial oficial de Apple (Manzana).
 class AppleIcon extends StatelessWidget {
   final double size;
   final Color? color;
@@ -13,60 +13,65 @@ class AppleIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = color ?? Theme.of(context).colorScheme.onSurface;
+    final activeColor = color ?? Theme.of(context).colorScheme.onSurface;
 
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _AppleIconPainter(color: iconColor),
+        painter: _ApplePainter(color: activeColor),
       ),
     );
   }
 }
 
-class _AppleIconPainter extends CustomPainter {
+class _ApplePainter extends CustomPainter {
   final Color color;
 
-  const _AppleIconPainter({required this.color});
+  const _ApplePainter({required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final paint = Paint()
+    final applePaint = Paint()
       ..color = color
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
+    // Apple Body
     final path = Path()
-      ..moveTo(18.71, 19.5)
-      ..cubicTo(17.88, 20.74, 17.0, 21.97, 15.66, 21.97)
-      ..cubicTo(14.32, 21.97, 13.89, 21.18, 12.37, 21.18)
-      ..cubicTo(10.84, 21.18, 10.37, 21.95, 9.1, 21.97)
-      ..cubicTo(7.77, 22.0, 6.84, 20.65, 5.99, 19.43)
-      ..cubicTo(4.26, 16.94, 2.94, 12.4, 4.73, 9.29)
-      ..cubicTo(5.62, 7.74, 7.22, 6.76, 8.96, 6.74)
-      ..cubicTo(10.25, 6.72, 11.49, 7.6, 12.28, 7.6)
-      ..cubicTo(13.07, 7.6, 14.57, 6.54, 16.1, 6.71)
-      ..cubicTo(16.74, 6.74, 18.55, 6.97, 19.68, 8.63)
-      ..cubicTo(19.59, 8.69, 17.44, 9.94, 17.46, 12.55)
-      ..cubicTo(17.49, 15.68, 20.2, 16.72, 20.24, 16.74)
-      ..cubicTo(20.21, 16.83, 19.8, 18.26, 18.71, 19.5)
-      ..close()
-      ..moveTo(15.97, 4.54)
-      ..cubicTo(16.64, 3.72, 17.09, 2.58, 16.96, 1.44)
-      ..cubicTo(15.97, 1.48, 14.73, 2.1, 14.02, 2.93)
-      ..cubicTo(13.39, 3.66, 12.85, 4.82, 13.0, 5.94)
-      ..cubicTo(14.12, 6.03, 15.3, 5.37, 15.97, 4.54)
+      ..moveTo(12.0, 5.0)
+      ..cubicTo(10.5, 5.0, 9.0, 6.0, 7.8, 6.0)
+      ..cubicTo(6.2, 6.0, 4.5, 4.8, 3.0, 6.5)
+      ..cubicTo(1.0, 9.0, 1.2, 14.0, 3.5, 18.0)
+      ..cubicTo(4.6, 20.0, 6.0, 22.0, 8.0, 22.0)
+      ..cubicTo(9.8, 22.0, 10.4, 20.8, 12.5, 20.8)
+      ..cubicTo(14.5, 20.8, 15.1, 22.0, 17.0, 22.0)
+      ..cubicTo(19.0, 22.0, 20.3, 20.0, 21.4, 18.0)
+      ..cubicTo(22.7, 15.6, 23.2, 13.5, 23.3, 13.4)
+      ..cubicTo(23.1, 13.3, 19.5, 11.8, 19.5, 7.8)
+      ..cubicTo(19.5, 4.5, 22.1, 3.0, 22.2, 2.9)
+      ..cubicTo(20.6, 0.6, 18.1, 0.4, 17.2, 0.3)
+      ..cubicTo(15.0, 0.1, 13.0, 1.6, 12.0, 1.6)
       ..close();
 
-    canvas.drawPath(path, paint);
+    // Leaf
+    final leaf = Path()
+      ..moveTo(12.5, 3.0)
+      ..cubicTo(13.6, 1.6, 15.1, 0.7, 16.5, 0.3)
+      ..cubicTo(16.7, 1.8, 16.1, 3.3, 15.0, 4.5)
+      ..cubicTo(13.9, 5.7, 12.5, 6.6, 11.0, 6.4)
+      ..cubicTo(10.8, 4.9, 11.4, 3.4, 12.5, 3.0)
+      ..close();
+
+    canvas.drawPath(path, applePaint);
+    canvas.drawPath(leaf, applePaint);
   }
 
   @override
-  bool shouldRepaint(covariant _AppleIconPainter oldDelegate) =>
+  bool shouldRepaint(covariant _ApplePainter oldDelegate) =>
       oldDelegate.color != color;
 }

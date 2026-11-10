@@ -1,30 +1,34 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de cápsula/pastilla bicolor para medicina y farmacia.
+/// Icono vectorial bi-tonal de cápsula / pastilla médica.
 class PillIcon extends StatelessWidget {
   final double size;
-  final Color primaryColor;
-  final Color secondaryColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const PillIcon({
     super.key,
     this.size = 24.0,
-    this.primaryColor = const Color(0xFFE91E63),
-    this.secondaryColor = const Color(0xFF00BCD4),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final redAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE53935));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _PillPainter(
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
+          primaryColor: primary,
+          accentColor: redAccent,
         ),
       ),
     );
@@ -33,11 +37,11 @@ class PillIcon extends StatelessWidget {
 
 class _PillPainter extends CustomPainter {
   final Color primaryColor;
-  final Color secondaryColor;
+  final Color accentColor;
 
   const _PillPainter({
     required this.primaryColor,
-    required this.secondaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -45,53 +49,39 @@ class _PillPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final primaryPaint = Paint()
+    final strokePaint = Paint()
       ..color = primaryColor
-      ..style = PaintingStyle.fill
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
       ..isAntiAlias = true;
 
-    final secondaryPaint = Paint()
-      ..color = secondaryColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final fillPaint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Tilted Capsule
     canvas.save();
     canvas.translate(12, 12);
-    canvas.rotate(-0.785398); // -45 deg
+    canvas.rotate(0.785398); // 45 deg
 
-    // Left half (Primary)
-    final leftCap = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        const Rect.fromLTRB(-8, -4, 0, 4),
-        topLeft: const Radius.circular(4),
-        bottomLeft: const Radius.circular(4),
-      ));
-    canvas.drawPath(leftCap, primaryPaint);
-
-    // Right half (Secondary)
-    final rightCap = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        const Rect.fromLTRB(0, -4, 8, 4),
-        topRight: const Radius.circular(4),
-        bottomRight: const Radius.circular(4),
-      ));
-    canvas.drawPath(rightCap, secondaryPaint);
-
-    // Shine reflection
-    final shinePaint = Paint()
-      ..color = Colors.white.withOpacity(0.4)
-      ..style = PaintingStyle.fill;
-    canvas.drawRRect(
-      RRect.fromLTRBR(-6, -2.5, 6, -1, const Radius.circular(1)),
-      shinePaint,
+    // Capsule RRect
+    final pillRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(-5, -10, 10, 20),
+      const Radius.circular(5),
     );
+    canvas.drawRRect(pillRRect, strokePaint);
+
+    // Half Fill (Vibrant Crimson Accent)
+    final halfPath = Path()
+      ..addRect(const Rect.fromLTWH(-5, 0, 10, 10));
+    canvas.save();
+    canvas.clipPath(Path()..addRRect(pillRRect));
+    canvas.drawPath(halfPath, fillPaint);
+    canvas.restore();
 
     canvas.restore();
   }
 
   @override
   bool shouldRepaint(covariant _PillPainter oldDelegate) =>
-      oldDelegate.primaryColor != primaryColor ||
-      oldDelegate.secondaryColor != secondaryColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

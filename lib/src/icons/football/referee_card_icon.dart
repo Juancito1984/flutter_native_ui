@@ -1,69 +1,78 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de tarjetas de árbitro (Amarilla y Roja).
+/// Icono vectorial bi-tonal de tarjetas de árbitro (amarilla y roja cruzadas).
 class RefereeCardIcon extends StatelessWidget {
   final double size;
+  final Color? color;
+  final Color? secondaryColor;
 
   const RefereeCardIcon({
     super.key,
     this.size = 24.0,
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final yellowColor = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFFFCA28));
+    final redColor = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFD32F2F));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: const _RefereeCardPainter(),
+        painter: _RefereeCardPainter(
+          yellowColor: yellowColor,
+          redColor: redColor,
+        ),
       ),
     );
   }
 }
 
 class _RefereeCardPainter extends CustomPainter {
-  const _RefereeCardPainter();
+  final Color yellowColor;
+  final Color redColor;
+
+  const _RefereeCardPainter({
+    required this.yellowColor,
+    required this.redColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final yellowCardPaint = Paint()
-      ..color = const Color(0xFFFFD600)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final yellowPaint = Paint()
+      ..color = yellowColor
+      ..style = PaintingStyle.fill;
 
-    final redCardPaint = Paint()
-      ..color = const Color(0xFFD50000)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final redPaint = Paint()
+      ..color = redColor
+      ..style = PaintingStyle.fill;
 
-    final borderPaint = Paint()
-      ..color = const Color(0x33000000)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.8;
-
-    // Yellow Card (Behind, tilted left)
+    // Yellow Card Behind
     canvas.save();
-    canvas.translate(10, 12);
-    canvas.rotate(-0.26); // ~15 deg
-    final yellowRect = RRect.fromLTRBR(-5, -8, 5, 8, const Radius.circular(1.5));
-    canvas.drawRRect(yellowRect, yellowCardPaint);
-    canvas.drawRRect(yellowRect, borderPaint);
+    canvas.translate(8, 12);
+    canvas.rotate(-0.25);
+    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-5, -8, 10, 16), const Radius.circular(2)), yellowPaint);
     canvas.restore();
 
-    // Red Card (In front, tilted right)
+    // Red Card Front
     canvas.save();
-    canvas.translate(14, 12);
-    canvas.rotate(0.26); // ~15 deg
-    final redRect = RRect.fromLTRBR(-5, -8, 5, 8, const Radius.circular(1.5));
-    canvas.drawRRect(redRect, redCardPaint);
-    canvas.drawRRect(redRect, borderPaint);
+    canvas.translate(15, 12);
+    canvas.rotate(0.25);
+    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-5, -8, 10, 16), const Radius.circular(2)), redPaint);
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _RefereeCardPainter oldDelegate) =>
+      oldDelegate.yellowColor != yellowColor || oldDelegate.redColor != redColor;
 }

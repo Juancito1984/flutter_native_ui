@@ -33,6 +33,54 @@ void main() {
     });
   });
 
+  group('Catálogo Centralizado - NativeIcons y NativeAnimations', () {
+    testWidgets('NativeIcons factory methods render correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Column(
+              children: [
+                NativeIcons.brainAi(size: 36),
+                NativeIcons.firebase(size: 36),
+                NativeIcons.google(size: 36),
+                NativeIcons.smartLock(size: 36),
+                NativeIcons.dumbbell(size: 36),
+                NativeIcons.packageBox(size: 36),
+              ],
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(BrainAiIcon), findsOneWidget);
+      expect(find.byType(FirebaseIcon), findsOneWidget);
+      expect(find.byType(GoogleIcon), findsOneWidget);
+      expect(find.byType(SmartLockIcon), findsOneWidget);
+      expect(find.byType(DumbbellIcon), findsOneWidget);
+      expect(find.byType(PackageBoxIcon), findsOneWidget);
+    });
+
+    testWidgets('NativeAnimations factory methods render correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Column(
+              children: [
+                NativeAnimations.aiThinkingOrbit(size: 48),
+                NativeAnimations.cloudSync(size: 48),
+                NativeAnimations.fingerprintScan(size: 48),
+                NativeAnimations.creditCardNfc(width: 64, height: 42),
+              ],
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(NativeAiThinkingOrbit), findsOneWidget);
+      expect(find.byType(NativeCloudSync), findsOneWidget);
+      expect(find.byType(NativeFingerprintScan), findsOneWidget);
+      expect(find.byType(NativeCreditCardNfc), findsOneWidget);
+    });
+  });
+
   group('Iconos Vectoriales Nativos - Nuevas Categorías (v1.1.0)', () {
     testWidgets('Iconos de Inteligencia Artificial renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(

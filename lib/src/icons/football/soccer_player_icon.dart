@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de jugador de fútbol pateando un balón.
+/// Icono vectorial bi-tonal de silueta de jugador de fútbol.
 class SoccerPlayerIcon extends StatelessWidget {
   final double size;
-  final Color jerseyColor;
-  final Color ballColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const SoccerPlayerIcon({
     super.key,
     this.size = 24.0,
-    this.jerseyColor = const Color(0xFF1976D2),
-    this.ballColor = const Color(0xFF263238),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final ballAccent = secondaryColor ?? const Color(0xFFFFB703);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _SoccerPlayerPainter(
-          jerseyColor: jerseyColor,
-          ballColor: ballColor,
+          primaryColor: primary,
+          accentColor: ballAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class SoccerPlayerIcon extends StatelessWidget {
 }
 
 class _SoccerPlayerPainter extends CustomPainter {
-  final Color jerseyColor;
-  final Color ballColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _SoccerPlayerPainter({
-    required this.jerseyColor,
-    required this.ballColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,55 +49,40 @@ class _SoccerPlayerPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final jerseyPaint = Paint()
-      ..color = jerseyColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final playerFill = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.fill;
 
-    final skinPaint = Paint()
-      ..color = const Color(0xFFFFCC80)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final limbPaint = Paint()
-      ..color = const Color(0xFF37474F)
+    final playerStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round
-      ..isAntiAlias = true;
+      ..strokeCap = StrokeCap.round;
 
-    final ballPaint = Paint()
-      ..color = ballColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final ballFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
     // Head
-    canvas.drawCircle(const Offset(10, 4.5), 2.5, skinPaint);
+    canvas.drawCircle(const Offset(10, 4), 2.0, playerFill);
 
-    // Torso (Jersey)
-    final torsoPath = Path()
-      ..moveTo(8, 7)
-      ..lineTo(12, 7)
-      ..lineTo(11, 13)
-      ..lineTo(7, 13)
-      ..close();
-    canvas.drawPath(torsoPath, jerseyPaint);
-
-    // Arms
-    canvas.drawLine(const Offset(8, 8), const Offset(5, 11), limbPaint);
-    canvas.drawLine(const Offset(12, 8), const Offset(15, 10), limbPaint);
-
-    // Standing Leg
-    canvas.drawLine(const Offset(8.5, 13), const Offset(6.5, 20), limbPaint);
+    // Body Running
+    final body = Path()
+      ..moveTo(10, 7)
+      ..lineTo(14, 12)
+      ..lineTo(11, 16)
+      ..lineTo(7, 21);
+    canvas.drawPath(body, playerStroke);
 
     // Kicking Leg
-    canvas.drawLine(const Offset(10, 13), const Offset(16, 17), limbPaint);
+    final leg2 = Path()..moveTo(11, 16)..lineTo(17, 19);
+    canvas.drawPath(leg2, playerStroke);
 
-    // Ball
-    canvas.drawCircle(const Offset(19.5, 18), 2.2, ballPaint);
+    // Ball (Vibrant Gold Accent)
+    canvas.drawCircle(const Offset(20, 20), 2.0, ballFill);
   }
 
   @override
   bool shouldRepaint(covariant _SoccerPlayerPainter oldDelegate) =>
-      oldDelegate.jerseyColor != jerseyColor || oldDelegate.ballColor != ballColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

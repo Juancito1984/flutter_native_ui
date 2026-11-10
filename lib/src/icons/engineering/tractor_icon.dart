@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de tractor para ingeniería agrícola o de construcción.
+/// Icono vectorial bi-tonal de tractor agrícola e industrial.
 class TractorIcon extends StatelessWidget {
   final double size;
-  final Color bodyColor;
-  final Color wheelColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const TractorIcon({
     super.key,
     this.size = 24.0,
-    this.bodyColor = const Color(0xFF43A047),
-    this.wheelColor = const Color(0xFF263238),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final yellowAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB300));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _TractorPainter(
-          bodyColor: bodyColor,
-          wheelColor: wheelColor,
+          primaryColor: primary,
+          accentColor: yellowAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class TractorIcon extends StatelessWidget {
 }
 
 class _TractorPainter extends CustomPainter {
-  final Color bodyColor;
-  final Color wheelColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _TractorPainter({
-    required this.bodyColor,
-    required this.wheelColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,63 +49,38 @@ class _TractorPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bodyPaint = Paint()
-      ..color = bodyColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final wheelPaint = Paint()
-      ..color = wheelColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final rimPaint = Paint()..color = const Color(0xFFFFB300);
-    final windowPaint = Paint()..color = const Color(0xFF81D4FA);
-
-    // Exhaust Pipe
-    final exhaustPaint = Paint()
-      ..color = const Color(0xFF37474F)
+    final strokePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    canvas.drawLine(const Offset(19, 10), const Offset(19, 5), exhaustPaint);
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
 
-    // Engine Hood
-    final hoodPath = Path()
-      ..moveTo(12, 16)
-      ..lineTo(12, 10)
-      ..lineTo(21, 10)
-      ..lineTo(21, 16)
+    final bodyFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
+
+    // Body (Vibrant Yellow Industrial Accent)
+    final body = Path()
+      ..moveTo(4, 9)
+      ..lineTo(12, 9)
+      ..lineTo(12, 14)
+      ..lineTo(4, 14)
       ..close();
-    canvas.drawPath(hoodPath, bodyPaint);
+    canvas.drawPath(body, bodyFill);
 
-    // Cabin
-    final cabinPath = Path()
-      ..moveTo(4, 16)
-      ..lineTo(4, 8)
-      ..lineTo(11, 8)
-      ..lineTo(12, 16)
-      ..close();
-    canvas.drawPath(cabinPath, bodyPaint);
+    // Engine Hood & Exhaust
+    canvas.drawRect(const Rect.fromLTWH(12, 11, 7, 3), bodyFill);
+    canvas.drawLine(const Offset(16, 11), const Offset(16, 7), strokePaint);
 
-    // Cabin Window
-    final windowPath = Path()
-      ..moveTo(5.5, 9.5)
-      ..lineTo(10, 9.5)
-      ..lineTo(10.5, 13)
-      ..lineTo(5.5, 13)
-      ..close();
-    canvas.drawPath(windowPath, windowPaint);
+    // Big Rear Wheel
+    canvas.drawCircle(const Offset(7, 15), 4.0, strokePaint..strokeWidth = 2.2);
 
-    // Front Wheel (Small)
-    canvas.drawCircle(const Offset(18.5, 16.5), 2.5, wheelPaint);
-    canvas.drawCircle(const Offset(18.5, 16.5), 1.0, rimPaint);
-
-    // Rear Wheel (Large)
-    canvas.drawCircle(const Offset(7, 15.5), 4.5, wheelPaint);
-    canvas.drawCircle(const Offset(7, 15.5), 2.0, rimPaint);
+    // Small Front Wheel
+    canvas.drawCircle(const Offset(17, 16), 2.2, Paint()..color = const Color(0xFF263238));
   }
 
   @override
   bool shouldRepaint(covariant _TractorPainter oldDelegate) =>
-      oldDelegate.bodyColor != bodyColor || oldDelegate.wheelColor != wheelColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

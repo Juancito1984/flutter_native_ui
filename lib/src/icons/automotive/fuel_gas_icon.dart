@@ -1,70 +1,93 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de surtidor de gasolina / estación de carga.
+/// Icono vectorial bi-tonal de surtidor de combustible / gasolina.
 class FuelGasIcon extends StatelessWidget {
   final double size;
-  final Color pumpColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const FuelGasIcon({
     super.key,
     this.size = 24.0,
-    this.pumpColor = const Color(0xFFE53935),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE53935));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _FuelGasPainter(pumpColor: pumpColor),
+        painter: _FuelGasPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _FuelGasPainter extends CustomPainter {
-  final Color pumpColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _FuelGasPainter({required this.pumpColor});
+  const _FuelGasPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final pumpPaint = Paint()
-      ..color = pumpColor
-      ..style = PaintingStyle.fill
+    final bodyStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final hosePaint = Paint()
-      ..color = pumpColor
+    final hoseStroke = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8;
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
 
-    final displayPaint = Paint()..color = Colors.white;
+    final displayFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Pump Main Body
-    final pumpRect = RRect.fromLTRBR(3, 4, 15, 21, const Radius.circular(2));
-    canvas.drawRRect(pumpRect, pumpPaint);
-
-    // Screen
-    canvas.drawRRect(
-      RRect.fromLTRBR(5, 7, 13, 11, const Radius.circular(1)),
-      displayPaint,
+    // Pump Body RRect
+    final bodyRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(4, 5, 10, 15),
+      const Radius.circular(2),
     );
+    canvas.drawRRect(bodyRRect, bodyStroke);
 
-    // Hose & Nozzle
-    final hosePath = Path()
-      ..moveTo(15, 8)
-      ..cubicTo(20, 8, 20, 16, 18, 16)
-      ..lineTo(18, 12);
-    canvas.drawPath(hosePath, hosePaint);
+    // Hose & Nozzle (Vibrant Accent)
+    final hose = Path()
+      ..moveTo(14, 10)
+      ..lineTo(17, 10)
+      ..lineTo(17, 17)
+      ..lineTo(19, 17);
+    canvas.drawPath(hose, hoseStroke);
+
+    // Screen display (Vibrant Accent Fill)
+    canvas.drawRect(const Rect.fromLTWH(6, 7, 6, 4), displayFill);
   }
 
   @override
   bool shouldRepaint(covariant _FuelGasPainter oldDelegate) =>
-      oldDelegate.pumpColor != pumpColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

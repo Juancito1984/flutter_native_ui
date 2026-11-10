@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de bolsa de compras para comercio electrónico.
+/// Icono vectorial bi-tonal de bolsa de compras para comercio electrónico.
 class ShoppingBagIcon extends StatelessWidget {
   final double size;
-  final Color bagColor;
-  final Color handleColor;
+  final Color? color;
+  final Color? secondaryColor;
+  final Color? bagColor;
+  final Color? handleColor;
 
   const ShoppingBagIcon({
     super.key,
     this.size = 24.0,
-    this.bagColor = const Color(0xFFAB47BC),
-    this.handleColor = const Color(0xFF6A1B9A),
+    this.color,
+    this.secondaryColor,
+    this.bagColor,
+    this.handleColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? bagColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFAB47BC));
+    final accent = secondaryColor ?? handleColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFCA28));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _ShoppingBagPainter(
-          bagColor: bagColor,
-          handleColor: handleColor,
+          bagColor: primary,
+          handleColor: accent,
         ),
       ),
     );
@@ -51,11 +61,11 @@ class _ShoppingBagPainter extends CustomPainter {
     final handlePaint = Paint()
       ..color = handleColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    // Handles
+    // Handles (Vibrant Gold/Amber Accent)
     final handlePath = Path()
       ..moveTo(9, 8)
       ..cubicTo(9, 4, 15, 4, 15, 8);

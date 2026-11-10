@@ -1,33 +1,50 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de avión para viajes y turismo.
+/// Icono vectorial bi-tonal de avión para viajes y turismo.
 class AirplaneIcon extends StatelessWidget {
   final double size;
-  final Color planeColor;
+  final Color? color;
+  final Color? secondaryColor;
+  final Color? planeColor;
 
   const AirplaneIcon({
     super.key,
     this.size = 24.0,
-    this.planeColor = const Color(0xFF0288D1),
+    this.color,
+    this.secondaryColor,
+    this.planeColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? planeColor ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF0288D1));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _AirplanePainter(planeColor: planeColor),
+        painter: _AirplanePainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _AirplanePainter extends CustomPainter {
-  final Color planeColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _AirplanePainter({required this.planeColor});
+  const _AirplanePainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,7 +52,7 @@ class _AirplanePainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final planePaint = Paint()
-      ..color = planeColor
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
@@ -69,5 +86,5 @@ class _AirplanePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _AirplanePainter oldDelegate) =>
-      oldDelegate.planeColor != planeColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

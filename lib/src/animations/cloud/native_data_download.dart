@@ -1,20 +1,18 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Animación nativa de descarga/recepción de datos desde la nube (Download).
+/// Animación nativa de Descarga de Datos de la Nube.
 class NativeDataDownload extends StatefulWidget {
   final double size;
-  final Color cloudColor;
-  final Color arrowColor;
+  final Color? cloudColor;
+  final Color? arrowColor;
   final Duration duration;
 
   const NativeDataDownload({
     super.key,
     this.size = 56.0,
-    this.cloudColor = const Color(0xFF0288D1),
-    this.arrowColor = const Color(0xFF1976D2),
-    this.duration = const Duration(milliseconds: 1100),
+    this.cloudColor,
+    this.arrowColor,
+    this.duration = const Duration(milliseconds: 1500),
   });
 
   @override
@@ -42,6 +40,12 @@ class _NativeDataDownloadState extends State<NativeDataDownload>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primaryCloud = widget.cloudColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF0288D1));
+    final activeArrow = widget.arrowColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF2979FF));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -52,8 +56,8 @@ class _NativeDataDownloadState extends State<NativeDataDownload>
             child: CustomPaint(
               painter: _DataDownloadPainter(
                 progress: _controller.value,
-                cloudColor: widget.cloudColor,
-                arrowColor: widget.arrowColor,
+                cloudColor: primaryCloud,
+                arrowColor: activeArrow,
               ),
             ),
           );
@@ -97,28 +101,27 @@ class _DataDownloadPainter extends CustomPainter {
 
     canvas.drawPath(cloudPath, cloudPaint);
 
-    // Animating Downward Arrow
-    final dy = (progress * 6.0) - 3.0;
-    final opacity = (1.0 - progress).clamp(0.0, 1.0);
-
+    // Animated Download Arrow
     final arrowPaint = Paint()
-      ..color = arrowColor.withOpacity(opacity)
+      ..color = arrowColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.2
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    canvas.drawLine(Offset(12, 9 + dy), Offset(12, 16 + dy), arrowPaint);
+    final arrowY = 9.0 + (progress * 8.0);
+    final arrowPath = Path()
+      ..moveTo(12.0, arrowY - 6.0)
+      ..lineTo(12.0, arrowY)
+      ..moveTo(9.0, arrowY - 3.0)
+      ..lineTo(12.0, arrowY)
+      ..lineTo(15.0, arrowY - 3.0);
 
-    final headPath = Path()
-      ..moveTo(9, 13 + dy)
-      ..lineTo(12, 16 + dy)
-      ..lineTo(15, 13 + dy);
-    canvas.drawPath(headPath, arrowPaint);
+    canvas.drawPath(arrowPath, arrowPaint);
   }
 
   @override
   bool shouldRepaint(covariant _DataDownloadPainter oldDelegate) =>
-      oldDelegate.progress != progress || oldDelegate.cloudColor != cloudColor;
+      oldDelegate.progress != progress || oldDelegate.cloudColor != cloudColor || oldDelegate.arrowColor != arrowColor;
 }

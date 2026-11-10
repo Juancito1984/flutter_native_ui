@@ -1,86 +1,91 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de calendario de partidos / fixture de fútbol.
+/// Icono vectorial bi-tonal de calendario de partidos.
 class MatchCalendarIcon extends StatelessWidget {
   final double size;
-  final Color headerColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const MatchCalendarIcon({
     super.key,
     this.size = 24.0,
-    this.headerColor = const Color(0xFF1976D2),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final redAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFD32F2F));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _MatchCalendarPainter(headerColor: headerColor),
+        painter: _MatchCalendarPainter(
+          primaryColor: primary,
+          accentColor: redAccent,
+        ),
       ),
     );
   }
 }
 
 class _MatchCalendarPainter extends CustomPainter {
-  final Color headerColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _MatchCalendarPainter({required this.headerColor});
+  const _MatchCalendarPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bgPaint = Paint()
-      ..color = const Color(0xFFFAFAFA)
-      ..style = PaintingStyle.fill;
-
-    final headerPaint = Paint()
-      ..color = headerColor
-      ..style = PaintingStyle.fill
+    final frameStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final borderPaint = Paint()
-      ..color = const Color(0xFFCFD8DC)
+    final headerStroke = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
 
-    final ringPaint = Paint()
-      ..color = const Color(0xFF37474F)
+    final ballFill = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill;
 
-    final ballPaint = Paint()
-      ..color = const Color(0xFF263238)
-      ..style = PaintingStyle.fill;
+    // Calendar Outline
+    final calRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(3, 4, 18, 17),
+      const Radius.circular(3),
+    );
+    canvas.drawRRect(calRRect, frameStroke);
 
-    // Calendar Card Body
-    final cardRect = RRect.fromLTRBR(3, 5, 21, 21, const Radius.circular(2.5));
-    canvas.drawRRect(cardRect, bgPaint);
-    canvas.drawRRect(cardRect, borderPaint);
+    // Top Header Line
+    canvas.drawLine(const Offset(3, 9), const Offset(21, 9), frameStroke);
 
-    // Header Clip
-    final headerPath = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        const Rect.fromLTRB(3, 5, 21, 10),
-        topLeft: const Radius.circular(2.5),
-        topRight: const Radius.circular(2.5),
-      ));
-    canvas.drawPath(headerPath, headerPaint);
+    // Binder Rings (Vibrant Red Accent)
+    canvas.drawLine(const Offset(7, 2), const Offset(7, 5), headerStroke);
+    canvas.drawLine(const Offset(17, 2), const Offset(17, 5), headerStroke);
 
-    // Top Binder Rings
-    canvas.drawRRect(RRect.fromLTRBR(7, 3, 9, 7, const Radius.circular(1)), ringPaint);
-    canvas.drawRRect(RRect.fromLTRBR(15, 3, 17, 7, const Radius.circular(1)), ringPaint);
-
-    // Soccer Ball Icon in center of calendar
-    canvas.drawCircle(const Offset(12, 15.5), 3.2, ballPaint);
-    final innerDot = Paint()..color = const Color(0xFFECEFF1);
-    canvas.drawCircle(const Offset(12, 15.5), 1.2, innerDot);
+    // Ball Dot
+    canvas.drawCircle(const Offset(12, 14), 2.2, ballFill);
   }
 
   @override
   bool shouldRepaint(covariant _MatchCalendarPainter oldDelegate) =>
-      oldDelegate.headerColor != headerColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de partitura y notas musicales.
+/// Icono vectorial bi-tonal de partitura y notas musicales.
 class MusicSheetIcon extends StatelessWidget {
   final double size;
-  final Color sheetColor;
-  final Color noteColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const MusicSheetIcon({
     super.key,
     this.size = 24.0,
-    this.sheetColor = const Color(0xFFE0E0E0),
-    this.noteColor = const Color(0xFFE91E63),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final magentaAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE91E63));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _MusicSheetPainter(
-          sheetColor: sheetColor,
-          noteColor: noteColor,
+          primaryColor: primary,
+          accentColor: magentaAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class MusicSheetIcon extends StatelessWidget {
 }
 
 class _MusicSheetPainter extends CustomPainter {
-  final Color sheetColor;
-  final Color noteColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _MusicSheetPainter({
-    required this.sheetColor,
-    required this.noteColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -44,17 +50,17 @@ class _MusicSheetPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final linePaint = Paint()
-      ..color = sheetColor
+      ..color = primaryColor.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
     final notePaint = Paint()
-      ..color = noteColor
+      ..color = accentColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
     final stemPaint = Paint()
-      ..color = noteColor
+      ..color = accentColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.6
       ..isAntiAlias = true;
@@ -66,7 +72,7 @@ class _MusicSheetPainter extends CustomPainter {
     canvas.drawLine(const Offset(3, 15), const Offset(21, 15), linePaint);
     canvas.drawLine(const Offset(3, 18), const Offset(21, 18), linePaint);
 
-    // Eighth Note 1
+    // Eighth Note 1 (Vibrant Magenta Accent)
     canvas.drawCircle(const Offset(8, 16.5), 2.2, notePaint);
     canvas.drawLine(const Offset(10, 16.5), const Offset(10, 8), stemPaint);
 
@@ -76,7 +82,7 @@ class _MusicSheetPainter extends CustomPainter {
 
     // Beam connecting the 2 notes
     final beamPaint = Paint()
-      ..color = noteColor
+      ..color = accentColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.5
       ..isAntiAlias = true;
@@ -85,5 +91,5 @@ class _MusicSheetPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _MusicSheetPainter oldDelegate) =>
-      oldDelegate.sheetColor != sheetColor || oldDelegate.noteColor != noteColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

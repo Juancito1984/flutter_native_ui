@@ -1,82 +1,80 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de equipo/plantilla de jugadores de fútbol.
+/// Icono vectorial bi-tonal de alineación de equipo de fútbol.
 class SoccerTeamIcon extends StatelessWidget {
   final double size;
-  final Color teamColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const SoccerTeamIcon({
     super.key,
     this.size = 24.0,
-    this.teamColor = const Color(0xFF388E3C),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final lineAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF00E676));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _SoccerTeamPainter(teamColor: teamColor),
+        painter: _SoccerTeamPainter(
+          primaryColor: primary,
+          accentColor: lineAccent,
+        ),
       ),
     );
   }
 }
 
 class _SoccerTeamPainter extends CustomPainter {
-  final Color teamColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _SoccerTeamPainter({required this.teamColor});
+  const _SoccerTeamPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final skinPaint = Paint()
-      ..color = const Color(0xFFFFCC80)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final dotFill = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.fill;
 
-    final jerseyPaint = Paint()
-      ..color = teamColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final formationStroke = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.6;
 
-    // Background Player Left
-    canvas.drawCircle(const Offset(6.5, 8.5), 2.2, skinPaint);
-    final leftBody = Path()
-      ..moveTo(2.5, 18)
-      ..cubicTo(2.5, 13.5, 4.5, 12, 6.5, 12)
-      ..cubicTo(8.5, 12, 10.5, 13.5, 10.5, 18)
+    // Players dots
+    canvas.drawCircle(const Offset(12, 5), 2.0, dotFill);
+    canvas.drawCircle(const Offset(6, 12), 2.0, dotFill);
+    canvas.drawCircle(const Offset(18, 12), 2.0, dotFill);
+    canvas.drawCircle(const Offset(12, 19), 2.0, dotFill);
+
+    // Connecting Tactical Formation Lines (Vibrant Emerald Accent)
+    final formation = Path()
+      ..moveTo(12, 5)
+      ..lineTo(6, 12)
+      ..lineTo(12, 19)
+      ..lineTo(18, 12)
       ..close();
-    canvas.drawPath(leftBody, jerseyPaint);
-
-    // Background Player Right
-    canvas.drawCircle(const Offset(17.5, 8.5), 2.2, skinPaint);
-    final rightBody = Path()
-      ..moveTo(13.5, 18)
-      ..cubicTo(13.5, 13.5, 15.5, 12, 17.5, 12)
-      ..cubicTo(19.5, 12, 21.5, 13.5, 21.5, 18)
-      ..close();
-    canvas.drawPath(rightBody, jerseyPaint);
-
-    // Foreground Captain Center
-    canvas.drawCircle(const Offset(12, 6.5), 2.8, skinPaint);
-    final centerBody = Path()
-      ..moveTo(7, 21)
-      ..cubicTo(7, 14.5, 9.5, 10.5, 12, 10.5)
-      ..cubicTo(14.5, 10.5, 17, 14.5, 17, 21)
-      ..close();
-    canvas.drawPath(centerBody, jerseyPaint);
-
-    // Mini soccer ball in front
-    final ballPaint = Paint()..color = const Color(0xFF263238);
-    canvas.drawCircle(const Offset(12, 19.5), 1.8, ballPaint);
+    canvas.drawPath(formation, formationStroke);
   }
 
   @override
   bool shouldRepaint(covariant _SoccerTeamPainter oldDelegate) =>
-      oldDelegate.teamColor != teamColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

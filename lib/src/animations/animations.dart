@@ -11,6 +11,7 @@ export 'football/football.dart';
 export 'loaders/loaders.dart';
 export 'logistics/logistics.dart';
 export 'music/music.dart';
+export 'native_animations.dart';
 export 'pharmacy/pharmacy.dart';
 export 'security/security.dart';
 export 'travel/travel.dart';

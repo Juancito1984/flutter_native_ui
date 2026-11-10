@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 /// Animación nativa de sincronización en la nube (Cloud Sync).
 class NativeCloudSync extends StatefulWidget {
   final double size;
-  final Color cloudColor;
-  final Color syncColor;
+  final Color? cloudColor;
+  final Color? syncColor;
   final Duration duration;
 
   const NativeCloudSync({
     super.key,
     this.size = 56.0,
-    this.cloudColor = const Color(0xFF0288D1),
-    this.syncColor = const Color(0xFFFFCA28),
+    this.cloudColor,
+    this.syncColor,
     this.duration = const Duration(milliseconds: 1500),
   });
 
@@ -41,6 +41,12 @@ class _NativeCloudSyncState extends State<NativeCloudSync>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primaryCloud = widget.cloudColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF0288D1));
+    final activeSync = widget.syncColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFCA28));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -51,8 +57,8 @@ class _NativeCloudSyncState extends State<NativeCloudSync>
             child: CustomPaint(
               painter: _CloudSyncPainter(
                 angle: _controller.value * 2 * math.pi,
-                cloudColor: widget.cloudColor,
-                syncColor: widget.syncColor,
+                cloudColor: primaryCloud,
+                syncColor: activeSync,
               ),
             ),
           );
@@ -117,5 +123,5 @@ class _CloudSyncPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CloudSyncPainter oldDelegate) =>
-      oldDelegate.angle != angle || oldDelegate.cloudColor != cloudColor;
+      oldDelegate.angle != angle || oldDelegate.cloudColor != cloudColor || oldDelegate.syncColor != syncColor;
 }

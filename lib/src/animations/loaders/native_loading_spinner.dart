@@ -1,19 +1,17 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 /// Spinner nativo con gradiente giratorio.
 class NativeLoadingSpinner extends StatefulWidget {
   final double size;
-  final Color color;
+  final Color? color;
   final double strokeWidth;
   final Duration duration;
 
   const NativeLoadingSpinner({
     super.key,
     this.size = 48.0,
-    this.color = const Color(0xFF0288D1),
+    this.color,
     this.strokeWidth = 4.0,
     this.duration = const Duration(milliseconds: 1000),
   });
@@ -43,6 +41,11 @@ class _NativeLoadingSpinnerState extends State<NativeLoadingSpinner>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final spinnerColor = widget.color ?? (isDark ? theme.colorScheme.primary : const Color(0xFF0288D1));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -54,7 +57,7 @@ class _NativeLoadingSpinnerState extends State<NativeLoadingSpinner>
               height: widget.size,
               child: CustomPaint(
                 painter: _SpinnerPainter(
-                  color: widget.color,
+                  color: spinnerColor,
                   strokeWidth: widget.strokeWidth,
                 ),
               ),
@@ -85,7 +88,7 @@ class _SpinnerPainter extends CustomPainter {
     );
 
     final trackPaint = Paint()
-      ..color = color.withOpacity(0.15)
+      ..color = color.withValues(alpha: 0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawOval(rect, trackPaint);

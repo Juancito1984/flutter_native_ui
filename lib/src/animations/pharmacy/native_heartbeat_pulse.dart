@@ -1,20 +1,18 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Animación nativa de pulso cardíaco / electrocardiograma (ECG) para salud y farmacia.
+/// Animación nativa de pulso de electrocardiograma (ECG / Latido).
 class NativeHeartbeatPulse extends StatefulWidget {
   final double width;
   final double height;
-  final Color lineColor;
+  final Color? lineColor;
   final Duration duration;
 
   const NativeHeartbeatPulse({
     super.key,
-    this.width = 64.0,
+    this.width = 54.0,
     this.height = 36.0,
-    this.lineColor = const Color(0xFFE53935),
-    this.duration = const Duration(milliseconds: 1400),
+    this.lineColor,
+    this.duration = const Duration(milliseconds: 1500),
   });
 
   @override
@@ -42,6 +40,11 @@ class _NativeHeartbeatPulseState extends State<NativeHeartbeatPulse>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = widget.lineColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFE53935));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -52,7 +55,7 @@ class _NativeHeartbeatPulseState extends State<NativeHeartbeatPulse>
             child: CustomPaint(
               painter: _HeartbeatPulsePainter(
                 progress: _controller.value,
-                lineColor: widget.lineColor,
+                lineColor: activeColor,
               ),
             ),
           );
@@ -73,47 +76,31 @@ class _HeartbeatPulsePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final scale = size.width / 24.0;
-    canvas.scale(scale, scale);
-
     final linePaint = Paint()
       ..color = lineColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
+      ..strokeWidth = 2.2
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    // ECG Base Line Path
-    final fullPath = Path()
-      ..moveTo(0, 12)
-      ..lineTo(5, 12)
-      ..lineTo(7, 8)
-      ..lineTo(9, 16)
-      ..lineTo(11, 3)
-      ..lineTo(14, 20)
-      ..lineTo(16, 12)
-      ..lineTo(18, 14)
-      ..lineTo(20, 12)
-      ..lineTo(24, 12);
+    final path = Path();
+    final midY = size.height / 2;
+    final w = size.width;
 
-    // Scan sweep line revealing pulse
-    final sweepX = progress * 24.0;
+    path.moveTo(0, midY);
+    path.lineTo(w * 0.25, midY);
+    path.lineTo(w * 0.35, midY - size.height * 0.35);
+    path.lineTo(w * 0.45, midY + size.height * 0.4);
+    path.lineTo(w * 0.55, midY - size.height * 0.45);
+    path.lineTo(w * 0.65, midY + size.height * 0.2);
+    path.lineTo(w * 0.75, midY);
+    path.lineTo(w, midY);
 
-    final bgLinePaint = Paint()
-      ..color = lineColor.withOpacity(0.2)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..isAntiAlias = true;
-
-    canvas.drawPath(fullPath, bgLinePaint);
-    canvas.drawPath(fullPath, linePaint);
-
-    // Active Pulse Dot moving along sweep
-    final dotPaint = Paint()
-      ..color = lineColor
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(sweepX, 12), 2.2, dotPaint);
+    // Glowing Pulse Head Dot
+    final dotX = progress * w;
+    canvas.drawPath(path, linePaint);
+    canvas.drawCircle(Offset(dotX, midY), 3.0, Paint()..color = lineColor);
   }
 
   @override

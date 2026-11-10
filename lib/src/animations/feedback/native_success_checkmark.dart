@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 /// Animación nativa de marca de verificación de éxito (Checkmark).
 class NativeSuccessCheckmark extends StatefulWidget {
   final double size;
-  final Color color;
+  final Color? color;
   final Duration duration;
 
   const NativeSuccessCheckmark({
     super.key,
     this.size = 56.0,
-    this.color = const Color(0xFF2E7D32),
+    this.color,
     this.duration = const Duration(milliseconds: 1000),
   });
 
@@ -38,6 +38,11 @@ class _NativeSuccessCheckmarkState extends State<NativeSuccessCheckmark>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final checkColor = widget.color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF4CAF50));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -48,7 +53,7 @@ class _NativeSuccessCheckmarkState extends State<NativeSuccessCheckmark>
             child: CustomPaint(
               painter: _SuccessCheckmarkPainter(
                 progress: _controller.value,
-                color: widget.color,
+                color: checkColor,
               ),
             ),
           );

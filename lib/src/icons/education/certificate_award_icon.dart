@@ -1,79 +1,84 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de diploma / certificado de logro.
+/// Icono vectorial bi-tonal de diploma o certificado de logros.
 class CertificateAwardIcon extends StatelessWidget {
   final double size;
-  final Color ribbonColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const CertificateAwardIcon({
     super.key,
     this.size = 24.0,
-    this.ribbonColor = const Color(0xFFFFB300),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final medalAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _CertificateAwardPainter(ribbonColor: ribbonColor),
+        painter: _CertificateAwardPainter(
+          primaryColor: primary,
+          accentColor: medalAccent,
+        ),
       ),
     );
   }
 }
 
 class _CertificateAwardPainter extends CustomPainter {
-  final Color ribbonColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _CertificateAwardPainter({required this.ribbonColor});
+  const _CertificateAwardPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final borderPaint = Paint()
-      ..color = const Color(0xFF546E7A)
+    final strokePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final bgPaint = Paint()..color = const Color(0xFFFAFAFA);
+    final medalFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    final ribbonPaint = Paint()
-      ..color = ribbonColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    // Document Body
+    final docRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(3, 3, 18, 14),
+      const Radius.circular(2),
+    );
+    canvas.drawRRect(docRRect, strokePaint);
 
-    // Certificate Sheet
-    final sheetRect = RRect.fromLTRBR(3, 3, 21, 18, const Radius.circular(2));
-    canvas.drawRRect(sheetRect, bgPaint);
-    canvas.drawRRect(sheetRect, borderPaint);
+    // Lines inside
+    canvas.drawLine(const Offset(6, 6), const Offset(14, 6), strokePaint..strokeWidth = 1.2);
+    canvas.drawLine(const Offset(6, 9), const Offset(12, 9), strokePaint..strokeWidth = 1.2);
 
-    // Inner Lines
-    final linePaint = Paint()
-      ..color = const Color(0xFFB0BEC5)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-    canvas.drawLine(const Offset(6, 6), const Offset(15, 6), linePaint);
-    canvas.drawLine(const Offset(6, 9), const Offset(14, 9), linePaint);
-    canvas.drawLine(const Offset(6, 12), const Offset(12, 12), linePaint);
-
-    // Award Seal & Ribbon (Bottom Right)
-    canvas.drawCircle(const Offset(16.5, 14), 2.8, ribbonPaint);
-    final ribbonTail = Path()
-      ..moveTo(15, 16)
-      ..lineTo(14, 21)
-      ..lineTo(16.5, 19.5)
-      ..lineTo(19, 21)
-      ..lineTo(18, 16)
-      ..close();
-    canvas.drawPath(ribbonTail, ribbonPaint);
+    // Ribbon / Medal at bottom right (Vibrant Golden Accent)
+    canvas.drawCircle(const Offset(16, 14), 2.5, medalFill);
+    final r1 = Path()..moveTo(15, 16)..lineTo(14, 21)..lineTo(16, 19.5)..lineTo(18, 21)..lineTo(17, 16);
+    canvas.drawPath(r1, medalFill);
   }
 
   @override
   bool shouldRepaint(covariant _CertificateAwardPainter oldDelegate) =>
-      oldDelegate.ribbonColor != ribbonColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

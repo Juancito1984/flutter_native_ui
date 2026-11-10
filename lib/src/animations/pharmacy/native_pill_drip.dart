@@ -1,21 +1,18 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Animación nativa de cápsula/píldora levitando con halo de luz para farmacia.
+/// Animación nativa de cápsula con goteo de sustancia activa.
 class NativePillDrip extends StatefulWidget {
   final double size;
-  final Color primaryColor;
-  final Color secondaryColor;
+  final Color? pillColor;
+  final Color? dropColor;
   final Duration duration;
 
   const NativePillDrip({
     super.key,
-    this.size = 56.0,
-    this.primaryColor = const Color(0xFFE91E63),
-    this.secondaryColor = const Color(0xFF00BCD4),
-    this.duration = const Duration(milliseconds: 1500),
+    this.size = 48.0,
+    this.pillColor,
+    this.dropColor,
+    this.duration = const Duration(milliseconds: 2000),
   });
 
   @override
@@ -32,7 +29,7 @@ class _NativePillDripState extends State<NativePillDrip>
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,
-    )..repeat(reverse: true);
+    )..repeat();
   }
 
   @override
@@ -43,22 +40,24 @@ class _NativePillDripState extends State<NativePillDrip>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primaryPill = widget.pillColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFE53935));
+    final activeDrop = widget.dropColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF0288D1));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          final floatY = math.sin(_controller.value * math.pi) * 4.0;
-          final glowScale = 0.8 + (_controller.value * 0.4);
-
           return SizedBox(
             width: widget.size,
             height: widget.size,
             child: CustomPaint(
               painter: _PillDripPainter(
-                floatY: floatY,
-                glowScale: glowScale,
-                primaryColor: widget.primaryColor,
-                secondaryColor: widget.secondaryColor,
+                progress: _controller.value,
+                pillColor: primaryPill,
+                dropColor: activeDrop,
               ),
             ),
           );
@@ -69,16 +68,14 @@ class _NativePillDripState extends State<NativePillDrip>
 }
 
 class _PillDripPainter extends CustomPainter {
-  final double floatY;
-  final double glowScale;
-  final Color primaryColor;
-  final Color secondaryColor;
+  final double progress;
+  final Color pillColor;
+  final Color dropColor;
 
   const _PillDripPainter({
-    required this.floatY,
-    required this.glowScale,
-    required this.primaryColor,
-    required this.secondaryColor,
+    required this.progress,
+    required this.pillColor,
+    required this.dropColor,
   });
 
   @override
@@ -86,49 +83,30 @@ class _PillDripPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    // Glow Halo behind pill
-    final glowPaint = Paint()
-      ..color = primaryColor.withOpacity(0.25 * glowScale)
+    final strokePaint = Paint()
+      ..color = pillColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..isAntiAlias = true;
+
+    // Horizontal Capsule
+    final pillRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(4, 5, 16, 8),
+      const Radius.circular(4),
+    );
+    canvas.drawRRect(pillRRect, strokePaint);
+
+    // Drip Drop Line
+    final dropY = 13.0 + (progress * 8.0);
+    final dropAlpha = (1.0 - progress).clamp(0.0, 1.0);
+    final dropPaint = Paint()
+      ..color = dropColor.withValues(alpha: dropAlpha)
       ..style = PaintingStyle.fill;
-    canvas.drawCircle(const Offset(12, 12), 9 * glowScale, glowPaint);
 
-    final primaryPaint = Paint()
-      ..color = primaryColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final secondaryPaint = Paint()
-      ..color = secondaryColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    // Floating Capsule
-    canvas.save();
-    canvas.translate(12, 12 + (floatY / scale));
-    canvas.rotate(-0.52); // -30 deg
-
-    final leftCap = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        const Rect.fromLTRB(-7, -3.5, 0, 3.5),
-        topLeft: const Radius.circular(3.5),
-        bottomLeft: const Radius.circular(3.5),
-      ));
-    canvas.drawPath(leftCap, primaryPaint);
-
-    final rightCap = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        const Rect.fromLTRB(0, -3.5, 7, 3.5),
-        topRight: const Radius.circular(3.5),
-        bottomRight: const Radius.circular(3.5),
-      ));
-    canvas.drawPath(rightCap, secondaryPaint);
-
-    canvas.restore();
+    canvas.drawCircle(Offset(12.0, dropY), 1.8 * (1.0 - progress * 0.4), dropPaint);
   }
 
   @override
   bool shouldRepaint(covariant _PillDripPainter oldDelegate) =>
-      oldDelegate.floatY != floatY ||
-      oldDelegate.primaryColor != primaryColor ||
-      oldDelegate.secondaryColor != secondaryColor;
+      oldDelegate.progress != progress || oldDelegate.pillColor != pillColor || oldDelegate.dropColor != dropColor;
 }

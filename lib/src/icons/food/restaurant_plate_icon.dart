@@ -1,79 +1,79 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de plato de restaurante con cubiertos (tenedor y cuchillo).
+/// Icono vectorial bi-tonal de plato de restaurante con cubiertos.
 class RestaurantPlateIcon extends StatelessWidget {
   final double size;
-  final Color plateColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const RestaurantPlateIcon({
     super.key,
     this.size = 24.0,
-    this.plateColor = const Color(0xFF009688),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : theme.colorScheme.secondary);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _RestaurantPlatePainter(plateColor: plateColor),
+        painter: _RestaurantPlatePainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _RestaurantPlatePainter extends CustomPainter {
-  final Color plateColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _RestaurantPlatePainter({required this.plateColor});
+  const _RestaurantPlatePainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final platePaint = Paint()
-      ..color = plateColor
+    final plateStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
       ..isAntiAlias = true;
 
-    final cutleryPaint = Paint()
-      ..color = plateColor
-      ..style = PaintingStyle.fill
+    final cutleryStroke = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    // Plate Circle
-    canvas.drawCircle(const Offset(12, 12), 8.5, platePaint);
+    // Plate Circle Outer & Inner
+    canvas.drawCircle(const Offset(12, 12), 8, plateStroke);
+    canvas.drawCircle(const Offset(12, 12), 5, plateStroke..strokeWidth = 1.0);
 
-    // Fork (Left)
-    final forkPath = Path()
-      ..moveTo(2, 4)
-      ..lineTo(2, 20)
-      ..moveTo(0.5, 4)
-      ..lineTo(0.5, 9)
-      ..moveTo(3.5, 4)
-      ..lineTo(3.5, 9);
-    canvas.drawPath(
-      forkPath,
-      Paint()
-        ..color = plateColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.2,
-    );
+    // Fork (Left - Vibrant Cutlery Accent)
+    canvas.drawLine(const Offset(2, 6), const Offset(2, 18), cutleryStroke);
 
-    // Knife (Right)
-    final knifePath = Path()
-      ..moveTo(22, 4)
-      ..cubicTo(20, 6, 20, 12, 22, 12)
-      ..lineTo(22, 20)
-      ..close();
-    canvas.drawPath(knifePath, cutleryPaint);
+    // Knife (Right - Vibrant Cutlery Accent)
+    canvas.drawLine(const Offset(22, 6), const Offset(22, 18), cutleryStroke);
   }
 
   @override
   bool shouldRepaint(covariant _RestaurantPlatePainter oldDelegate) =>
-      oldDelegate.plateColor != plateColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

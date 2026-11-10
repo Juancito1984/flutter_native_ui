@@ -10,6 +10,7 @@ export 'food/food.dart';
 export 'football/football.dart';
 export 'logistics/logistics.dart';
 export 'music/music.dart';
+export 'native_icons.dart';
 export 'payments/payments.dart';
 export 'pharmacy/pharmacy.dart';
 export 'security/security.dart';

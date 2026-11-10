@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de pin de ubicación en mapa.
+/// Icono vectorial bi-tonal de marcador de mapa / ubicación.
 class MapPinIcon extends StatelessWidget {
   final double size;
-  final Color pinColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const MapPinIcon({
     super.key,
     this.size = 24.0,
-    this.pinColor = const Color(0xFFE53935),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFD32F2F));
+    final dotAccent = secondaryColor ?? const Color(0xFFFFFFFF);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _MapPinPainter(pinColor: pinColor),
+        painter: _MapPinPainter(
+          primaryColor: primary,
+          accentColor: dotAccent,
+        ),
       ),
     );
   }
 }
 
 class _MapPinPainter extends CustomPainter {
-  final Color pinColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _MapPinPainter({required this.pinColor});
+  const _MapPinPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,25 +50,24 @@ class _MapPinPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final pinPaint = Paint()
-      ..color = pinColor
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final dotPaint = Paint()..color = Colors.white;
-
-    final path = Path()
+    final pinPath = Path()
       ..moveTo(12, 2)
-      ..cubicTo(7, 2, 4, 6, 4, 10.5)
-      ..cubicTo(4, 16, 12, 22, 12, 22)
-      ..cubicTo(12, 22, 20, 16, 20, 10.5)
-      ..cubicTo(20, 6, 17, 2, 12, 2)
+      ..cubicTo(7.5, 2, 4, 5.5, 4, 10)
+      ..cubicTo(4, 15.5, 12, 22, 12, 22)
+      ..cubicTo(12, 22, 20, 15.5, 20, 10)
+      ..cubicTo(20, 5.5, 16.5, 2, 12, 2)
       ..close();
+    canvas.drawPath(pinPath, pinPaint);
 
-    canvas.drawPath(path, pinPaint);
-    canvas.drawCircle(const Offset(12, 9.5), 3.0, dotPaint);
+    // Center hole
+    canvas.drawCircle(const Offset(12, 9.5), 3.0, Paint()..color = accentColor);
   }
 
   @override
   bool shouldRepaint(covariant _MapPinPainter oldDelegate) =>
-      oldDelegate.pinColor != pinColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

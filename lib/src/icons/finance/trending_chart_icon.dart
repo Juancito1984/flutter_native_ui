@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de gráfica financiera de tendencia ascendente.
+/// Icono vectorial bi-tonal de gráfico financiero ascendente.
 class TrendingChartIcon extends StatelessWidget {
   final double size;
-  final Color chartColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const TrendingChartIcon({
     super.key,
     this.size = 24.0,
-    this.chartColor = const Color(0xFF2E7D32),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF4CAF50));
+    final accent = secondaryColor ?? const Color(0xFF00E676);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _TrendingChartPainter(chartColor: chartColor),
+        painter: _TrendingChartPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _TrendingChartPainter extends CustomPainter {
-  final Color chartColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _TrendingChartPainter({required this.chartColor});
+  const _TrendingChartPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,35 +50,39 @@ class _TrendingChartPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final linePaint = Paint()
-      ..color = chartColor
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.2
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final arrowPaint = Paint()
-      ..color = chartColor
+    final fillPaint = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill;
 
-    // Trend Line
-    final path = Path()
+    // Trending Up Zigzag Path
+    final chartPath = Path()
       ..moveTo(3, 17)
-      ..lineTo(8, 12)
+      ..lineTo(9, 11)
       ..lineTo(13, 15)
-      ..lineTo(21, 6);
-    canvas.drawPath(path, linePaint);
+      ..lineTo(21, 7);
+    canvas.drawPath(chartPath, linePaint);
 
-    // Arrow Head
+    // Arrowhead at top right
     final arrow = Path()
-      ..moveTo(21, 6)
-      ..lineTo(16, 6)
-      ..lineTo(21, 11)
-      ..close();
-    canvas.drawPath(arrow, arrowPaint);
+      ..moveTo(16, 7)
+      ..lineTo(21, 7)
+      ..lineTo(21, 12);
+    canvas.drawPath(arrow, linePaint);
+
+    // Dots at vertices (Vibrant Emerald Accent Fills)
+    canvas.drawCircle(const Offset(3, 17), 1.6, fillPaint);
+    canvas.drawCircle(const Offset(9, 11), 1.6, fillPaint);
+    canvas.drawCircle(const Offset(13, 15), 1.6, fillPaint);
   }
 
   @override
   bool shouldRepaint(covariant _TrendingChartPainter oldDelegate) =>
-      oldDelegate.chartColor != chartColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

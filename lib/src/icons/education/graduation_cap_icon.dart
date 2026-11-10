@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de birrete de graduación para educación.
+/// Icono vectorial bi-tonal de birrete de graduación.
 class GraduationCapIcon extends StatelessWidget {
   final double size;
-  final Color capColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const GraduationCapIcon({
     super.key,
     this.size = 24.0,
-    this.capColor = const Color(0xFF1565C0),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final goldTassel = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _GraduationCapPainter(capColor: capColor),
+        painter: _GraduationCapPainter(
+          primaryColor: primary,
+          accentColor: goldTassel,
+        ),
       ),
     );
   }
 }
 
 class _GraduationCapPainter extends CustomPainter {
-  final Color capColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _GraduationCapPainter({required this.capColor});
+  const _GraduationCapPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,40 +50,50 @@ class _GraduationCapPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final capPaint = Paint()
-      ..color = capColor
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final tasselPaint = Paint()
-      ..color = const Color(0xFFFFB300)
+    final strokePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
 
-    // Diamond Top
+    final tasselPaint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
+
+    // Diamond Cap Top
     final topPath = Path()
-      ..moveTo(12, 4)
-      ..lineTo(22, 9)
-      ..lineTo(12, 14)
-      ..lineTo(2, 9)
+      ..moveTo(12, 3)
+      ..lineTo(22, 8)
+      ..lineTo(12, 13)
+      ..lineTo(2, 8)
       ..close();
     canvas.drawPath(topPath, capPaint);
 
-    // Skull Cap Underneath
-    final skullPath = Path()
-      ..moveTo(6, 11.5)
-      ..lineTo(6, 16)
-      ..cubicTo(6, 19, 18, 19, 18, 16)
-      ..lineTo(18, 11.5)
-      ..cubicTo(18, 14, 6, 14, 6, 11.5)
-      ..close();
-    canvas.drawPath(skullPath, capPaint);
+    // Skull Cap Bottom Base
+    final bottomPath = Path()
+      ..moveTo(6, 10.5)
+      ..lineTo(6, 15)
+      ..cubicTo(6, 18, 18, 18, 18, 15)
+      ..lineTo(18, 10.5);
+    canvas.drawPath(bottomPath, strokePaint);
 
-    // Tassel (Cinta colgante)
-    canvas.drawLine(const Offset(12, 9), const Offset(20, 13), tasselPaint);
-    canvas.drawCircle(const Offset(20, 14.5), 1.0, Paint()..color = const Color(0xFFFFB300));
+    // Tassel Ribbon Line (Vibrant Gold Accent)
+    final tasselPath = Path()
+      ..moveTo(20, 9)
+      ..lineTo(20, 17);
+    canvas.drawPath(tasselPath, tasselPaint);
+    canvas.drawCircle(const Offset(20, 18), 1.2, Paint()..color = accentColor);
   }
 
   @override
   bool shouldRepaint(covariant _GraduationCapPainter oldDelegate) =>
-      oldDelegate.capColor != capColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

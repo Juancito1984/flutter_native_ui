@@ -1,6 +1,6 @@
 # flutter_native_ui_nyk
 
-A complete package of **83 native vector icons** and **32 high-performance Flutter animations (60–120 FPS)**. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies** and full Material 3 light & dark theme adaptability.
+A complete package of **83 native vector icons** and **32 high-performance Flutter animations (60–120 FPS)**. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies**, central IDE autocompletion via **`NativeIcons`** & **`NativeAnimations`**, and full Material 3 light & dark theme adaptability.
 
 [![pub package](https://img.shields.io/pub/v/flutter_native_ui_nyk.svg)](https://pub.dev/packages/flutter_native_ui_nyk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,9 +13,9 @@ A complete package of **83 native vector icons** and **32 high-performance Flutt
 Select your preferred language to access full component documentation, property tables, architecture technical details, and copy-paste code examples:
 
 * 🇪🇸 **[Documentación Completa en Español (`doc/es/`)](doc/es/README.md)**
-  * Guías detalladas de cada icono y animación, tablas de parámetros, optimizaciones en GPU y ejemplos en español.
+  * Guías detalladas de cada icono y animación, catálogo `NativeIcons` / `NativeAnimations`, tablas de parámetros y ejemplos.
 * 🇺🇸 **[Full English Documentation Hub (`doc/en/`)](doc/en/README.md)**
-  * Exhaustive guides for vector icons and animations, properties reference tables, architecture breakdown, and code samples in English.
+  * Exhaustive guides for vector icons and animations, `NativeIcons` / `NativeAnimations` catalog, property tables, and code samples.
 
 ---
 
@@ -33,9 +33,10 @@ Your support is greatly appreciated to keep this project 100% free, open-source,
 ## 🌟 Key Features
 
 - 🚀 **Zero External Dependencies**: Pure native canvas rendering with `CustomPainter` and `AnimationController`.
-- 🎯 **83 Native Vector Icons**: Geometrically drawn and crisp at any resolution across 19 industry categories.
+- 💡 **Central IDE Autocompletion (`NativeIcons` & `NativeAnimations`)**: Instant IntelliSense code completion in Android Studio & VS Code.
+- 🎯 **83 Native Vector Icons**: Geometrically drawn and crisp at any resolution across 19 industry categories with optional `color` & `secondaryColor` bi-tone support.
 - ⚡ **32 Ultra-Smooth Native Animations (60–120 FPS)**: Render layers isolated with `RepaintBoundary` for zero GPU repaint lag.
-- 🌓 **Theme Adaptive**: Automatic support for Flutter light and dark theme color schemes (`ThemeData`).
+- 🌓 **Theme Adaptive**: Automatic bi-tone vivid light mode & sleek high-contrast flat dark mode integration (`ThemeData`).
 - 📦 **19 Industry Categories**: AI & GenAI, Biometrics & Security, Smart Home, Fitness & Sports, Logistics & GPS, Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
 
 ---
@@ -44,8 +45,8 @@ Your support is greatly appreciated to keep this project 100% free, open-source,
 
 | Component / Module | Summary | 🇺🇸 English Docs | 🇪🇸 Documentación ES |
 | :--- | :--- | :--- | :--- |
-| **`Vector Icons`** | 83 native vector icons across 19 industry categories with custom sizing and coloring | [📖 View Docs](doc/en/vector_icons.md) | [📖 Ver Guía](doc/es/vector_icons.md) |
-| **`Native Animations`** | 32 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` | [📖 View Docs](doc/en/native_animations.md) | [📖 Ver Guía](doc/es/native_animations.md) |
+| **`NativeIcons` Catalog** | Access all 83 native vector icons via `NativeIcons.name(...)` with IDE autocompletion | [📖 View Docs](doc/en/vector_icons.md) | [📖 Ver Guía](doc/es/vector_icons.md) |
+| **`NativeAnimations` Catalog** | Access all 32 60–120 FPS native animations via `NativeAnimations.name(...)` with IDE autocompletion | [📖 View Docs](doc/en/native_animations.md) | [📖 Ver Guía](doc/es/native_animations.md) |
 | **`Performance & Architecture`** | Hardware rendering, zero external dependencies, matrix scaling & ThemeData adaptability | [📖 View Docs](doc/en/performance_and_architecture.md) | [📖 Ver Guía](doc/es/performance_and_architecture.md) |
 
 ---
@@ -56,7 +57,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.1.0
+  flutter_native_ui_nyk: ^1.1.1
 ```
 
 Run:
@@ -81,38 +82,39 @@ class QuickDemoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Native UI Demo'),
-        actions: const [
-          SparklesIcon(size: 28),
-          SizedBox(width: 16),
+        actions: [
+          // Access via Central NativeIcons Catalog with IDE autocompletion
+          NativeIcons.sparkles(size: 28),
+          const SizedBox(width: 16),
         ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Vector icons
-            const Row(
+            // IDE Autocomplete Icons (NativeIcons.name)
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BrainAiIcon(size: 40),
-                SizedBox(width: 16),
-                FingerprintScanIcon(size: 40),
-                SizedBox(width: 16),
-                SmartLockIcon(size: 40),
+                NativeIcons.brainAi(size: 40),
+                const SizedBox(width: 16),
+                NativeIcons.fingerprintScan(size: 40, color: Colors.blue, secondaryColor: Colors.amber),
+                const SizedBox(width: 16),
+                NativeIcons.smartLock(size: 40),
               ],
             ),
             const SizedBox(height: 32),
             
-            // Native animations
-            const NativeAiThinkingOrbit(size: 56),
+            // IDE Autocomplete Animations (NativeAnimations.name)
+            NativeAnimations.aiThinkingOrbit(size: 56),
             const SizedBox(height: 16),
-            const NativeCreditCardNfc(width: 64, height: 42),
+            NativeAnimations.creditCardNfc(width: 64, height: 42),
             const SizedBox(height: 32),
 
-            // Interactive Shimmer Button
+            // Shimmer Action Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: NativeShimmerButton(
+              child: NativeAnimations.shimmerButton(
                 text: 'Sign In with Google',
                 onPressed: () {},
               ),

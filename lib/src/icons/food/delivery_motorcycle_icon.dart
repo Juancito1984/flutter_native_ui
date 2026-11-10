@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de motocicleta de delivery/reparto.
+/// Icono vectorial bi-tonal de motocicleta de reparto gastronómico.
 class DeliveryMotorcycleIcon extends StatelessWidget {
   final double size;
-  final Color bikeColor;
-  final Color boxColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const DeliveryMotorcycleIcon({
     super.key,
     this.size = 24.0,
-    this.bikeColor = const Color(0xFF1E88E5),
-    this.boxColor = const Color(0xFFE53935),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final greenAccent = secondaryColor ?? const Color(0xFF00E676);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _DeliveryMotorcyclePainter(
-          bikeColor: bikeColor,
-          boxColor: boxColor,
+          primaryColor: primary,
+          accentColor: greenAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class DeliveryMotorcycleIcon extends StatelessWidget {
 }
 
 class _DeliveryMotorcyclePainter extends CustomPainter {
-  final Color bikeColor;
-  final Color boxColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _DeliveryMotorcyclePainter({
-    required this.bikeColor,
-    required this.boxColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,46 +49,34 @@ class _DeliveryMotorcyclePainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bikePaint = Paint()
-      ..color = bikeColor
-      ..style = PaintingStyle.fill
+    final frameStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final boxPaint = Paint()
-      ..color = boxColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final wheelPaint = Paint()
-      ..color = const Color(0xFF37474F)
+    final boxFill = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill;
 
-    // Delivery Box (Rear)
-    canvas.drawRRect(
-      RRect.fromLTRBR(1, 6, 8, 14, const Radius.circular(1.5)),
-      boxPaint,
-    );
-
-    // Motorcycle Frame & Handlebar
-    final framePaint = Paint()
-      ..color = bikeColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8;
-    canvas.drawLine(const Offset(8, 14), const Offset(16, 12), framePaint);
-    canvas.drawLine(const Offset(16, 12), const Offset(18, 8), framePaint);
-
-    // Body
-    canvas.drawRRect(
-      RRect.fromLTRBR(9, 11, 17, 15, const Radius.circular(2)),
-      bikePaint,
-    );
-
     // Wheels
-    canvas.drawCircle(const Offset(5, 17.5), 3.0, wheelPaint);
-    canvas.drawCircle(const Offset(18, 17.5), 3.0, wheelPaint);
+    canvas.drawCircle(const Offset(6, 17), 3.0, frameStroke);
+    canvas.drawCircle(const Offset(18, 17), 3.0, frameStroke);
+
+    // Frame Body
+    final frame = Path()
+      ..moveTo(6, 17)
+      ..lineTo(10, 12)
+      ..lineTo(16, 12)
+      ..lineTo(18, 17);
+    canvas.drawPath(frame, frameStroke);
+
+    // Delivery Box on Back (Vibrant Emerald Fill Accent)
+    canvas.drawRect(const Rect.fromLTWH(3, 8, 6, 6), boxFill);
   }
 
   @override
   bool shouldRepaint(covariant _DeliveryMotorcyclePainter oldDelegate) =>
-      oldDelegate.bikeColor != bikeColor || oldDelegate.boxColor != boxColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

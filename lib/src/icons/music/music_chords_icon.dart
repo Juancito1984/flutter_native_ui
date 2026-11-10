@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de acordes/diagrama de guitarra o teclado para música.
+/// Icono vectorial bi-tonal de acordes y notas musicales.
 class MusicChordsIcon extends StatelessWidget {
   final double size;
-  final Color gridColor;
-  final Color dotColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const MusicChordsIcon({
     super.key,
     this.size = 24.0,
-    this.gridColor = const Color(0xFF78909C),
-    this.dotColor = const Color(0xFF9C27B0),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final magentaAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE91E63));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _MusicChordsPainter(
-          gridColor: gridColor,
-          dotColor: dotColor,
+          primaryColor: primary,
+          accentColor: magentaAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class MusicChordsIcon extends StatelessWidget {
 }
 
 class _MusicChordsPainter extends CustomPainter {
-  final Color gridColor;
-  final Color dotColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _MusicChordsPainter({
-    required this.gridColor,
-    required this.dotColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,44 +49,35 @@ class _MusicChordsPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final gridPaint = Paint()
-      ..color = gridColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
-      ..isAntiAlias = true;
-
-    final nutPaint = Paint()
-      ..color = gridColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.5
-      ..isAntiAlias = true;
-
-    final dotPaint = Paint()
-      ..color = dotColor
+    final notePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    // Fretboard Grid Nut (Top)
-    canvas.drawLine(const Offset(5, 5), const Offset(19, 5), nutPaint);
+    final stemPaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..isAntiAlias = true;
 
-    // Vertical Strings (4 Cuerdas)
-    canvas.drawLine(const Offset(6, 5), const Offset(6, 20), gridPaint);
-    canvas.drawLine(const Offset(10, 5), const Offset(10, 20), gridPaint);
-    canvas.drawLine(const Offset(14, 5), const Offset(14, 20), gridPaint);
-    canvas.drawLine(const Offset(18, 5), const Offset(18, 20), gridPaint);
+    final beamPaint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..isAntiAlias = true;
 
-    // Horizontal Frets (Trastes)
-    canvas.drawLine(const Offset(5, 10), const Offset(19, 10), gridPaint);
-    canvas.drawLine(const Offset(5, 15), const Offset(19, 15), gridPaint);
-    canvas.drawLine(const Offset(5, 20), const Offset(19, 20), gridPaint);
+    // Double Eighth Note
+    canvas.drawCircle(const Offset(6, 17), 2.5, notePaint);
+    canvas.drawCircle(const Offset(17, 14), 2.5, notePaint);
 
-    // Chord Dots (Posiciones del acorde)
-    canvas.drawCircle(const Offset(10, 7.5), 1.8, dotPaint);
-    canvas.drawCircle(const Offset(14, 12.5), 1.8, dotPaint);
-    canvas.drawCircle(const Offset(18, 12.5), 1.8, dotPaint);
+    canvas.drawLine(const Offset(8.5, 17), const Offset(8.5, 7), stemPaint);
+    canvas.drawLine(const Offset(19.5, 14), const Offset(19.5, 4), stemPaint);
+
+    // Beam connecting the 2 notes (Vibrant Magenta Accent)
+    canvas.drawLine(const Offset(8.5, 7), const Offset(19.5, 4), beamPaint);
   }
 
   @override
   bool shouldRepaint(covariant _MusicChordsPainter oldDelegate) =>
-      oldDelegate.gridColor != gridColor || oldDelegate.dotColor != dotColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

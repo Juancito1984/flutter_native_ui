@@ -1,71 +1,87 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de moneda Bitcoin/Cripto.
+/// Icono vectorial bi-tonal de moneda Bitcoin / Cripto.
 class BitcoinCryptoIcon extends StatelessWidget {
   final double size;
+  final Color? color;
+  final Color? secondaryColor;
 
   const BitcoinCryptoIcon({
     super.key,
     this.size = 24.0,
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFFFB703));
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : theme.colorScheme.secondary);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: const _BitcoinCryptoPainter(),
+        painter: _BitcoinCryptoPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _BitcoinCryptoPainter extends CustomPainter {
-  const _BitcoinCryptoPainter();
+  final Color primaryColor;
+  final Color accentColor;
+
+  const _BitcoinCryptoPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final coinPaint = Paint()
-      ..color = const Color(0xFFFF9100)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final symbolPaint = Paint()
-      ..color = Colors.white
+    final coinStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    // Coin Circle
-    canvas.drawCircle(const Offset(12, 12), 10, coinPaint);
+    final bPaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..isAntiAlias = true;
 
-    // Bitcoin 'B' Symbol
+    // Coin Circle (Vibrant Gold Accent)
+    canvas.drawCircle(const Offset(12, 12), 9, coinStroke);
+
+    // B Symbol
     final bPath = Path()
       ..moveTo(9, 7)
-      ..lineTo(14, 7)
-      ..cubicTo(16, 7, 16, 11, 14, 11)
+      ..lineTo(13.5, 7)
+      ..cubicTo(15.5, 7, 15.5, 11, 13.5, 11)
       ..lineTo(9, 11)
-      ..moveTo(9, 11)
-      ..lineTo(14.5, 11)
-      ..cubicTo(16.5, 11, 16.5, 16, 14, 16)
+      ..lineTo(14, 11)
+      ..cubicTo(16, 11, 16, 16, 13.5, 16)
       ..lineTo(9, 16)
-      ..moveTo(9, 6)
-      ..lineTo(9, 17);
-    canvas.drawPath(bPath, symbolPaint);
+      ..lineTo(9, 7);
+    canvas.drawPath(bPath, bPaint);
 
-    // Vertical double bars
-    canvas.drawLine(const Offset(10.5, 5), const Offset(10.5, 7), symbolPaint);
-    canvas.drawLine(const Offset(13, 5), const Offset(13, 7), symbolPaint);
-    canvas.drawLine(const Offset(10.5, 16), const Offset(10.5, 18), symbolPaint);
-    canvas.drawLine(const Offset(13, 16), const Offset(13, 18), symbolPaint);
+    // Vertical double lines
+    canvas.drawLine(const Offset(10.5, 5), const Offset(10.5, 18), bPaint..strokeWidth = 1.2);
+    canvas.drawLine(const Offset(13, 5), const Offset(13, 18), bPaint..strokeWidth = 1.2);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _BitcoinCryptoPainter oldDelegate) =>
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

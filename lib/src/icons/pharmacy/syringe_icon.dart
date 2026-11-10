@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de jeringa/inyección para salud y farmacia.
+/// Icono vectorial bi-tonal de jeringa de inyección.
 class SyringeIcon extends StatelessWidget {
   final double size;
-  final Color fluidColor;
-  final Color bodyColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const SyringeIcon({
     super.key,
     this.size = 24.0,
-    this.fluidColor = const Color(0xFF00BCD4),
-    this.bodyColor = const Color(0xFF78909C),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final redAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE53935));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _SyringePainter(
-          fluidColor: fluidColor,
-          bodyColor: bodyColor,
+          primaryColor: primary,
+          accentColor: redAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class SyringeIcon extends StatelessWidget {
 }
 
 class _SyringePainter extends CustomPainter {
-  final Color fluidColor;
-  final Color bodyColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _SyringePainter({
-    required this.fluidColor,
-    required this.bodyColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,40 +49,40 @@ class _SyringePainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final mainPaint = Paint()
-      ..color = bodyColor
+    final barrelStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final fluidPaint = Paint()
-      ..color = fluidColor
-      ..style = PaintingStyle.fill
+    final needleStroke = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
     canvas.save();
     canvas.translate(12, 12);
     canvas.rotate(-0.785398); // -45 deg
 
-    // Needle
-    canvas.drawLine(const Offset(-10, 0), const Offset(-5, 0), mainPaint);
+    // Barrel RRect
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(const Rect.fromLTWH(-3, -7, 6, 12), const Radius.circular(1)),
+      barrelStroke,
+    );
 
-    // Barrel Body
-    final barrelRect = RRect.fromLTRBR(-5, -3, 5, 3, const Radius.circular(1));
-    canvas.drawRRect(barrelRect, mainPaint);
+    // Needle Tip Line (Vibrant Crimson Accent)
+    canvas.drawLine(const Offset(0, 5), const Offset(0, 10), needleStroke);
 
-    // Fluid inside barrel
-    final fluidRect = RRect.fromLTRBR(-5, -2, 1, 2, const Radius.circular(0.5));
-    canvas.drawRRect(fluidRect, fluidPaint);
-
-    // Plunger Rod & Push Top
-    canvas.drawLine(const Offset(5, 0), const Offset(9, 0), mainPaint);
-    canvas.drawLine(const Offset(9, -2.5), const Offset(9, 2.5), mainPaint);
+    // Plunger
+    canvas.drawLine(const Offset(0, -7), const Offset(0, -11), barrelStroke);
 
     canvas.restore();
   }
 
   @override
   bool shouldRepaint(covariant _SyringePainter oldDelegate) =>
-      oldDelegate.fluidColor != fluidColor || oldDelegate.bodyColor != bodyColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

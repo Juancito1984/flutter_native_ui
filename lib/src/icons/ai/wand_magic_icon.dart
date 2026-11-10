@@ -1,56 +1,68 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de Varita Mágica / Prompt de IA.
+/// Icono vectorial bi-tonal de Varita Mágica / Prompt de IA.
 class WandMagicIcon extends StatelessWidget {
   final double size;
   final Color? color;
+  final Color? secondaryColor;
 
   const WandMagicIcon({
     super.key,
     this.size = 24.0,
     this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = color ?? Theme.of(context).colorScheme.primary;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final goldAccent = secondaryColor ?? const Color(0xFFFFB703);
 
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _WandMagicIconPainter(color: iconColor),
+        painter: _WandMagicIconPainter(
+          primaryColor: primary,
+          accentColor: goldAccent,
+        ),
       ),
     );
   }
 }
 
 class _WandMagicIconPainter extends CustomPainter {
-  final Color color;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _WandMagicIconPainter({required this.color});
+  const _WandMagicIconPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final strokePaint = Paint()
-      ..color = color
+    final wandPaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final fillPaint = Paint()
-      ..color = color
+    final sparklePaint = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
     // Wand Stick
-    canvas.drawLine(const Offset(4.0, 20.0), const Offset(15.0, 9.0), strokePaint);
+    canvas.drawLine(const Offset(4.0, 20.0), const Offset(15.0, 9.0), wandPaint);
 
     // Sparkle 1 (Top Right Star)
     final p1 = Path()
@@ -60,7 +72,7 @@ class _WandMagicIconPainter extends CustomPainter {
       ..cubicTo(19.0, 7.0, 18.0, 6.0, 16.0, 6.0)
       ..cubicTo(18.0, 6.0, 19.0, 5.0, 19.0, 3.0)
       ..close();
-    canvas.drawPath(p1, fillPaint);
+    canvas.drawPath(p1, sparklePaint);
 
     // Sparkle 2 (Small Sparkle)
     final p2 = Path()
@@ -70,10 +82,10 @@ class _WandMagicIconPainter extends CustomPainter {
       ..cubicTo(9.0, 6.0, 8.0, 5.0, 7.0, 5.0)
       ..cubicTo(8.0, 5.0, 9.0, 4.0, 9.0, 3.0)
       ..close();
-    canvas.drawPath(p2, fillPaint);
+    canvas.drawPath(p2, sparklePaint);
   }
 
   @override
   bool shouldRepaint(covariant _WandMagicIconPainter oldDelegate) =>
-      oldDelegate.color != color;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

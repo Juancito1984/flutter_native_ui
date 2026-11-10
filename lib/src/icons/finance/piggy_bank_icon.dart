@@ -1,79 +1,86 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de alcancía/cerdito de ahorro.
+/// Icono vectorial bi-tonal de alcancía de ahorro.
 class PiggyBankIcon extends StatelessWidget {
   final double size;
-  final Color pigColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const PiggyBankIcon({
     super.key,
     this.size = 24.0,
-    this.pigColor = const Color(0xFFF06292),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFEC407A));
+    final goldAccent = secondaryColor ?? const Color(0xFFFFCA28);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _PiggyBankPainter(pigColor: pigColor),
+        painter: _PiggyBankPainter(
+          primaryColor: primary,
+          accentColor: goldAccent,
+        ),
       ),
     );
   }
 }
 
 class _PiggyBankPainter extends CustomPainter {
-  final Color pigColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _PiggyBankPainter({required this.pigColor});
+  const _PiggyBankPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final pigPaint = Paint()
-      ..color = pigColor
-      ..style = PaintingStyle.fill
+    final strokePaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final detailPaint = Paint()..color = const Color(0xFF37474F);
-    final coinPaint = Paint()..color = const Color(0xFFFFD54F);
+    final eyeFill = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.fill;
 
-    // Coin dropping in
-    canvas.drawCircle(const Offset(12, 4), 2.2, coinPaint);
+    final coinSlotPaint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.2
+      ..strokeCap = StrokeCap.round;
 
-    // Pig Body
-    canvas.drawCircle(const Offset(12, 13), 6.5, pigPaint);
-
-    // Snout
-    canvas.drawRRect(
-      RRect.fromLTRBR(17, 12, 21, 15, const Radius.circular(1.5)),
-      pigPaint,
-    );
-
-    // Ear
-    final earPath = Path()
-      ..moveTo(8, 8)
-      ..lineTo(10, 4)
-      ..lineTo(12, 8)
-      ..close();
-    canvas.drawPath(earPath, pigPaint);
+    // Body Oval
+    canvas.drawOval(const Rect.fromLTWH(4, 7, 16, 12), strokePaint);
 
     // Eye
-    canvas.drawCircle(const Offset(15, 11), 0.8, detailPaint);
+    canvas.drawCircle(const Offset(16, 11), 1.0, eyeFill);
+
+    // Coin slot line (Vibrant Gold Accent)
+    canvas.drawLine(const Offset(10, 7), const Offset(14, 7), coinSlotPaint);
 
     // Legs
-    final legPaint = Paint()
-      ..color = pigColor
-      ..style = PaintingStyle.fill;
-    canvas.drawRect(const Rect.fromLTRB(8, 18, 10, 21), legPaint);
-    canvas.drawRect(const Rect.fromLTRB(14, 18, 16, 21), legPaint);
+    canvas.drawLine(const Offset(7, 18), const Offset(7, 21), strokePaint);
+    canvas.drawLine(const Offset(17, 18), const Offset(17, 21), strokePaint);
   }
 
   @override
   bool shouldRepaint(covariant _PiggyBankPainter oldDelegate) =>
-      oldDelegate.pigColor != pigColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

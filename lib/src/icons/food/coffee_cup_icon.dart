@@ -1,26 +1,37 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de taza de café caliente.
+/// Icono vectorial bi-tonal de taza de café caliente.
 class CoffeeCupIcon extends StatelessWidget {
   final double size;
-  final Color cupColor;
+  final Color? color;
+  final Color? secondaryColor;
+  final Color? cupColor;
 
   const CoffeeCupIcon({
     super.key,
     this.size = 24.0,
-    this.cupColor = const Color(0xFF795548),
+    this.color,
+    this.secondaryColor,
+    this.cupColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeCup = color ?? cupColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF6D4C41));
+    final activeSteam = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFBCAAA4));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _CoffeeCupPainter(cupColor: cupColor),
+        painter: _CoffeeCupPainter(
+          cupColor: activeCup,
+          steamColor: activeSteam,
+        ),
       ),
     );
   }
@@ -28,8 +39,12 @@ class CoffeeCupIcon extends StatelessWidget {
 
 class _CoffeeCupPainter extends CustomPainter {
   final Color cupColor;
+  final Color steamColor;
 
-  const _CoffeeCupPainter({required this.cupColor});
+  const _CoffeeCupPainter({
+    required this.cupColor,
+    required this.steamColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -47,12 +62,12 @@ class _CoffeeCupPainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     final steamPaint = Paint()
-      ..color = cupColor.withOpacity(0.5)
+      ..color = steamColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
+      ..strokeWidth = 1.4
       ..strokeCap = StrokeCap.round;
 
-    // Steam lines
+    // Steam lines (Vibrant Steam Accent)
     final s1 = Path()
       ..moveTo(7, 7)
       ..cubicTo(7, 5, 9, 5, 9, 3);
@@ -80,5 +95,5 @@ class _CoffeeCupPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CoffeeCupPainter oldDelegate) =>
-      oldDelegate.cupColor != cupColor;
+      oldDelegate.cupColor != cupColor || oldDelegate.steamColor != steamColor;
 }

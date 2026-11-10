@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de herramientas de ingeniería (Llave y Martillo cruzados).
+/// Icono vectorial bi-tonal de herramientas cruzadas (llave y martillo).
 class EngineeringToolsIcon extends StatelessWidget {
   final double size;
-  final Color metalColor;
-  final Color handleColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const EngineeringToolsIcon({
     super.key,
     this.size = 24.0,
-    this.metalColor = const Color(0xFF78909C),
-    this.handleColor = const Color(0xFFD84315),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final toolAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB300));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _EngineeringToolsPainter(
-          metalColor: metalColor,
-          handleColor: handleColor,
+          primaryColor: primary,
+          accentColor: toolAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class EngineeringToolsIcon extends StatelessWidget {
 }
 
 class _EngineeringToolsPainter extends CustomPainter {
-  final Color metalColor;
-  final Color handleColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _EngineeringToolsPainter({
-    required this.metalColor,
-    required this.handleColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,54 +49,28 @@ class _EngineeringToolsPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final metalPaint = Paint()
-      ..color = metalColor
-      ..style = PaintingStyle.fill
+    final hammerStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final handlePaint = Paint()
-      ..color = handleColor
-      ..style = PaintingStyle.fill
+    final wrenchStroke = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    // Hammer (Diagonal 1)
-    canvas.save();
-    canvas.translate(12, 12);
-    canvas.rotate(0.785398); // 45 degrees
+    // Hammer Line
+    canvas.drawLine(const Offset(4, 20), const Offset(18, 6), hammerStroke);
 
-    // Hammer handle
-    canvas.drawRRect(
-      RRect.fromLTRBR(-1.2, -8, 1.2, 8, const Radius.circular(1)),
-      handlePaint,
-    );
-    // Hammer head
-    canvas.drawRRect(
-      RRect.fromLTRBR(-4, -9.5, 4, -6.5, const Radius.circular(1)),
-      metalPaint,
-    );
-    canvas.restore();
-
-    // Wrench (Diagonal 2)
-    canvas.save();
-    canvas.translate(12, 12);
-    canvas.rotate(-0.785398); // -45 degrees
-
-    // Wrench handle
-    canvas.drawRRect(
-      RRect.fromLTRBR(-1.2, -8, 1.2, 8, const Radius.circular(1)),
-      metalPaint,
-    );
-    // Wrench top head
-    canvas.drawCircle(const Offset(0, -7.5), 3.2, metalPaint);
-    final cutoutPaint = Paint()
-      ..color = const Color(0x00000000)
-      ..blendMode = BlendMode.clear;
-    canvas.drawRect(const Rect.fromLTRB(-1.2, -10, 1.2, -7), cutoutPaint);
-
-    canvas.restore();
+    // Wrench Line (Vibrant Amber/Gold Accent)
+    canvas.drawLine(const Offset(20, 20), const Offset(6, 6), wrenchStroke);
   }
 
   @override
   bool shouldRepaint(covariant _EngineeringToolsPainter oldDelegate) =>
-      oldDelegate.metalColor != metalColor || oldDelegate.handleColor != handleColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

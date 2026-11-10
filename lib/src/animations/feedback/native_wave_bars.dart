@@ -1,17 +1,17 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Barras de ecualizador de audio / sonido animadas.
+/// Animación nativa de barras de onda de voz/audio oscilantes.
 class NativeWaveBars extends StatefulWidget {
   final double height;
-  final Color? color;
+  final Color? barColor;
   final Duration duration;
 
   const NativeWaveBars({
     super.key,
     this.height = 32.0,
-    this.color,
-    this.duration = const Duration(milliseconds: 800),
+    this.barColor,
+    this.duration = const Duration(milliseconds: 1200),
   });
 
   @override
@@ -28,7 +28,7 @@ class _NativeWaveBarsState extends State<NativeWaveBars>
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,
-    )..repeat(reverse: true);
+    )..repeat();
   }
 
   @override
@@ -39,32 +39,66 @@ class _NativeWaveBarsState extends State<NativeWaveBars>
 
   @override
   Widget build(BuildContext context) {
-    final barColor = widget.color ?? Theme.of(context).colorScheme.primary;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = widget.barColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF0288D1));
 
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(4, (index) {
-              final phase = index * 0.7;
-              final val = math.sin((_controller.value * math.pi) + phase).abs();
-              final currentHeight = math.max(6.0, val * widget.height);
-
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 2.5),
-                width: 4.5,
-                height: currentHeight,
-                decoration: BoxDecoration(
-                  color: barColor,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              );
-            }),
+          return SizedBox(
+            width: widget.height * 2.0,
+            height: widget.height,
+            child: CustomPaint(
+              painter: _WaveBarsPainter(
+                progress: _controller.value,
+                color: activeColor,
+              ),
+            ),
           );
         },
       ),
     );
   }
+}
+
+class _WaveBarsPainter extends CustomPainter {
+  final double progress;
+  final Color color;
+
+  const _WaveBarsPainter({
+    required this.progress,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final barPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+
+    const numBars = 5;
+    final barWidth = size.width / (numBars * 2 - 1);
+
+    for (int i = 0; i < numBars; i++) {
+      final phase = i * 0.4;
+      final hFactor = 0.3 + 0.7 * math.sin((progress * 2 * math.pi) + phase).abs();
+      final barHeight = size.height * hFactor;
+      final x = i * barWidth * 2;
+      final y = (size.height - barHeight) / 2;
+
+      final barRRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, barWidth, barHeight),
+        Radius.circular(barWidth / 2),
+      );
+      canvas.drawRRect(barRRect, barPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _WaveBarsPainter oldDelegate) =>
+      oldDelegate.progress != progress || oldDelegate.color != color;
 }

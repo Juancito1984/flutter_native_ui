@@ -1,61 +1,79 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de gorro de chef.
+/// Icono vectorial bi-tonal de gorro de chef / gastronomía.
 class ChefHatIcon extends StatelessWidget {
   final double size;
-  final Color hatColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const ChefHatIcon({
     super.key,
     this.size = 24.0,
-    this.hatColor = const Color(0xFFECEFF1),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final redAccent = secondaryColor ?? const Color(0xFFD32F2F);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _ChefHatPainter(hatColor: hatColor),
+        painter: _ChefHatPainter(
+          primaryColor: primary,
+          accentColor: redAccent,
+        ),
       ),
     );
   }
 }
 
 class _ChefHatPainter extends CustomPainter {
-  final Color hatColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _ChefHatPainter({required this.hatColor});
+  const _ChefHatPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final hatPaint = Paint()
-      ..color = hatColor
-      ..style = PaintingStyle.fill
+    final hatStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final borderPaint = Paint()
-      ..color = const Color(0xFF78909C)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
+    final bandFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Puff Top
-    canvas.drawCircle(const Offset(12, 8), 5.5, hatPaint);
-    canvas.drawCircle(const Offset(7, 10), 4.5, hatPaint);
-    canvas.drawCircle(const Offset(17, 10), 4.5, hatPaint);
+    // Puff Dome
+    final hatPath = Path()
+      ..moveTo(6, 14)
+      ..cubicTo(3, 12, 3, 7, 7, 6)
+      ..cubicTo(8, 3, 16, 3, 17, 6)
+      ..cubicTo(21, 7, 21, 12, 18, 14)
+      ..close();
+    canvas.drawPath(hatPath, hatStroke);
 
-    // Band Base
-    final bandRect = RRect.fromLTRBR(6, 14, 18, 20, const Radius.circular(1.0));
-    canvas.drawRRect(bandRect, hatPaint);
-    canvas.drawRRect(bandRect, borderPaint);
+    // Band (Vibrant Crimson Accent Fill)
+    canvas.drawRect(const Rect.fromLTWH(6, 14, 12, 5), bandFill);
   }
 
   @override
   bool shouldRepaint(covariant _ChefHatPainter oldDelegate) =>
-      oldDelegate.hatColor != hatColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

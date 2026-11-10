@@ -1,59 +1,72 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de botón Pause/Pausar para música.
+/// Icono vectorial bi-tonal de botón de pausa.
 class PauseControlIcon extends StatelessWidget {
   final double size;
-  final Color color;
+  final Color? color;
+  final Color? secondaryColor;
 
   const PauseControlIcon({
     super.key,
     this.size = 24.0,
-    this.color = const Color(0xFFFF9800),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : theme.colorScheme.secondary);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _PauseControlPainter(color: color),
+        painter: _PauseControlPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _PauseControlPainter extends CustomPainter {
-  final Color color;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _PauseControlPainter({required this.color});
+  const _PauseControlPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bgPaint = Paint()
-      ..color = color.withOpacity(0.15)
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(const Offset(12, 12), 11, bgPaint);
-
-    final pausePaint = Paint()
-      ..color = color
+    final bar1Paint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final bar1 = RRect.fromLTRBR(8, 7.5, 10.5, 16.5, const Radius.circular(1));
-    final bar2 = RRect.fromLTRBR(13.5, 7.5, 16, 16.5, const Radius.circular(1));
+    final bar2Paint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
 
-    canvas.drawRRect(bar1, pausePaint);
-    canvas.drawRRect(bar2, pausePaint);
+    final bar1 = RRect.fromRectAndRadius(const Rect.fromLTWH(5, 4, 4, 16), const Radius.circular(1.5));
+    final bar2 = RRect.fromRectAndRadius(const Rect.fromLTWH(15, 4, 4, 16), const Radius.circular(1.5));
+
+    canvas.drawRRect(bar1, bar1Paint);
+    canvas.drawRRect(bar2, bar2Paint);
   }
 
   @override
   bool shouldRepaint(covariant _PauseControlPainter oldDelegate) =>
-      oldDelegate.color != color;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

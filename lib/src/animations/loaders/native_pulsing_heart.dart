@@ -1,17 +1,15 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 
-/// Corazón latiendo con animación suave de pulso y escala.
+/// Animación nativa de corazón latiente.
 class NativePulsingHeart extends StatefulWidget {
   final double size;
-  final Color color;
+  final Color? color;
   final Duration duration;
 
   const NativePulsingHeart({
     super.key,
-    this.size = 48.0,
-    this.color = const Color(0xFFE53935),
+    this.size = 44.0,
+    this.color,
     this.duration = const Duration(milliseconds: 1000),
   });
 
@@ -19,10 +17,10 @@ class NativePulsingHeart extends StatefulWidget {
   State<NativePulsingHeart> createState() => _NativePulsingHeartState();
 }
 
-
 class _NativePulsingHeartState extends State<NativePulsingHeart>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
 
   @override
   void initState() {
@@ -31,6 +29,10 @@ class _NativePulsingHeartState extends State<NativePulsingHeart>
       vsync: this,
       duration: widget.duration,
     )..repeat(reverse: true);
+
+    _scaleAnimation = Tween<double>(begin: 0.85, end: 1.15).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -41,21 +43,22 @@ class _NativePulsingHeartState extends State<NativePulsingHeart>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final heartColor = widget.color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFE53935));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
-        animation: _controller,
+        animation: _scaleAnimation,
         builder: (context, child) {
-          final scale = 0.88 + (_controller.value * 0.24);
-
           return Transform.scale(
-            scale: scale,
+            scale: _scaleAnimation.value,
             child: SizedBox(
               width: widget.size,
               height: widget.size,
               child: CustomPaint(
-                painter: _HeartPainter(
-                  color: widget.color,
-                ),
+                painter: _HeartPainter(color: heartColor),
               ),
             ),
           );
@@ -82,12 +85,13 @@ class _HeartPainter extends CustomPainter {
 
     final path = Path()
       ..moveTo(12, 21.35)
+      ..lineTo(10.55, 20.03)
       ..cubicTo(5.4, 15.36, 2, 12.28, 2, 8.5)
       ..cubicTo(2, 5.42, 4.42, 3, 7.5, 3)
       ..cubicTo(9.24, 3, 10.91, 3.81, 12, 5.09)
       ..cubicTo(13.09, 3.81, 14.76, 3, 16.5, 3)
       ..cubicTo(19.58, 3, 22, 5.42, 22, 8.5)
-      ..cubicTo(22, 12.28, 18.6, 15.36, 12, 21.35)
+      ..cubicTo(22, 12.28, 18.6, 15.36, 13.45, 20.04)
       ..close();
 
     canvas.drawPath(path, heartPaint);

@@ -1,68 +1,89 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de foco de idea / creatividad.
+/// Icono vectorial bi-tonal de bombilla de idea o conocimiento.
 class IdeaBulbIcon extends StatelessWidget {
   final double size;
-  final Color bulbColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const IdeaBulbIcon({
     super.key,
     this.size = 24.0,
-    this.bulbColor = const Color(0xFFFFC107),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final goldAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _IdeaBulbPainter(bulbColor: bulbColor),
+        painter: _IdeaBulbPainter(
+          primaryColor: primary,
+          accentColor: goldAccent,
+        ),
       ),
     );
   }
 }
 
 class _IdeaBulbPainter extends CustomPainter {
-  final Color bulbColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _IdeaBulbPainter({required this.bulbColor});
+  const _IdeaBulbPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bulbPaint = Paint()
-      ..color = bulbColor
-      ..style = PaintingStyle.fill
+    final strokePaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final basePaint = Paint()
-      ..color = const Color(0xFF78909C)
-      ..style = PaintingStyle.fill;
+    final filamentStroke = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
 
-    // Bulb Glass
+    // Bulb Contour
     final bulbPath = Path()
-      ..moveTo(12, 3)
-      ..cubicTo(7, 3, 5, 7, 5, 11)
-      ..cubicTo(5, 14, 8, 15.5, 9, 17)
-      ..lineTo(15, 17)
-      ..cubicTo(16, 15.5, 19, 14, 19, 11)
-      ..cubicTo(19, 7, 17, 3, 12, 3)
+      ..moveTo(9, 18)
+      ..lineTo(15, 18)
+      ..lineTo(15, 16)
+      ..cubicTo(18, 14, 19, 10, 17, 6.5)
+      ..cubicTo(15, 3, 9, 3, 7, 6.5)
+      ..cubicTo(5, 10, 6, 14, 9, 16)
       ..close();
-    canvas.drawPath(bulbPath, bulbPaint);
+    canvas.drawPath(bulbPath, strokePaint);
 
-    // Screw Base
-    canvas.drawRect(const Rect.fromLTRB(9, 18, 15, 20), basePaint);
-    canvas.drawRRect(
-      RRect.fromLTRBR(10, 20, 14, 22, const Radius.circular(1)),
-      basePaint,
-    );
+    // Socket lines
+    canvas.drawLine(const Offset(10, 20), const Offset(14, 20), strokePaint);
+
+    // Inner filament (Vibrant Gold Accent)
+    final fil = Path()..moveTo(10, 12)..lineTo(12, 9)..lineTo(14, 12);
+    canvas.drawPath(fil, filamentStroke);
   }
 
   @override
   bool shouldRepaint(covariant _IdeaBulbPainter oldDelegate) =>
-      oldDelegate.bulbColor != bulbColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

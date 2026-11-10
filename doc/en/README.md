@@ -1,6 +1,6 @@
 # 📚 English Documentation - flutter_native_ui_nyk
 
-A comprehensive, high-performance Material 3 **Native Vector Icons & 60–120 FPS Animations Suite** for Flutter. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies** and full light & dark theme adaptability.
+A comprehensive, high-performance Material 3 **Native Vector Icons & 60–120 FPS Animations Suite** for Flutter. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies**, central IDE autocompletion via **`NativeIcons`** and **`NativeAnimations`**, and full light & dark theme adaptability.
 
 [![pub package](https://img.shields.io/pub/v/flutter_native_ui_nyk.svg)](https://pub.dev/packages/flutter_native_ui_nyk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,9 +13,10 @@ A comprehensive, high-performance Material 3 **Native Vector Icons & 60–120 FP
 ## 🌟 Key Features
 
 - 🚀 **Zero External Dependencies**: Pure native canvas rendering with `CustomPainter` and `AnimationController` with zero SVG parsing overhead or external fonts.
-- 🎯 **83 Native Vector Icons**: Geometrically drawn and scalable without quality loss across 19 industry categories.
+- 💡 **IDE Autocompletion (`NativeIcons` & `NativeAnimations`)**: Access all components via `NativeIcons.name(...)` and `NativeAnimations.name(...)` with instant IntelliSense code completion.
+- 🎯 **83 Native Vector Icons**: Geometrically drawn and scalable without quality loss across 19 industry categories with optional `color` and `secondaryColor` bi-tone parameters.
 - ⚡ **32 Ultra-Smooth Native Animations (60–120 FPS)**: Isolated rendering layers using `RepaintBoundary` for zero GPU repaint lag.
-- 🌓 **ThemeData Adaptive**: Automatic support for Flutter light and dark theme color schemes.
+- 🌓 **ThemeData Adaptive**: Automatic vivid bi-tone light mode and sleek high-contrast flat dark mode support.
 - 📦 **19 Industry Categories**: AI & GenAI, Biometrics & Security, Smart Home, Fitness & Sports, Logistics & GPS, Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
 
 ---
@@ -26,8 +27,8 @@ Explore the dedicated technical documentation, property tables, and copy-paste c
 
 | Module | Source File | Full Documentation | Summary of Functionality |
 | :--- | :--- | :--- | :--- |
-| **`Vector Icons`** | [`src/icons/`](../../lib/src/icons/) | [📖 Vector Icons Guide](vector_icons.md) | 83 native vector icons categorized into 19 industry groups with `size` and `color` parameters. |
-| **`Native Animations`** | [`src/animations/`](../../lib/src/animations/) | [📖 Native Animations Guide](native_animations.md) | 32 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` and `AnimationController`. |
+| **`NativeIcons`** | [`src/icons/`](../../lib/src/icons/) | [📖 Vector Icons Guide](vector_icons.md) | Catalog of 83 native vector icons categorized into 19 industry groups with IDE autocompletion, `size`, `color`, and `secondaryColor` parameters. |
+| **`NativeAnimations`** | [`src/animations/`](../../lib/src/animations/) | [📖 Native Animations Guide](native_animations.md) | Catalog of 32 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary`, `AnimationController`, `color`, and `duration`. |
 | **`Performance & Architecture`** | [`lib/src/`](../../lib/src/) | [📖 Architecture Guide](performance_and_architecture.md) | GPU layer composition, zero dependencies, matrix vector scaling, and memory lifecycle management. |
 
 ---
@@ -38,7 +39,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.1.0
+  flutter_native_ui_nyk: ^1.1.1
 ```
 
 Run:
@@ -51,20 +52,26 @@ flutter pub get
 
 ## 💻 Quick Code Examples
 
-### 1. Vector Icons Usage
+### 1. Vector Icons Usage via `NativeIcons` Catalog (IDE Autocompletion)
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 
 Widget iconRow() {
-  return const Row(
+  return Row(
     children: [
-      BrainAiIcon(size: 36),
-      FingerprintScanIcon(size: 36),
-      SmartLockIcon(size: 36),
-      DumbbellIcon(size: 36),
-      PackageBoxIcon(size: 36),
+      // 1. Automatic bi-tone theme adaptation:
+      NativeIcons.brainAi(size: 36),
+
+      // 2. Custom primary and secondary colors:
+      NativeIcons.fingerprintScan(
+        size: 36, 
+        color: Colors.blue, 
+        secondaryColor: Colors.amber,
+      ),
+      NativeIcons.smartLock(size: 36),
+      NativeIcons.dumbbell(size: 36),
     ],
   );
 }
@@ -72,18 +79,18 @@ Widget iconRow() {
 
 ---
 
-### 2. Native Animations Usage
+### 2. Native Animations Usage via `NativeAnimations` Catalog (IDE Autocompletion)
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 
 Widget syncWidget() {
-  return const Column(
+  return Column(
     children: [
-      NativeAiThinkingOrbit(size: 64),
-      SizedBox(height: 16),
-      NativeCreditCardNfc(width: 64, height: 42),
+      NativeAnimations.aiThinkingOrbit(size: 64),
+      const SizedBox(height: 16),
+      NativeAnimations.creditCardNfc(width: 64, height: 42),
     ],
   );
 }

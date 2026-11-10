@@ -1,79 +1,83 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de brújula de orientación para viajes.
+/// Icono vectorial bi-tonal de brújula de navegación.
 class CompassIcon extends StatelessWidget {
   final double size;
-  final Color needleNorthColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const CompassIcon({
     super.key,
     this.size = 24.0,
-    this.needleNorthColor = const Color(0xFFE53935),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final needleNorth = secondaryColor ?? const Color(0xFFE53935);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _CompassPainter(needleNorthColor: needleNorthColor),
+        painter: _CompassPainter(
+          primaryColor: primary,
+          accentColor: needleNorth,
+        ),
       ),
     );
   }
 }
 
 class _CompassPainter extends CustomPainter {
-  final Color needleNorthColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _CompassPainter({required this.needleNorthColor});
+  const _CompassPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final rimPaint = Paint()
-      ..color = const Color(0xFF546E7A)
+    final circlePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
-      ..isAntiAlias = true;
+      ..strokeWidth = 1.8;
 
-    final northPaint = Paint()
-      ..color = needleNorthColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final needleNorthPaint = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    final southPaint = Paint()
-      ..color = const Color(0xFFB0BEC5)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final needleSouthPaint = Paint()
+      ..color = primaryColor.withValues(alpha: 0.4)
+      ..style = PaintingStyle.fill;
 
-    // Outer Compass Ring
-    canvas.drawCircle(const Offset(12, 12), 9.5, rimPaint);
+    // Outer Circle
+    canvas.drawCircle(const Offset(12, 12), 9, circlePaint);
 
-    // North Needle (Red Triangle)
-    final northPath = Path()
-      ..moveTo(12, 4)
-      ..lineTo(14.5, 12)
-      ..lineTo(12, 12)
-      ..close();
-    canvas.drawPath(northPath, northPaint);
+    // North Needle (Vibrant Crimson Accent)
+    final n1 = Path()..moveTo(12, 4)..lineTo(15, 12)..lineTo(12, 12)..close();
+    canvas.drawPath(n1, needleNorthPaint);
 
-    // South Needle (Grey Triangle)
-    final southPath = Path()
-      ..moveTo(12, 20)
-      ..lineTo(9.5, 12)
-      ..lineTo(12, 12)
-      ..close();
-    canvas.drawPath(southPath, southPaint);
+    // South Needle
+    final n2 = Path()..moveTo(12, 20)..lineTo(9, 12)..lineTo(12, 12)..close();
+    canvas.drawPath(n2, needleSouthPaint);
 
-    // Center Pivot Dot
-    canvas.drawCircle(const Offset(12, 12), 1.5, rimPaint);
+    // Center pivot
+    canvas.drawCircle(const Offset(12, 12), 1.5, Paint()..color = Colors.white);
   }
 
   @override
   bool shouldRepaint(covariant _CompassPainter oldDelegate) =>
-      oldDelegate.needleNorthColor != needleNorthColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

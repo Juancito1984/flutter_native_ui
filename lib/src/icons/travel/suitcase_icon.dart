@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de maleta de viaje.
+/// Icono vectorial bi-tonal de maleta de equipaje para viajes.
 class SuitcaseIcon extends StatelessWidget {
   final double size;
-  final Color caseColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const SuitcaseIcon({
     super.key,
     this.size = 24.0,
-    this.caseColor = const Color(0xFFF57C00),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _SuitcasePainter(caseColor: caseColor),
+        painter: _SuitcasePainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _SuitcasePainter extends CustomPainter {
-  final Color caseColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _SuitcasePainter({required this.caseColor});
+  const _SuitcasePainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,35 +50,37 @@ class _SuitcasePainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final casePaint = Paint()
-      ..color = caseColor
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
     final handlePaint = Paint()
-      ..color = const Color(0xFF37474F)
+      ..color = accentColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
-      ..isAntiAlias = true;
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
 
-    // Handle
+    // Handle (Vibrant Gold Accent)
     final handlePath = Path()
-      ..moveTo(9, 7)
+      ..moveTo(9, 6)
       ..lineTo(9, 3)
       ..lineTo(15, 3)
-      ..lineTo(15, 7);
+      ..lineTo(15, 6);
     canvas.drawPath(handlePath, handlePaint);
 
-    // Case Body
-    final caseRect = RRect.fromLTRBR(4, 7, 20, 20, const Radius.circular(2.5));
-    canvas.drawRRect(caseRect, casePaint);
+    // Body
+    final bodyRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(3, 6, 18, 14),
+      const Radius.circular(3),
+    );
+    canvas.drawRRect(bodyRRect, casePaint);
 
-    // Wheels
-    final wheelPaint = Paint()..color = const Color(0xFF37474F);
-    canvas.drawCircle(const Offset(7, 20.5), 1.2, wheelPaint);
-    canvas.drawCircle(const Offset(17, 20.5), 1.2, wheelPaint);
+    // Belts/Straps
+    canvas.drawLine(const Offset(8, 6), const Offset(8, 20), Paint()..color = accentColor..strokeWidth = 1.4);
+    canvas.drawLine(const Offset(16, 6), const Offset(16, 20), Paint()..color = accentColor..strokeWidth = 1.4);
   }
 
   @override
   bool shouldRepaint(covariant _SuitcasePainter oldDelegate) =>
-      oldDelegate.caseColor != caseColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

@@ -1,72 +1,74 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de silbato de árbitro de fútbol.
+/// Icono vectorial bi-tonal de silbato de árbitro.
 class RefereeWhistleIcon extends StatelessWidget {
   final double size;
-  final Color whistleColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const RefereeWhistleIcon({
     super.key,
     this.size = 24.0,
-    this.whistleColor = const Color(0xFF78909C),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final goldAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _RefereeWhistlePainter(whistleColor: whistleColor),
+        painter: _RefereeWhistlePainter(
+          primaryColor: primary,
+          accentColor: goldAccent,
+        ),
       ),
     );
   }
 }
 
 class _RefereeWhistlePainter extends CustomPainter {
-  final Color whistleColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _RefereeWhistlePainter({required this.whistleColor});
+  const _RefereeWhistlePainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final mainPaint = Paint()
-      ..color = whistleColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final holePaint = Paint()
-      ..color = const Color(0xFF263238)
+    final bodyFill = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.fill;
 
-    // Lanyard Ring
-    final ringPaint = Paint()
-      ..color = whistleColor
+    final ringStroke = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    canvas.drawCircle(const Offset(4, 12), 2.2, ringPaint);
+      ..strokeWidth = 1.8;
 
-    // Whistle Chamber (Bulb)
-    canvas.drawCircle(const Offset(10, 13), 5, mainPaint);
+    // Whistle Chamber Body
+    canvas.drawCircle(const Offset(8, 13), 5.0, bodyFill);
 
     // Mouthpiece Barrel
-    final barrelPath = Path()
-      ..moveTo(10, 8)
-      ..lineTo(21, 8)
-      ..lineTo(21, 13)
-      ..lineTo(10, 15)
-      ..close();
-    canvas.drawPath(barrelPath, mainPaint);
+    canvas.drawRect(const Rect.fromLTWH(8, 8, 13, 5), bodyFill);
 
-    // Whistle Hole Cutout
-    canvas.drawRect(const Rect.fromLTRB(13, 8.5, 16, 11), holePaint);
+    // Ring Loop (Vibrant Gold Accent)
+    canvas.drawCircle(const Offset(4, 9), 2.0, ringStroke);
   }
 
   @override
   bool shouldRepaint(covariant _RefereeWhistlePainter oldDelegate) =>
-      oldDelegate.whistleColor != whistleColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

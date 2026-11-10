@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial individual de tarjeta amarilla de fútbol.
+/// Icono vectorial bi-tonal de tarjeta amarilla reglamentaria.
 class YellowCardIcon extends StatelessWidget {
   final double size;
+  final Color? color;
+  final Color? secondaryColor;
 
   const YellowCardIcon({
     super.key,
     this.size = 24.0,
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final cardColor = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFFFCA28));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: const _YellowCardPainter(),
+        painter: _YellowCardPainter(cardColor: cardColor),
       ),
     );
   }
 }
 
 class _YellowCardPainter extends CustomPainter {
-  const _YellowCardPainter();
+  final Color cardColor;
+
+  const _YellowCardPainter({required this.cardColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -31,20 +42,17 @@ class _YellowCardPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final cardPaint = Paint()
-      ..color = const Color(0xFFFFD600)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+      ..color = cardColor
+      ..style = PaintingStyle.fill;
 
-    final borderPaint = Paint()
-      ..color = const Color(0xFFF57F17)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    final cardRect = RRect.fromLTRBR(6, 3, 18, 21, const Radius.circular(2.0));
+    final cardRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(6, 3, 12, 18),
+      const Radius.circular(2),
+    );
     canvas.drawRRect(cardRect, cardPaint);
-    canvas.drawRRect(cardRect, borderPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _YellowCardPainter oldDelegate) =>
+      oldDelegate.cardColor != cardColor;
 }

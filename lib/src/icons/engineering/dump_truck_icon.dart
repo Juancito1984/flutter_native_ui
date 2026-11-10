@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de volqueta / camión de volteo de ingeniería.
+/// Icono vectorial bi-tonal de volqueta / camión de volteo para ingeniería.
 class DumpTruckIcon extends StatelessWidget {
   final double size;
-  final Color bedColor;
-  final Color cabinColor;
-  final Color wheelColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const DumpTruckIcon({
     super.key,
     this.size = 24.0,
-    this.bedColor = const Color(0xFFF57C00),
-    this.cabinColor = const Color(0xFFFFB300),
-    this.wheelColor = const Color(0xFF37474F),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final dumpAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB300));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _DumpTruckPainter(
-          bedColor: bedColor,
-          cabinColor: cabinColor,
-          wheelColor: wheelColor,
+          primaryColor: primary,
+          accentColor: dumpAccent,
         ),
       ),
     );
@@ -33,14 +36,12 @@ class DumpTruckIcon extends StatelessWidget {
 }
 
 class _DumpTruckPainter extends CustomPainter {
-  final Color bedColor;
-  final Color cabinColor;
-  final Color wheelColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _DumpTruckPainter({
-    required this.bedColor,
-    required this.cabinColor,
-    required this.wheelColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -48,72 +49,46 @@ class _DumpTruckPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bedPaint = Paint()
-      ..color = bedColor
+    final dumpFill = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final cabinPaint = Paint()
-      ..color = cabinColor
-      ..style = PaintingStyle.fill
+    final cabinStroke = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final wheelPaint = Paint()
-      ..color = wheelColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final rimPaint = Paint()..color = const Color(0xFFECEFF1);
-    final windowPaint = Paint()..color = const Color(0xFF81D4FA);
-
-    // Chassis frame
-    final chassisPaint = Paint()
-      ..color = const Color(0xFF455A64)
+    final wheelFill = Paint()
+      ..color = const Color(0xFF263238)
       ..style = PaintingStyle.fill;
-    canvas.drawRect(const Rect.fromLTRB(2, 15, 22, 17), chassisPaint);
 
-    // Dump Bed (Volqueta)
-    final bedPath = Path()
-      ..moveTo(2, 8)
-      ..lineTo(13, 8)
-      ..lineTo(14, 15)
-      ..lineTo(2, 15)
+    // Dump Container (Vibrant Yellow Industrial Accent)
+    final dumpPath = Path()
+      ..moveTo(2, 7)
+      ..lineTo(13, 7)
+      ..lineTo(13, 14)
+      ..lineTo(4, 14)
       ..close();
-    canvas.drawPath(bedPath, bedPaint);
+    canvas.drawPath(dumpPath, dumpFill);
 
     // Cabin
     final cabinPath = Path()
-      ..moveTo(15, 15)
-      ..lineTo(15, 10)
+      ..moveTo(14, 9)
       ..lineTo(19, 10)
-      ..lineTo(22, 13)
-      ..lineTo(22, 15)
+      ..lineTo(21, 14)
+      ..lineTo(14, 14)
       ..close();
-    canvas.drawPath(cabinPath, cabinPaint);
-
-    // Cabin Window
-    final windowPath = Path()
-      ..moveTo(17, 11)
-      ..lineTo(19, 11)
-      ..lineTo(21, 13)
-      ..lineTo(17, 13)
-      ..close();
-    canvas.drawPath(windowPath, windowPaint);
+    canvas.drawPath(cabinPath, cabinStroke);
 
     // Wheels
-    canvas.drawCircle(const Offset(6, 17.5), 2.8, wheelPaint);
-    canvas.drawCircle(const Offset(6, 17.5), 1.2, rimPaint);
-
-    canvas.drawCircle(const Offset(11, 17.5), 2.8, wheelPaint);
-    canvas.drawCircle(const Offset(11, 17.5), 1.2, rimPaint);
-
-    canvas.drawCircle(const Offset(18.5, 17.5), 2.8, wheelPaint);
-    canvas.drawCircle(const Offset(18.5, 17.5), 1.2, rimPaint);
+    canvas.drawCircle(const Offset(6, 16.5), 2.2, wheelFill);
+    canvas.drawCircle(const Offset(17, 16.5), 2.2, wheelFill);
   }
 
   @override
   bool shouldRepaint(covariant _DumpTruckPainter oldDelegate) =>
-      oldDelegate.bedColor != bedColor ||
-      oldDelegate.cabinColor != cabinColor ||
-      oldDelegate.wheelColor != wheelColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

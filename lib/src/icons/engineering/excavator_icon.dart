@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de maquinaria pesada / excavadora de ingeniería.
+/// Icono vectorial bi-tonal de excavadora para construcción e ingeniería.
 class ExcavatorIcon extends StatelessWidget {
   final double size;
-  final Color bodyColor;
-  final Color trackColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const ExcavatorIcon({
     super.key,
     this.size = 24.0,
-    this.bodyColor = const Color(0xFFFFB300),
-    this.trackColor = const Color(0xFF37474F),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final yellowAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB300));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _ExcavatorPainter(
-          bodyColor: bodyColor,
-          trackColor: trackColor,
+          primaryColor: primary,
+          accentColor: yellowAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class ExcavatorIcon extends StatelessWidget {
 }
 
 class _ExcavatorPainter extends CustomPainter {
-  final Color bodyColor;
-  final Color trackColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _ExcavatorPainter({
-    required this.bodyColor,
-    required this.trackColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,71 +49,40 @@ class _ExcavatorPainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final trackPaint = Paint()
-      ..color = trackColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final bodyPaint = Paint()
-      ..color = bodyColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final armPaint = Paint()
-      ..color = trackColor
+    final armStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final windowPaint = Paint()
-      ..color = const Color(0xFF81D4FA)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final cabinFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Track (Base)
-    final trackRRect = RRect.fromLTRBR(2, 17, 14, 21, const Radius.circular(2.5));
-    canvas.drawRRect(trackRRect, trackPaint);
+    // Track Base
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(const Rect.fromLTWH(2, 16, 14, 5), const Radius.circular(2.5)),
+      Paint()..color = primaryColor..style = PaintingStyle.stroke..strokeWidth = 1.8,
+    );
 
-    // Track wheels
-    final wheelPaint = Paint()..color = const Color(0xFFCFD8DC);
-    canvas.drawCircle(const Offset(4.5, 19), 1.2, wheelPaint);
-    canvas.drawCircle(const Offset(8, 19), 1.2, wheelPaint);
-    canvas.drawCircle(const Offset(11.5, 19), 1.2, wheelPaint);
+    // Cabin (Vibrant Yellow Industrial Accent)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(const Rect.fromLTWH(5, 10, 8, 6), const Radius.circular(1.5)),
+      cabinFill,
+    );
 
-    // Cabin Body
-    final cabinPath = Path()
-      ..moveTo(3, 17)
-      ..lineTo(3, 10)
-      ..lineTo(11, 10)
-      ..lineTo(13, 13)
-      ..lineTo(13, 17)
-      ..close();
-    canvas.drawPath(cabinPath, bodyPaint);
-
-    // Cabin Window
-    final windowRect = RRect.fromLTRBR(7, 11, 11.5, 14.5, const Radius.circular(1));
-    canvas.drawRRect(windowRect, windowPaint);
-
-    // Boom Arm & Dipper
+    // Mechanical Arm Lines
     final armPath = Path()
-      ..moveTo(11, 13)
-      ..lineTo(16, 7)
-      ..lineTo(21, 12);
-    canvas.drawPath(armPath, armPaint);
-
-    // Bucket
-    final bucketPath = Path()
-      ..moveTo(20, 11)
-      ..lineTo(23, 14)
-      ..lineTo(21, 17)
-      ..lineTo(19, 15)
-      ..close();
-    canvas.drawPath(bucketPath, bodyPaint);
+      ..moveTo(11, 11)
+      ..lineTo(16, 4)
+      ..lineTo(21, 9)
+      ..lineTo(22, 14);
+    canvas.drawPath(armPath, armStroke);
   }
 
   @override
   bool shouldRepaint(covariant _ExcavatorPainter oldDelegate) =>
-      oldDelegate.bodyColor != bodyColor || oldDelegate.trackColor != trackColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

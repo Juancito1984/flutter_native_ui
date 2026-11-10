@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de etiqueta de oferta/descuento.
+/// Icono vectorial bi-tonal de etiqueta de descuento.
 class TagDiscountIcon extends StatelessWidget {
   final double size;
-  final Color tagColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const TagDiscountIcon({
     super.key,
     this.size = 24.0,
-    this.tagColor = const Color(0xFFE53935),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final goldAccent = secondaryColor ?? const Color(0xFFFFB703);
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _TagDiscountPainter(tagColor: tagColor),
+        painter: _TagDiscountPainter(
+          primaryColor: primary,
+          accentColor: goldAccent,
+        ),
       ),
     );
   }
 }
 
 class _TagDiscountPainter extends CustomPainter {
-  final Color tagColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _TagDiscountPainter({required this.tagColor});
+  const _TagDiscountPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,33 +50,34 @@ class _TagDiscountPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final tagPaint = Paint()
-      ..color = tagColor
-      ..style = PaintingStyle.fill
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
-
-    final holePaint = Paint()..color = Colors.white;
 
     canvas.save();
     canvas.translate(12, 12);
     canvas.rotate(-0.785398); // -45 deg
 
-    // Tag Shape
+    // Tag Polygon
     final tagPath = Path()
-      ..moveTo(-9, -4)
+      ..moveTo(-8, -4)
       ..lineTo(2, -4)
-      ..lineTo(9, 0)
-      ..lineTo(2, 4)
-      ..lineTo(-9, 4)
+      ..lineTo(8, 2)
+      ..lineTo(2, 8)
+      ..lineTo(-8, 8)
       ..close();
     canvas.drawPath(tagPath, tagPaint);
 
-    // Tag Hole
-    canvas.drawCircle(const Offset(-6, 0), 1.5, holePaint);
+    // Tag Hole (Vibrant Gold Accent)
+    canvas.drawCircle(const Offset(-4, 2), 1.6, Paint()..color = accentColor);
 
     canvas.restore();
   }
 
   @override
   bool shouldRepaint(covariant _TagDiscountPainter oldDelegate) =>
-      oldDelegate.tagColor != tagColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

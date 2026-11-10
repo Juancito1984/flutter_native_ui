@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de estetoscopio médico para salud y farmacia.
+/// Icono vectorial bi-tonal de estetoscopio médico.
 class StethoscopeIcon extends StatelessWidget {
   final double size;
-  final Color tubeColor;
-  final Color bellColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const StethoscopeIcon({
     super.key,
     this.size = 24.0,
-    this.tubeColor = const Color(0xFF1E88E5),
-    this.bellColor = const Color(0xFF78909C),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final cyanAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF0288D1));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _StethoscopePainter(
-          tubeColor: tubeColor,
-          bellColor: bellColor,
+          primaryColor: primary,
+          accentColor: cyanAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class StethoscopeIcon extends StatelessWidget {
 }
 
 class _StethoscopePainter extends CustomPainter {
-  final Color tubeColor;
-  final Color bellColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _StethoscopePainter({
-    required this.tubeColor,
-    required this.bellColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,43 +49,34 @@ class _StethoscopePainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final tubePaint = Paint()
-      ..color = tubeColor
+    final tubeStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
+      ..strokeWidth = 1.8
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final bellPaint = Paint()
-      ..color = bellColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final discFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Earpieces & U-Tube
-    final uPath = Path()
-      ..moveTo(6, 3)
-      ..lineTo(6, 9)
-      ..cubicTo(6, 15, 18, 15, 18, 9)
-      ..lineTo(18, 3);
-    canvas.drawPath(uPath, tubePaint);
+    // Ear Tubes Arc
+    final tubes = Path()
+      ..moveTo(6, 4)
+      ..lineTo(6, 10)
+      ..cubicTo(6, 16, 18, 16, 18, 10)
+      ..lineTo(18, 4);
+    canvas.drawPath(tubes, tubeStroke);
 
-    // Flexible Tube & Chestpiece extension
-    final flexPath = Path()
-      ..moveTo(12, 12)
-      ..cubicTo(12, 18, 17, 21, 17, 16);
-    canvas.drawPath(flexPath, tubePaint);
+    // Earpieces
+    canvas.drawCircle(const Offset(6, 4), 1.2, discFill);
+    canvas.drawCircle(const Offset(18, 4), 1.2, discFill);
 
-    // Earpiece Tips
-    canvas.drawCircle(const Offset(6, 3), 1.2, bellPaint);
-    canvas.drawCircle(const Offset(18, 3), 1.2, bellPaint);
-
-    // Chestpiece Bell
-    canvas.drawCircle(const Offset(17, 16), 2.8, bellPaint);
-    final inner = Paint()..color = const Color(0xFFECEFF1);
-    canvas.drawCircle(const Offset(17, 16), 1.2, inner);
+    // Chest Piece Disc (Vibrant Cyan Accent)
+    canvas.drawCircle(const Offset(12, 19), 2.5, discFill);
   }
 
   @override
   bool shouldRepaint(covariant _StethoscopePainter oldDelegate) =>
-      oldDelegate.tubeColor != tubeColor || oldDelegate.bellColor != bellColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

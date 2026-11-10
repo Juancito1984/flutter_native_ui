@@ -1,15 +1,17 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Animación nativa de balón de fútbol rebotando con sombra dinámica.
+/// Animación nativa de Balón de Fútbol Rebotando con Física de Sombra.
 class NativeSoccerBallBounce extends StatefulWidget {
   final double size;
+  final Color? ballColor;
   final Duration duration;
 
   const NativeSoccerBallBounce({
     super.key,
-    this.size = 56.0,
-    this.duration = const Duration(milliseconds: 900),
+    this.size = 48.0,
+    this.ballColor,
+    this.duration = const Duration(milliseconds: 1000),
   });
 
   @override
@@ -19,8 +21,6 @@ class NativeSoccerBallBounce extends StatefulWidget {
 class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _bounceAnimation;
-  late final Animation<double> _shadowAnimation;
 
   @override
   void initState() {
@@ -29,16 +29,6 @@ class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
       vsync: this,
       duration: widget.duration,
     )..repeat(reverse: true);
-
-    _bounceAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutQuad,
-    );
-
-    _shadowAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInQuad,
-    );
   }
 
   @override
@@ -49,12 +39,17 @@ class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final color = widget.ballColor ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
-          final bounceY = (1.0 - _bounceAnimation.value) * (widget.size * 0.45);
-          final shadowScale = 0.3 + (_shadowAnimation.value * 0.7);
+          final t = _controller.value;
+          final bounceY = (1.0 - math.sin(t * math.pi / 2)) * (widget.size * 0.4);
 
           return SizedBox(
             width: widget.size,
@@ -62,8 +57,8 @@ class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
             child: CustomPaint(
               painter: _SoccerBallBouncePainter(
                 bounceY: bounceY,
-                shadowScale: shadowScale,
-                rotationAngle: _controller.value * math.pi,
+                bounceProgress: t,
+                color: color,
               ),
             ),
           );
@@ -75,77 +70,53 @@ class _NativeSoccerBallBounceState extends State<NativeSoccerBallBounce>
 
 class _SoccerBallBouncePainter extends CustomPainter {
   final double bounceY;
-  final double shadowScale;
-  final double rotationAngle;
+  final double bounceProgress;
+  final Color color;
 
   const _SoccerBallBouncePainter({
     required this.bounceY,
-    required this.shadowScale,
-    required this.rotationAngle,
+    required this.bounceProgress,
+    required this.color,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final scale = size.width / 24.0;
-    canvas.scale(scale, scale);
+    final radius = size.width * 0.3;
+    final centerX = size.width / 2;
+    final groundY = size.height - radius - 2;
 
-    // Dynamic Ground Shadow
+    // Shadow on Ground
+    final shadowScale = 0.5 + (1.0 - bounceProgress) * 0.5;
     final shadowPaint = Paint()
-      ..color = const Color(0x33000000)
+      ..color = Colors.black.withValues(alpha: 0.2 * shadowScale)
       ..style = PaintingStyle.fill;
-    final shadowWidth = 7.0 * shadowScale;
     canvas.drawOval(
-      Rect.fromCenter(
-        center: const Offset(12, 22),
-        width: shadowWidth,
-        height: 2.2,
-      ),
+      Rect.fromCenter(center: Offset(centerX, size.height - 4), width: radius * 2 * shadowScale, height: 4),
       shadowPaint,
     );
 
-    // Ball translated by bounceY
-    canvas.save();
-    canvas.translate(12, 8 + (bounceY / scale));
-    canvas.rotate(rotationAngle);
-
-    final ballPaint = Paint()
-      ..color = const Color(0xFFECEFF1)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final patchPaint = Paint()
-      ..color = const Color(0xFF263238)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final borderPaint = Paint()
-      ..color = const Color(0xFF263238)
+    // Ball
+    final ballCenterY = groundY - bounceY;
+    final ballStroke = Paint()
+      ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.8
+      ..strokeWidth = 2.0
       ..isAntiAlias = true;
 
-    canvas.drawCircle(Offset.zero, 6, ballPaint);
-    canvas.drawCircle(Offset.zero, 6, borderPaint);
+    canvas.drawCircle(Offset(centerX, ballCenterY), radius, ballStroke);
 
-    // Center pentagon patch
-    final path = Path();
-    for (int i = 0; i < 5; i++) {
-      final angle = (i * 72 - 90) * math.pi / 180;
-      final x = 2.4 * math.cos(angle);
-      final y = 2.4 * math.sin(angle);
-      if (i == 0) {
-        path.moveTo(x, y);
-      } else {
-        path.lineTo(x, y);
-      }
-    }
-    path.close();
-    canvas.drawPath(path, patchPaint);
-
-    canvas.restore();
+    // Inner Pentagon
+    final penta = Path()
+      ..moveTo(centerX, ballCenterY - radius * 0.4)
+      ..lineTo(centerX + radius * 0.3, ballCenterY - radius * 0.1)
+      ..lineTo(centerX + radius * 0.2, ballCenterY + radius * 0.3)
+      ..lineTo(centerX - radius * 0.2, ballCenterY + radius * 0.3)
+      ..lineTo(centerX - radius * 0.3, ballCenterY - radius * 0.1)
+      ..close();
+    canvas.drawPath(penta, Paint()..color = color..style = PaintingStyle.fill);
   }
 
   @override
   bool shouldRepaint(covariant _SoccerBallBouncePainter oldDelegate) =>
-      oldDelegate.bounceY != bounceY || oldDelegate.rotationAngle != rotationAngle;
+      oldDelegate.bounceY != bounceY || oldDelegate.color != color;
 }

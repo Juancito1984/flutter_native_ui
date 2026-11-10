@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial individual de tarjeta roja de fútbol.
+/// Icono vectorial bi-tonal de tarjeta roja de expulsión.
 class RedCardIcon extends StatelessWidget {
   final double size;
+  final Color? color;
+  final Color? secondaryColor;
 
   const RedCardIcon({
     super.key,
     this.size = 24.0,
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final cardColor = color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFD32F2F));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: const _RedCardPainter(),
+        painter: _RedCardPainter(cardColor: cardColor),
       ),
     );
   }
 }
 
 class _RedCardPainter extends CustomPainter {
-  const _RedCardPainter();
+  final Color cardColor;
+
+  const _RedCardPainter({required this.cardColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -31,20 +42,17 @@ class _RedCardPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final cardPaint = Paint()
-      ..color = const Color(0xFFD50000)
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+      ..color = cardColor
+      ..style = PaintingStyle.fill;
 
-    final borderPaint = Paint()
-      ..color = const Color(0xFF900000)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    final cardRect = RRect.fromLTRBR(6, 3, 18, 21, const Radius.circular(2.0));
+    final cardRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(6, 3, 12, 18),
+      const Radius.circular(2),
+    );
     canvas.drawRRect(cardRect, cardPaint);
-    canvas.drawRRect(cardRect, borderPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _RedCardPainter oldDelegate) =>
+      oldDelegate.cardColor != cardColor;
 }

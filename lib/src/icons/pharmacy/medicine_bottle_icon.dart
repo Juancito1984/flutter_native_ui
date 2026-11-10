@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de frasco/jarabe de medicina con etiqueta.
+/// Icono vectorial bi-tonal de frasco de medicina.
 class MedicineBottleIcon extends StatelessWidget {
   final double size;
-  final Color bottleColor;
-  final Color capColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const MedicineBottleIcon({
     super.key,
     this.size = 24.0,
-    this.bottleColor = const Color(0xFF009688),
-    this.capColor = const Color(0xFF004D40),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final redAccent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFE53935));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
         painter: _MedicineBottlePainter(
-          bottleColor: bottleColor,
-          capColor: capColor,
+          primaryColor: primary,
+          accentColor: redAccent,
         ),
       ),
     );
@@ -30,12 +36,12 @@ class MedicineBottleIcon extends StatelessWidget {
 }
 
 class _MedicineBottlePainter extends CustomPainter {
-  final Color bottleColor;
-  final Color capColor;
+  final Color primaryColor;
+  final Color accentColor;
 
   const _MedicineBottlePainter({
-    required this.bottleColor,
-    required this.capColor,
+    required this.primaryColor,
+    required this.accentColor,
   });
 
   @override
@@ -43,42 +49,36 @@ class _MedicineBottlePainter extends CustomPainter {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final bottlePaint = Paint()
-      ..color = bottleColor
-      ..style = PaintingStyle.fill
+    final strokePaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final capPaint = Paint()
-      ..color = capColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
-
-    final labelPaint = Paint()..color = const Color(0xFFFFFFFF);
-    final crossPaint = Paint()..color = const Color(0xFFE53935);
+    final crossFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
     // Cap
     canvas.drawRRect(
-      RRect.fromLTRBR(8, 3, 16, 6, const Radius.circular(1.0)),
-      capPaint,
+      RRect.fromRectAndRadius(const Rect.fromLTWH(7, 3, 10, 3), const Radius.circular(1)),
+      crossFill,
     );
 
-    // Neck
-    canvas.drawRect(const Rect.fromLTRB(9.5, 6, 14.5, 8), capPaint);
+    // Bottle Body RRect
+    final bodyRRect = RRect.fromRectAndRadius(
+      const Rect.fromLTWH(5, 6, 14, 15),
+      const Radius.circular(3),
+    );
+    canvas.drawRRect(bodyRRect, strokePaint);
 
-    // Bottle Body
-    final bodyRect = RRect.fromLTRBR(6, 8, 18, 21, const Radius.circular(2.5));
-    canvas.drawRRect(bodyRect, bottlePaint);
-
-    // White Label
-    final labelRect = RRect.fromLTRBR(8, 11, 16, 18, const Radius.circular(1.0));
-    canvas.drawRRect(labelRect, labelPaint);
-
-    // Mini Red Cross on Label
-    canvas.drawRect(const Rect.fromLTRB(11.3, 12.5, 12.7, 16.5), crossPaint);
-    canvas.drawRect(const Rect.fromLTRB(10, 13.8, 14, 15.2), crossPaint);
+    // Plus Cross Label (Vibrant Crimson Accent)
+    canvas.drawRect(const Rect.fromLTWH(11.2, 11, 1.6, 5), crossFill);
+    canvas.drawRect(const Rect.fromLTWH(9.5, 12.7, 5, 1.6), crossFill);
   }
 
   @override
   bool shouldRepaint(covariant _MedicineBottlePainter oldDelegate) =>
-      oldDelegate.bottleColor != bottleColor || oldDelegate.capColor != capColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// Animación nativa de cruz de error.
+/// Animación nativa de cruz de error (Error Cross).
 class NativeErrorCross extends StatefulWidget {
   final double size;
-  final Color color;
+  final Color? color;
   final Duration duration;
 
   const NativeErrorCross({
     super.key,
     this.size = 56.0,
-    this.color = const Color(0xFFC62828),
-    this.duration = const Duration(milliseconds: 900),
+    this.color,
+    this.duration = const Duration(milliseconds: 1000),
   });
 
   @override
@@ -38,6 +38,11 @@ class _NativeErrorCrossState extends State<NativeErrorCross>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final crossColor = widget.color ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFFE53935));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -48,7 +53,7 @@ class _NativeErrorCrossState extends State<NativeErrorCross>
             child: CustomPaint(
               painter: _ErrorCrossPainter(
                 progress: _controller.value,
-                color: widget.color,
+                color: crossColor,
               ),
             ),
           );
@@ -72,6 +77,7 @@ class _ErrorCrossPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 - 4;
 
+    // Círculo de fondo con animación
     final circlePaint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
@@ -87,9 +93,8 @@ class _ErrorCrossPainter extends CustomPainter {
       circlePaint,
     );
 
-    if (progress > 0.5) {
-      final crossProgress = ((progress - 0.5) / 0.5).clamp(0.0, 1.0);
-
+    // Cruz trazada progresivamente
+    if (progress > 0.4) {
       final crossPaint = Paint()
         ..color = color
         ..style = PaintingStyle.stroke
@@ -97,27 +102,33 @@ class _ErrorCrossPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round
         ..isAntiAlias = true;
 
-      final start1 = Offset(size.width * 0.32, size.height * 0.32);
-      final end1 = Offset(size.width * 0.68, size.height * 0.68);
-      final start2 = Offset(size.width * 0.68, size.height * 0.32);
-      final end2 = Offset(size.width * 0.32, size.height * 0.68);
+      final p1 = Offset(size.width * 0.32, size.height * 0.32);
+      final p2 = Offset(size.width * 0.68, size.height * 0.68);
 
-      final p1 = Path()
-        ..moveTo(start1.dx, start1.dy)
-        ..lineTo(
-          start1.dx + (end1.dx - start1.dx) * crossProgress,
-          start1.dy + (end1.dy - start1.dy) * crossProgress,
+      final p3 = Offset(size.width * 0.68, size.height * 0.32);
+      final p4 = Offset(size.width * 0.32, size.height * 0.68);
+
+      final stroke1Progress = ((progress - 0.4) / 0.3).clamp(0.0, 1.0);
+      canvas.drawLine(
+        p1,
+        Offset(
+          p1.dx + (p2.dx - p1.dx) * stroke1Progress,
+          p1.dy + (p2.dy - p1.dy) * stroke1Progress,
+        ),
+        crossPaint,
+      );
+
+      if (progress > 0.7) {
+        final stroke2Progress = ((progress - 0.7) / 0.3).clamp(0.0, 1.0);
+        canvas.drawLine(
+          p3,
+          Offset(
+            p3.dx + (p4.dx - p3.dx) * stroke2Progress,
+            p3.dy + (p4.dy - p3.dy) * stroke2Progress,
+          ),
+          crossPaint,
         );
-
-      final p2 = Path()
-        ..moveTo(start2.dx, start2.dy)
-        ..lineTo(
-          start2.dx + (end2.dx - start2.dx) * crossProgress,
-          start2.dy + (end2.dy - start2.dy) * crossProgress,
-        );
-
-      canvas.drawPath(p1, crossPaint);
-      canvas.drawPath(p2, crossPaint);
+      }
     }
   }
 

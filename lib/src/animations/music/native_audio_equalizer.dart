@@ -1,18 +1,18 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Animación nativa de ecualizador de audio / ondas musicales.
+/// Animación nativa de ecualizador de música de 4 barras.
 class NativeAudioEqualizer extends StatefulWidget {
   final double width;
   final double height;
-  final Color activeColor;
+  final Color? barColor;
   final Duration duration;
 
   const NativeAudioEqualizer({
     super.key,
     this.width = 48.0,
     this.height = 36.0,
-    this.activeColor = const Color(0xFFE91E63),
+    this.barColor,
     this.duration = const Duration(milliseconds: 1200),
   });
 
@@ -41,6 +41,11 @@ class _NativeAudioEqualizerState extends State<NativeAudioEqualizer>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = widget.barColor ?? (isDark ? theme.colorScheme.onSurface : const Color(0xFF1E88E5));
+
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -51,7 +56,7 @@ class _NativeAudioEqualizerState extends State<NativeAudioEqualizer>
             child: CustomPaint(
               painter: _AudioEqualizerPainter(
                 progress: _controller.value,
-                activeColor: widget.activeColor,
+                barColor: activeColor,
               ),
             ),
           );
@@ -63,42 +68,39 @@ class _NativeAudioEqualizerState extends State<NativeAudioEqualizer>
 
 class _AudioEqualizerPainter extends CustomPainter {
   final double progress;
-  final Color activeColor;
+  final Color barColor;
 
   const _AudioEqualizerPainter({
     required this.progress,
-    required this.activeColor,
+    required this.barColor,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    const numBars = 5;
-    final barWidth = size.width / (numBars * 2 - 1);
-    final maxHeight = size.height;
-
-    final paint = Paint()
-      ..color = activeColor
+    final barPaint = Paint()
+      ..color = barColor
       ..style = PaintingStyle.fill
-      ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
+    const numBars = 4;
+    final barWidth = size.width / (numBars * 2 - 1);
+
     for (int i = 0; i < numBars; i++) {
-      final phase = i * 0.4;
-      final wave = (math.sin((progress * 2 * math.pi) + phase) + 1) / 2;
-      final barHeight = math.max(maxHeight * 0.18, maxHeight * wave);
+      final phase = i * 0.5;
+      final hFactor = 0.2 + 0.8 * math.sin((progress * 2 * math.pi) + phase).abs();
+      final barHeight = size.height * hFactor;
+      final x = i * barWidth * 2;
+      final y = size.height - barHeight;
 
-      final left = i * (barWidth * 2);
-      final top = maxHeight - barHeight;
-
-      final rrect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(left, top, barWidth, barHeight),
+      final barRRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, barWidth, barHeight),
         Radius.circular(barWidth / 2),
       );
-      canvas.drawRRect(rrect, paint);
+      canvas.drawRRect(barRRect, barPaint);
     }
   }
 
   @override
   bool shouldRepaint(covariant _AudioEqualizerPainter oldDelegate) =>
-      oldDelegate.progress != progress || oldDelegate.activeColor != activeColor;
+      oldDelegate.progress != progress || oldDelegate.barColor != barColor;
 }

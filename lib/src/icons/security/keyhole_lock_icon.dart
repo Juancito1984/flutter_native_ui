@@ -1,50 +1,69 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de Candado con Ojo de Cerradura.
+/// Icono vectorial bi-tonal de Candado con Ojo de Cerradura.
 class KeyholeLockIcon extends StatelessWidget {
   final double size;
   final Color? color;
+  final Color? secondaryColor;
 
   const KeyholeLockIcon({
     super.key,
     this.size = 24.0,
     this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = color ?? Theme.of(context).colorScheme.primary;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFFFFB703));
 
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _KeyholeLockIconPainter(color: iconColor),
+        painter: _KeyholeLockIconPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _KeyholeLockIconPainter extends CustomPainter {
-  final Color color;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _KeyholeLockIconPainter({required this.color});
+  const _KeyholeLockIconPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final strokePaint = Paint()
-      ..color = color
+    final shacklePaint = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true;
 
-    final fillPaint = Paint()
-      ..color = color
+    final bodyPaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..isAntiAlias = true;
+
+    final holeFill = Paint()
+      ..color = accentColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
@@ -54,27 +73,27 @@ class _KeyholeLockIconPainter extends CustomPainter {
       ..lineTo(7.0, 7.0)
       ..cubicTo(7.0, 3.5, 17.0, 3.5, 17.0, 7.0)
       ..lineTo(17.0, 10.0);
-    canvas.drawPath(shackle, strokePaint);
+    canvas.drawPath(shackle, shacklePaint);
 
     // Lock Body RRect
     final bodyRect = RRect.fromRectAndRadius(
       const Rect.fromLTRB(4.0, 10.0, 20.0, 21.0),
       const Radius.circular(3.0),
     );
-    canvas.drawRRect(bodyRect, strokePaint);
+    canvas.drawRRect(bodyRect, bodyPaint);
 
-    // Keyhole Circle + Trapezoid
-    canvas.drawCircle(const Offset(12.0, 14.0), 1.5, fillPaint);
+    // Keyhole Circle + Trapezoid (Vibrant Amber/Gold Accent)
+    canvas.drawCircle(const Offset(12.0, 14.0), 1.6, holeFill);
     final holePath = Path()
       ..moveTo(11.0, 14.5)
       ..lineTo(13.0, 14.5)
       ..lineTo(13.5, 17.5)
       ..lineTo(10.5, 17.5)
       ..close();
-    canvas.drawPath(holePath, fillPaint);
+    canvas.drawPath(holePath, holeFill);
   }
 
   @override
   bool shouldRepaint(covariant _KeyholeLockIconPainter oldDelegate) =>
-      oldDelegate.color != color;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

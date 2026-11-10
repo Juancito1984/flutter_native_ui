@@ -1,33 +1,50 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de automóvil para automotriz y movilidad.
+/// Icono vectorial bi-tonal de automóvil para automotriz y movilidad.
 class CarIcon extends StatelessWidget {
   final double size;
-  final Color carColor;
+  final Color? color;
+  final Color? secondaryColor;
+  final Color? carColor;
 
   const CarIcon({
     super.key,
     this.size = 24.0,
-    this.carColor = const Color(0xFF1E88E5),
+    this.color,
+    this.secondaryColor,
+    this.carColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? carColor ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF0288D1));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _CarPainter(carColor: carColor),
+        painter: _CarPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _CarPainter extends CustomPainter {
-  final Color carColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _CarPainter({required this.carColor});
+  const _CarPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -35,7 +52,7 @@ class _CarPainter extends CustomPainter {
     canvas.scale(scale, scale);
 
     final carPaint = Paint()
-      ..color = carColor
+      ..color = primaryColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
@@ -43,7 +60,9 @@ class _CarPainter extends CustomPainter {
       ..color = const Color(0xFF263238)
       ..style = PaintingStyle.fill;
 
-    final windowPaint = Paint()..color = const Color(0xFF81D4FA);
+    final windowPaint = Paint()
+      ..color = accentColor.withValues(alpha: 0.6)
+      ..style = PaintingStyle.fill;
 
     // Car Roof / Windows Body
     final roofPath = Path()
@@ -71,5 +90,5 @@ class _CarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CarPainter oldDelegate) =>
-      oldDelegate.carColor != carColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }

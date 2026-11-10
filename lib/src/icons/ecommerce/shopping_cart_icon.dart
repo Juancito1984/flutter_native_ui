@@ -1,68 +1,82 @@
 import 'package:flutter/material.dart';
 
-/// Icono vectorial de carrito de compras para comercio electrónico.
+/// Icono vectorial bi-tonal de carrito de compras.
 class ShoppingCartIcon extends StatelessWidget {
   final double size;
-  final Color cartColor;
+  final Color? color;
+  final Color? secondaryColor;
 
   const ShoppingCartIcon({
     super.key,
     this.size = 24.0,
-    this.cartColor = const Color(0xFF1E88E5),
+    this.color,
+    this.secondaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = color ?? (isDark ? theme.colorScheme.onSurface : theme.colorScheme.primary);
+    final accent = secondaryColor ?? (isDark ? theme.colorScheme.primary : const Color(0xFF00E676));
+
     return SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
         size: Size(size, size),
-        painter: _ShoppingCartPainter(cartColor: cartColor),
+        painter: _ShoppingCartPainter(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
       ),
     );
   }
 }
 
 class _ShoppingCartPainter extends CustomPainter {
-  final Color cartColor;
+  final Color primaryColor;
+  final Color accentColor;
 
-  const _ShoppingCartPainter({required this.cartColor});
+  const _ShoppingCartPainter({
+    required this.primaryColor,
+    required this.accentColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24.0;
     canvas.scale(scale, scale);
 
-    final cartPaint = Paint()
-      ..color = cartColor
+    final basketStroke = Paint()
+      ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.8
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
-    final wheelPaint = Paint()
-      ..color = cartColor
-      ..style = PaintingStyle.fill
-      ..isAntiAlias = true;
+    final wheelFill = Paint()
+      ..color = accentColor
+      ..style = PaintingStyle.fill;
 
-    // Basket & Handle
+    // Cart Basket Wireframe
     final cartPath = Path()
-      ..moveTo(2, 3)
-      ..lineTo(5, 3)
-      ..lineTo(8, 14)
+      ..moveTo(3, 4)
+      ..lineTo(6, 4)
+      ..lineTo(9, 14)
       ..lineTo(19, 14)
-      ..lineTo(21, 6)
-      ..lineTo(6, 6);
-    canvas.drawPath(cartPath, cartPaint);
+      ..lineTo(21, 7)
+      ..lineTo(7, 7);
+    canvas.drawPath(cartPath, basketStroke);
 
-    // Wheels
-    canvas.drawCircle(const Offset(9, 19), 2.0, wheelPaint);
-    canvas.drawCircle(const Offset(18, 19), 2.0, wheelPaint);
+    // Wheels (Vibrant Emerald Accent)
+    canvas.drawCircle(const Offset(9.5, 18), 2.0, wheelFill);
+    canvas.drawCircle(const Offset(17.5, 18), 2.0, wheelFill);
   }
 
   @override
   bool shouldRepaint(covariant _ShoppingCartPainter oldDelegate) =>
-      oldDelegate.cartColor != cartColor;
+      oldDelegate.primaryColor != primaryColor || oldDelegate.accentColor != accentColor;
 }
