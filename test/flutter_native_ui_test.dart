@@ -33,176 +33,164 @@ void main() {
     });
   });
 
-  group('Iconos Vectoriales Nativos - Categorías Temáticas Ampliadas', () {
-    testWidgets('Iconos de E-Commerce renderizan correctamente', (WidgetTester tester) async {
+  group('Iconos Vectoriales Nativos - Nuevas Categorías (v1.1.0)', () {
+    testWidgets('Iconos de Inteligencia Artificial renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: Column(
               children: [
-                ShoppingBagIcon(size: 36),
-                ShoppingCartIcon(size: 36),
-                TagDiscountIcon(size: 36),
-                DeliveryTruckIcon(size: 36),
-                BarcodeQrIcon(size: 36),
+                BrainAiIcon(size: 36),
+                BotMessageIcon(size: 36),
+                WandMagicIcon(size: 36),
+                CpuChipIcon(size: 36),
               ],
             ),
           ),
         ),
       );
-      expect(find.byType(ShoppingBagIcon), findsOneWidget);
-      expect(find.byType(ShoppingCartIcon), findsOneWidget);
-      expect(find.byType(TagDiscountIcon), findsOneWidget);
-      expect(find.byType(DeliveryTruckIcon), findsOneWidget);
-      expect(find.byType(BarcodeQrIcon), findsOneWidget);
+      expect(find.byType(BrainAiIcon), findsOneWidget);
+      expect(find.byType(BotMessageIcon), findsOneWidget);
+      expect(find.byType(WandMagicIcon), findsOneWidget);
+      expect(find.byType(CpuChipIcon), findsOneWidget);
     });
 
-    testWidgets('Iconos de Gastronomía renderizan correctamente', (WidgetTester tester) async {
+    testWidgets('Iconos de Biometría & Seguridad renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: Column(
               children: [
-                RestaurantPlateIcon(size: 36),
-                BurgerPizzaIcon(size: 36),
-                CoffeeCupIcon(size: 36),
-                DeliveryMotorcycleIcon(size: 36),
-                ChefHatIcon(size: 36),
+                FingerprintScanIcon(size: 36),
+                FaceIdIcon(size: 36),
+                KeyholeLockIcon(size: 36),
               ],
             ),
           ),
         ),
       );
-      expect(find.byType(RestaurantPlateIcon), findsOneWidget);
-      expect(find.byType(BurgerPizzaIcon), findsOneWidget);
-      expect(find.byType(CoffeeCupIcon), findsOneWidget);
-      expect(find.byType(DeliveryMotorcycleIcon), findsOneWidget);
-      expect(find.byType(ChefHatIcon), findsOneWidget);
+      expect(find.byType(FingerprintScanIcon), findsOneWidget);
+      expect(find.byType(FaceIdIcon), findsOneWidget);
+      expect(find.byType(KeyholeLockIcon), findsOneWidget);
     });
 
-    testWidgets('Iconos de Finanzas renderizan correctamente', (WidgetTester tester) async {
+    testWidgets('Iconos de Domótica & Smart Home renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: Column(
               children: [
-                WalletIcon(size: 36),
-                PiggyBankIcon(size: 36),
-                BitcoinCryptoIcon(size: 36),
-                TrendingChartIcon(size: 36),
-                BankBuildingIcon(size: 36),
+                SmartLockIcon(size: 36),
+                LightBulbSmartIcon(size: 36),
+                ThermometerSmartIcon(size: 36),
+                SolarPanelIcon(size: 36),
               ],
             ),
           ),
         ),
       );
-      expect(find.byType(WalletIcon), findsOneWidget);
-      expect(find.byType(PiggyBankIcon), findsOneWidget);
-      expect(find.byType(BitcoinCryptoIcon), findsOneWidget);
-      expect(find.byType(TrendingChartIcon), findsOneWidget);
-      expect(find.byType(BankBuildingIcon), findsOneWidget);
+      expect(find.byType(SmartLockIcon), findsOneWidget);
+      expect(find.byType(LightBulbSmartIcon), findsOneWidget);
+      expect(find.byType(ThermometerSmartIcon), findsOneWidget);
+      expect(find.byType(SolarPanelIcon), findsOneWidget);
     });
 
-    testWidgets('Iconos de Viajes renderizan correctamente', (WidgetTester tester) async {
+    testWidgets('Iconos de Fitness & Deportes renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: Column(
               children: [
-                AirplaneIcon(size: 36),
-                SuitcaseIcon(size: 36),
-                MapPinIcon(size: 36),
-                CompassIcon(size: 36),
-                HotelBedIcon(size: 36),
+                DumbbellIcon(size: 36),
+                FlameKcalIcon(size: 36),
+                WaterDropIcon(size: 36),
+                TrophyAwardIcon(size: 36),
               ],
             ),
           ),
         ),
       );
-      expect(find.byType(AirplaneIcon), findsOneWidget);
-      expect(find.byType(SuitcaseIcon), findsOneWidget);
-      expect(find.byType(MapPinIcon), findsOneWidget);
-      expect(find.byType(CompassIcon), findsOneWidget);
-      expect(find.byType(HotelBedIcon), findsOneWidget);
+      expect(find.byType(DumbbellIcon), findsOneWidget);
+      expect(find.byType(FlameKcalIcon), findsOneWidget);
+      expect(find.byType(WaterDropIcon), findsOneWidget);
+      expect(find.byType(TrophyAwardIcon), findsOneWidget);
     });
 
-    testWidgets('Iconos de Educación renderizan correctamente', (WidgetTester tester) async {
+    testWidgets('Iconos de Logística & Envíos renderizan correctamente', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: Column(
               children: [
-                GraduationCapIcon(size: 36),
-                BookOpenIcon(size: 36),
-                CertificateAwardIcon(size: 36),
-                IdeaBulbIcon(size: 36),
+                PackageBoxIcon(size: 36),
+                QrScannerIcon(size: 36),
+                LocationRadarIcon(size: 36),
               ],
             ),
           ),
         ),
       );
-      expect(find.byType(GraduationCapIcon), findsOneWidget);
-      expect(find.byType(BookOpenIcon), findsOneWidget);
-      expect(find.byType(CertificateAwardIcon), findsOneWidget);
-      expect(find.byType(IdeaBulbIcon), findsOneWidget);
-    });
-
-    testWidgets('Iconos de Automotriz renderizan correctamente', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                CarIcon(size: 36),
-                FuelGasIcon(size: 36),
-                SpeedometerIcon(size: 36),
-                CarKeyIcon(size: 36),
-              ],
-            ),
-          ),
-        ),
-      );
-      expect(find.byType(CarIcon), findsOneWidget);
-      expect(find.byType(FuelGasIcon), findsOneWidget);
-      expect(find.byType(SpeedometerIcon), findsOneWidget);
-      expect(find.byType(CarKeyIcon), findsOneWidget);
+      expect(find.byType(PackageBoxIcon), findsOneWidget);
+      expect(find.byType(QrScannerIcon), findsOneWidget);
+      expect(find.byType(LocationRadarIcon), findsOneWidget);
     });
   });
 
-  group('Animaciones Nativas - Categorías Temáticas', () {
-    testWidgets('NativeCartBadgePulse animates correctly', (WidgetTester tester) async {
+  group('Animaciones Nativas - Nuevas Animaciones (v1.1.0)', () {
+    testWidgets('NativeAiThinkingOrbit animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: NativeCartBadgePulse(size: 48))),
+        const MaterialApp(home: Scaffold(body: NativeAiThinkingOrbit(size: 48))),
       );
-      expect(find.byType(NativeCartBadgePulse), findsOneWidget);
+      expect(find.byType(NativeAiThinkingOrbit), findsOneWidget);
     });
 
-    testWidgets('NativeCoffeeSteam animates correctly', (WidgetTester tester) async {
+    testWidgets('NativeTypingIndicator animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: NativeCoffeeSteam(size: 48))),
+        const MaterialApp(home: Scaffold(body: NativeTypingIndicator(size: 36))),
       );
-      expect(find.byType(NativeCoffeeSteam), findsOneWidget);
+      expect(find.byType(NativeTypingIndicator), findsOneWidget);
     });
 
-    testWidgets('NativeCryptoChartUp animates correctly', (WidgetTester tester) async {
+    testWidgets('NativeFingerprintScan animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: NativeCryptoChartUp(width: 64, height: 36))),
+        const MaterialApp(home: Scaffold(body: NativeFingerprintScan(size: 48))),
       );
-      expect(find.byType(NativeCryptoChartUp), findsOneWidget);
+      expect(find.byType(NativeFingerprintScan), findsOneWidget);
     });
 
-    testWidgets('NativeFlightTakeoff animates correctly', (WidgetTester tester) async {
+    testWidgets('NativeCreditCardNfc animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: NativeFlightTakeoff(size: 48))),
+        const MaterialApp(home: Scaffold(body: NativeCreditCardNfc(width: 64, height: 42))),
       );
-      expect(find.byType(NativeFlightTakeoff), findsOneWidget);
+      expect(find.byType(NativeCreditCardNfc), findsOneWidget);
     });
 
-    testWidgets('NativeIdeaBulbGlow animates correctly', (WidgetTester tester) async {
+    testWidgets('NativeWaterWaveFill animates correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: NativeIdeaBulbGlow(size: 48))),
+        const MaterialApp(home: Scaffold(body: NativeWaterWaveFill(size: 48))),
       );
-      expect(find.byType(NativeIdeaBulbGlow), findsOneWidget);
+      expect(find.byType(NativeWaterWaveFill), findsOneWidget);
+    });
+
+    testWidgets('NativeTruckMoving animates correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: NativeTruckMoving(size: 48))),
+      );
+      expect(find.byType(NativeTruckMoving), findsOneWidget);
+    });
+
+    testWidgets('NativeRadarPin animates correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: NativeRadarPin(size: 48))),
+      );
+      expect(find.byType(NativeRadarPin), findsOneWidget);
+    });
+
+    testWidgets('NativeRingProgress animates correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: NativeRingProgress(size: 48))),
+      );
+      expect(find.byType(NativeRingProgress), findsOneWidget);
     });
   });
 }

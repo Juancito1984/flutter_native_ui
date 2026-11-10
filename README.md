@@ -1,6 +1,6 @@
 # flutter_native_ui_nyk
 
-A complete package of **66 native vector icons** and **24 high-performance Flutter animations (60–120 FPS)**. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies** and full Material 3 light & dark theme adaptability.
+A complete package of **83 native vector icons** and **32 high-performance Flutter animations (60–120 FPS)**. Built 100% in pure Dart using `CustomPainter` and `AnimationController` with **zero external dependencies** and full Material 3 light & dark theme adaptability.
 
 [![pub package](https://img.shields.io/pub/v/flutter_native_ui_nyk.svg)](https://pub.dev/packages/flutter_native_ui_nyk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -33,10 +33,10 @@ Your support is greatly appreciated to keep this project 100% free, open-source,
 ## 🌟 Key Features
 
 - 🚀 **Zero External Dependencies**: Pure native canvas rendering with `CustomPainter` and `AnimationController`.
-- 🎯 **66 Native Vector Icons**: Geometrically drawn and crisp at any resolution across 14 industry categories.
-- ⚡ **24 Ultra-Smooth Native Animations (60–120 FPS)**: Render layers isolated with `RepaintBoundary` for zero GPU repaint lag.
+- 🎯 **83 Native Vector Icons**: Geometrically drawn and crisp at any resolution across 19 industry categories.
+- ⚡ **32 Ultra-Smooth Native Animations (60–120 FPS)**: Render layers isolated with `RepaintBoundary` for zero GPU repaint lag.
 - 🌓 **Theme Adaptive**: Automatic support for Flutter light and dark theme color schemes (`ThemeData`).
-- 📦 **14 Industry Categories**: Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
+- 📦 **19 Industry Categories**: AI & GenAI, Biometrics & Security, Smart Home, Fitness & Sports, Logistics & GPS, Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
 
 ---
 
@@ -44,8 +44,8 @@ Your support is greatly appreciated to keep this project 100% free, open-source,
 
 | Component / Module | Summary | 🇺🇸 English Docs | 🇪🇸 Documentación ES |
 | :--- | :--- | :--- | :--- |
-| **`Vector Icons`** | 66 native vector icons across 14 industry categories with custom sizing and coloring | [📖 View Docs](doc/en/vector_icons.md) | [📖 Ver Guía](doc/es/vector_icons.md) |
-| **`Native Animations`** | 24 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` | [📖 View Docs](doc/en/native_animations.md) | [📖 Ver Guía](doc/es/native_animations.md) |
+| **`Vector Icons`** | 83 native vector icons across 19 industry categories with custom sizing and coloring | [📖 View Docs](doc/en/vector_icons.md) | [📖 Ver Guía](doc/es/vector_icons.md) |
+| **`Native Animations`** | 32 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` | [📖 View Docs](doc/en/native_animations.md) | [📖 Ver Guía](doc/es/native_animations.md) |
 | **`Performance & Architecture`** | Hardware rendering, zero external dependencies, matrix scaling & ThemeData adaptability | [📖 View Docs](doc/en/performance_and_architecture.md) | [📖 Ver Guía](doc/es/performance_and_architecture.md) |
 
 ---
@@ -56,7 +56,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.0.1
+  flutter_native_ui_nyk: ^1.1.0
 ```
 
 Run:
@@ -94,19 +94,19 @@ class QuickDemoPage extends StatelessWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FirebaseIcon(size: 40),
+                BrainAiIcon(size: 40),
                 SizedBox(width: 16),
-                ShoppingBagIcon(size: 40),
+                FingerprintScanIcon(size: 40),
                 SizedBox(width: 16),
-                CoffeeCupIcon(size: 40),
+                SmartLockIcon(size: 40),
               ],
             ),
             const SizedBox(height: 32),
             
             // Native animations
-            const NativeCloudSync(size: 56),
+            const NativeAiThinkingOrbit(size: 56),
             const SizedBox(height: 16),
-            const NativeCoffeeSteam(size: 56),
+            const NativeCreditCardNfc(width: 64, height: 42),
             const SizedBox(height: 32),
 
             // Interactive Shimmer Button

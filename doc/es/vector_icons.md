@@ -1,6 +1,6 @@
 # 🎯 Guía de Iconos Vectoriales Nativos
 
-La librería **`flutter_native_ui_nyk`** incluye **66 iconos vectoriales nativos** dibujados con `CustomPainter`. Al no requerir archivos SVG ni fuentes tipográficas de terceros, garantizan **0 sobrecarga en tiempo de ejecución**, peso mínimo y total nitidez a cualquier tamaño de pantalla.
+La librería **`flutter_native_ui_nyk`** incluye **83 iconos vectoriales nativos** dibujados con `CustomPainter`. Al no requerir archivos SVG ni fuentes tipográficas de terceros, garantizan **0 sobrecarga en tiempo de ejecución**, peso mínimo y total nitidez a cualquier tamaño de pantalla.
 
 ---
 
@@ -15,18 +15,57 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 
 ---
 
-## 📂 Catálogo Completo por Categorías (66 Iconos)
+## 📂 Catálogo Completo por Categorías (83 Iconos / 19 Categorías)
 
-### 1. 🔥 Firebase & Nube (`cloud`)
+### 1. 🤖 Inteligencia Artificial & GenAI (`ai`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
-| 🔥 | `FirebaseIcon` | Llama oficial de Firebase de 3 colores (`#FFCA28`, `#FFA000`, `#DD2C00`). |
+| 🧠 | `BrainAiIcon` | Cerebro con conexiones de red neuronal. |
+| 🤖 | `BotMessageIcon` | Cabeza de robot chatbot IA. |
+| 🪄 | `WandMagicIcon` | Varita mágica de prompts e IA generativa. |
+| 🔲 | `CpuChipIcon` | Procesador CPU / Chip NPU de IA. |
+
+### 2. 🔒 Biometría & Seguridad (`security`)
+| Icono | Clase Dart | Descripción |
+| :--- | :--- | :--- |
+| 👆 | `FingerprintScanIcon` | Escaneo de huella dactilar. |
+| 👤 | `FaceIdIcon` | Reconocimiento facial / Face ID. |
+| 🔑 | `KeyholeLockIcon` | Candado con ojo de cerradura. |
+| 🛡️ | `ShieldCheckIcon` | Escudo de seguridad verificado. |
+
+### 3. 🏠 Domótica & Smart Home (`smarthome`)
+| Icono | Clase Dart | Descripción |
+| :--- | :--- | :--- |
+| 🔓 | `SmartLockIcon` | Candado inteligente con señal inalámbrica. |
+| 💡 | `LightBulbSmartIcon` | Foco domótico inteligente. |
+| 🌡️ | `ThermometerSmartIcon` | Termostato digital inteligente. |
+| ☀️ | `SolarPanelIcon` | Panel solar de energía limpia. |
+
+### 4. 🏋️ Salud, Fitness & Deportes (`fitness`)
+| Icono | Clase Dart | Descripción |
+| :--- | :--- | :--- |
+| 🏋️ | `DumbbellIcon` | Mancuerna / Pesas de gimnasio. |
+| 🔥 | `FlameKcalIcon` | Llama de calorías quemadas. |
+| 💧 | `WaterDropIcon` | Gota de agua / Hidratación. |
+| 🏆 | `TrophyAwardIcon` | Trofeo / Copa de victoria. |
+
+### 5. 📦 Logística, Envíos & GPS (`logistics`)
+| Icono | Clase Dart | Descripción |
+| :--- | :--- | :--- |
+| 📦 | `PackageBoxIcon` | Caja de paquete / Envío. |
+| 📷 | `QrScannerIcon` | Marco de escáner de código QR. |
+| 📍 | `LocationRadarIcon` | Pin de mapa con radar de ubicación. |
+
+### 6. 🔥 Firebase & Nube (`cloud`)
+| Icono | Clase Dart | Descripción |
+| :--- | :--- | :--- |
+| 🔥 | `FirebaseIcon` | Llama oficial de Firebase de 3 colores. |
 | 🗄️ | `FirestoreIcon` | Logotipo oficial de Cloud Firestore. |
-| 🔑 | `FirebaseAuthIcon` | Icono de autenticación de usuarios de Firebase. |
+| 🔑 | `FirebaseAuthIcon` | Icono de autenticación de Firebase. |
 | ☁️ | `CloudStorageIcon` | Nube de almacenamiento de datos. |
 | 🚫 | `DatabaseDisabledIcon` | Base de datos deshabilitada o fuera de línea. |
 
-### 2. 📱 Redes Sociales & Autenticación (`social`)
+### 7. 📱 Redes Sociales & Autenticación (`social`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🌐 | `GoogleIcon` | G multicolor oficial de Google. |
@@ -40,20 +79,20 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 💬 | `WhatsappIcon` | Burbuja de chat de WhatsApp. |
 | ▶️ | `YoutubeIcon` | Botón de reproducción oficial de YouTube. |
 
-### 3. 💳 Pasarelas de Pago (`payments`)
+### 8. 💳 Pasarelas de Pago (`payments`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 💳 | `VisaIcon` | Logotipo oficial de Visa. |
-| 💳 | `MastercardIcon` | Esferas entrelazadas oficiales de Mastercard. |
+| 💳 | `MastercardIcon` | Esferas entrelazadas de Mastercard. |
 | 🅿️ | `PaypalIcon` | Logotipo oficial de PayPal. |
 
-### 4. ✦ Sistema & UI (`system`)
+### 9. ✦ Sistema & UI (`system`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | ✨ | `SparklesIcon` | Destellos de Inteligencia Artificial / Magia. |
 | 🛡️ | `ShieldCheckIcon` | Escudo de seguridad verificado. |
 
-### 5. 🏗️ Ingeniería & Construcción (`engineering`)
+### 10. 🏗️ Ingeniería & Construcción (`engineering`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 👷 | `HardhatWorkerIcon` | Casco de obrero de construcción. |
@@ -63,7 +102,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 🚜 | `TractorIcon` | Tractor agrícola e industrial. |
 | 🛠️ | `EngineeringToolsIcon` | Herramientas cruzadas de ingeniería. |
 
-### 6. 🎵 Música & Controles (`music`)
+### 11. 🎵 Música & Controles (`music`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🎼 | `MusicSheetIcon` | Partitura musical. |
@@ -72,7 +111,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | ⏸️ | `PauseControlIcon` | Botón de pausa. |
 | ⏹️ | `StopControlIcon` | Botón de detención. |
 
-### 7. ⚽ Deportes & Fútbol (`football`)
+### 12. ⚽ Deportes & Fútbol (`football`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | ⚽ | `SoccerBallIcon` | Balón de fútbol clásico. |
@@ -84,7 +123,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 📢 | `RefereeWhistleIcon` | Silbato de árbitro. |
 | 📅 | `MatchCalendarIcon` | Calendario de partidos. |
 
-### 8. 💊 Farmacia & Salud (`pharmacy`)
+### 13. 💊 Farmacia & Salud (`pharmacy`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 💊 | `PillIcon` | Cápsula / Pastilla médica. |
@@ -94,7 +133,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 🏥 | `HospitalBuildingIcon` | Edificio de hospital. |
 | 🍾 | `MedicineBottleIcon` | Frasco de medicina. |
 
-### 9. 🛒 E-Commerce (`ecommerce`)
+### 14. 🛒 E-Commerce (`ecommerce`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🛍️ | `ShoppingBagIcon` | Bolsa de compras. |
@@ -103,7 +142,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 🚚 | `DeliveryTruckIcon` | Camión de envíos. |
 | 📊 | `BarcodeQrIcon` | Código de barras y QR. |
 
-### 10. 🍔 Gastronomía (`food`)
+### 15. 🍔 Gastronomía (`food`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🍽️ | `RestaurantPlateIcon` | Plato de restaurante con cubiertos. |
@@ -112,7 +151,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 🛵 | `DeliveryMotorcycleIcon` | Motocicleta de reparto gastronómico. |
 | 👨‍🍳 | `ChefHatIcon` | Gorro de chef. |
 
-### 11. 💼 Finanzas (`finance`)
+### 16. 💼 Finanzas (`finance`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 👛 | `WalletIcon` | Billetera digital/física. |
@@ -121,7 +160,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 📈 | `TrendingChartIcon` | Gráfico financiero ascendente. |
 | 🏦 | `BankBuildingIcon` | Edificio bancario. |
 
-### 12. ✈️ Viajes & Turismo (`travel`)
+### 17. ✈️ Viajes & Turismo (`travel`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | ✈️ | `AirplaneIcon` | Avión comercial. |
@@ -130,7 +169,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 🧭 | `CompassIcon` | Brújula de navegación. |
 | 🏨 | `HotelBedIcon` | Cama de hotel. |
 
-### 13. 🎓 Educación (`education`)
+### 18. 🎓 Educación (`education`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🎓 | `GraduationCapIcon` | Birrete de graduación. |
@@ -138,7 +177,7 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 | 📜 | `CertificateAwardIcon` | Certificado / Diploma. |
 | 💡 | `IdeaBulbIcon` | Bombilla de idea / conocimiento. |
 
-### 14. 🚗 Automotriz (`automotive`)
+### 19. 🚗 Automotriz (`automotive`)
 | Icono | Clase Dart | Descripción |
 | :--- | :--- | :--- |
 | 🚗 | `CarIcon` | Vehículo automóvil. |
@@ -154,16 +193,16 @@ Todos los iconos vectoriales aceptan los siguientes parámetros estandarizados:
 import 'package:flutter/material.dart';
 import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 
-// 1. Icono de tarjeta Visa
-const visa = VisaIcon(size: 48);
+// 1. Icono de Cerebro IA
+const aiBrain = BrainAiIcon(size: 48);
 
-// 2. Icono de Google con tamaño personalizado
-const googleBtn = GoogleIcon(size: 32);
+// 2. Icono de Huella Dactilar
+const fingerprint = FingerprintScanIcon(size: 32);
 
-// 3. Icono de Seguridad en ListTile
+// 3. Icono de Smart Lock en ListTile
 ListTile(
-  leading: const ShieldCheckIcon(size: 32),
-  title: const Text('Cuenta Verificada'),
-  subtitle: const Text('Protegida con autenticación en dos pasos'),
+  leading: const SmartLockIcon(size: 32),
+  title: const Text('Cerradura Inteligente'),
+  subtitle: const Text('Conectada por WiFi'),
 );
 ```

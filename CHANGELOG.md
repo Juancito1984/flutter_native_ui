@@ -1,3 +1,18 @@
+## 1.1.0
+
+* **Gran Expansión de Iconos Vectoriales Nativos (83 Iconos Total)**:
+  - **17 Nuevos Iconos Vectoriales Nativos** repartidos en 5 nuevas categorías estratégicas de industria:
+    - 🤖 **IA & GenAI (`ai`)**: `BrainAiIcon`, `BotMessageIcon`, `WandMagicIcon`, `CpuChipIcon`.
+    - 🔒 **Biometría & Seguridad (`security`)**: `FingerprintScanIcon`, `FaceIdIcon`, `KeyholeLockIcon`.
+    - 🏠 **Domótica & Smart Home (`smarthome`)**: `SmartLockIcon`, `LightBulbSmartIcon`, `ThermometerSmartIcon`, `SolarPanelIcon`.
+    - 🏋️ **Fitness, Salud & Deportes (`fitness`)**: `DumbbellIcon`, `FlameKcalIcon`, `WaterDropIcon`, `TrophyAwardIcon`.
+    - 📦 **Logística, Envíos & GPS (`logistics`)**: `PackageBoxIcon`, `QrScannerIcon`, `LocationRadarIcon`.
+* **Nuevas Animaciones Nativas Ultra Fluidas (32 Animaciones Total)**:
+  - **8 Nuevas Animaciones a 60–120 FPS**: `NativeAiThinkingOrbit`, `NativeTypingIndicator`, `NativeFingerprintScan`, `NativeCreditCardNfc`, `NativeWaterWaveFill`, `NativeTruckMoving`, `NativeRadarPin`, `NativeRingProgress`.
+* **Actualización Completa de la Aplicación de Ejemplo (`example/`) y Documentación Bilingüe (`doc/`)**:
+  - Catálogo de la app de ejemplo expandido con 19 categorías de iconos y 32 animaciones.
+  - Documentación en `doc/es/` y `doc/en/` sincronizada con todos los nuevos componentes y parámetros.
+
 ## 1.0.2
 
 * **Reestructuración de Documentación Bilingüe y Validación de URLs**:

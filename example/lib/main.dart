@@ -76,8 +76,8 @@ class DemoHomeScreen extends StatelessWidget {
             children: [
               _buildMenuCard(
                 context: context,
-                title: 'Ver Iconos',
-                subtitle: 'Explora la colección de iconos vectoriales SVG',
+                title: 'Ver Iconos (83 Iconos)',
+                subtitle: 'Explora 83 iconos vectoriales en 19 categorías',
                 leadingWidget: const SparklesIcon(size: 38),
                 onTap: () {
                   Navigator.push(
@@ -91,8 +91,8 @@ class DemoHomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               _buildMenuCard(
                 context: context,
-                title: 'Ver Animaciones',
-                subtitle: 'Explora las animaciones nativas a 60-120 FPS',
+                title: 'Ver Animaciones (32 Animaciones)',
+                subtitle: 'Explora 32 animaciones nativas a 60-120 FPS',
                 leadingWidget: const NativePulsingHeart(size: 38),
                 onTap: () {
                   Navigator.push(
@@ -130,7 +130,9 @@ class DemoHomeScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
                       .withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -174,12 +176,57 @@ class ExampleIconsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Catálogo de Iconos Vectoriales')),
+      appBar: AppBar(title: const Text('Catálogo de Iconos (83 Iconos)')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _buildSectionTitle('🤖 Inteligencia Artificial & GenAI'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Cerebro IA', icon: BrainAiIcon(size: 36)),
+              _IconItem(name: 'Bot Chat', icon: BotMessageIcon(size: 36)),
+              _IconItem(name: 'Varita Prompt', icon: WandMagicIcon(size: 36)),
+              _IconItem(name: 'Chip CPU', icon: CpuChipIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('🔒 Biometría y Seguridad'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Huella', icon: FingerprintScanIcon(size: 36)),
+              _IconItem(name: 'Face ID', icon: FaceIdIcon(size: 36)),
+              _IconItem(name: 'Cerradura', icon: KeyholeLockIcon(size: 36)),
+              _IconItem(name: 'Escudo', icon: ShieldCheckIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('🏠 Domótica y Smart Home'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Smart Lock', icon: SmartLockIcon(size: 36)),
+              _IconItem(name: 'Foco Smart', icon: LightBulbSmartIcon(size: 36)),
+              _IconItem(
+                  name: 'Termostato', icon: ThermometerSmartIcon(size: 36)),
+              _IconItem(name: 'Panel Solar', icon: SolarPanelIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('🏋️ Salud, Fitness y Deportes'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Mancuerna', icon: DumbbellIcon(size: 36)),
+              _IconItem(name: 'Calorías', icon: FlameKcalIcon(size: 36)),
+              _IconItem(name: 'Gota Agua', icon: WaterDropIcon(size: 36)),
+              _IconItem(name: 'Trofeo', icon: TrophyAwardIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
+            _buildSectionTitle('📦 Logística, Envíos y GPS'),
+            const SizedBox(height: 12),
+            _buildIconGrid(const [
+              _IconItem(name: 'Paquete', icon: PackageBoxIcon(size: 36)),
+              _IconItem(name: 'Escáner QR', icon: QrScannerIcon(size: 36)),
+              _IconItem(name: 'Radar GPS', icon: LocationRadarIcon(size: 36)),
+            ]),
+            const SizedBox(height: 24),
             _buildSectionTitle('🔥 Firebase & Nube'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
@@ -188,12 +235,10 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Auth', icon: FirebaseAuthIcon(size: 36)),
               _IconItem(name: 'Storage', icon: CloudStorageIcon(size: 36)),
               _IconItem(
-                name: 'Base Offline',
-                icon: DatabaseDisabledIcon(size: 36),
-              ),
+                  name: 'Base Offline', icon: DatabaseDisabledIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
-            _buildSectionTitle('Redes Sociales y Autenticación'),
+            _buildSectionTitle('📱 Redes Sociales y Autenticación'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
               _IconItem(name: 'Google', icon: GoogleIcon(size: 36)),
@@ -208,19 +253,12 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'YouTube', icon: YouTubeIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
-            _buildSectionTitle('Pagos y Comercio'),
+            _buildSectionTitle('💳 Pasarelas de Pago'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
               _IconItem(name: 'Visa', icon: VisaIcon(size: 40)),
               _IconItem(name: 'Mastercard', icon: MastercardIcon(size: 40)),
               _IconItem(name: 'PayPal', icon: PayPalIcon(size: 40)),
-            ]),
-            const SizedBox(height: 24),
-            _buildSectionTitle('UI y Sistema'),
-            const SizedBox(height: 12),
-            _buildIconGrid(const [
-              _IconItem(name: 'Sparkles (IA)', icon: SparklesIcon(size: 36)),
-              _IconItem(name: 'Seguridad', icon: ShieldCheckIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
             _buildSectionTitle('🏗️ Ingeniería y Construcción'),
@@ -232,9 +270,7 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Volqueta', icon: DumpTruckIcon(size: 36)),
               _IconItem(name: 'Tractor', icon: TractorIcon(size: 36)),
               _IconItem(
-                name: 'Herramientas',
-                icon: EngineeringToolsIcon(size: 36),
-              ),
+                  name: 'Herramientas', icon: EngineeringToolsIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
             _buildSectionTitle('🎵 Música y Audio'),
@@ -277,17 +313,20 @@ class ExampleIconsScreen extends StatelessWidget {
               _IconItem(name: 'Bolsa', icon: ShoppingBagIcon(size: 36)),
               _IconItem(name: 'Carrito', icon: ShoppingCartIcon(size: 36)),
               _IconItem(name: 'Descuento', icon: TagDiscountIcon(size: 36)),
-              _IconItem(name: 'Camión Envío', icon: DeliveryTruckIcon(size: 36)),
+              _IconItem(
+                  name: 'Camión Envío', icon: DeliveryTruckIcon(size: 36)),
               _IconItem(name: 'Código QR', icon: BarcodeQrIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
             _buildSectionTitle('🍔 Gastronomía y Delivery'),
             const SizedBox(height: 12),
             _buildIconGrid(const [
-              _IconItem(name: 'Restaurante', icon: RestaurantPlateIcon(size: 36)),
+              _IconItem(
+                  name: 'Restaurante', icon: RestaurantPlateIcon(size: 36)),
               _IconItem(name: 'Comida', icon: BurgerPizzaIcon(size: 36)),
               _IconItem(name: 'Café', icon: CoffeeCupIcon(size: 36)),
-              _IconItem(name: 'Moto Reparto', icon: DeliveryMotorcycleIcon(size: 36)),
+              _IconItem(
+                  name: 'Moto Reparto', icon: DeliveryMotorcycleIcon(size: 36)),
               _IconItem(name: 'Chef', icon: ChefHatIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
@@ -316,7 +355,8 @@ class ExampleIconsScreen extends StatelessWidget {
             _buildIconGrid(const [
               _IconItem(name: 'Birrete', icon: GraduationCapIcon(size: 36)),
               _IconItem(name: 'Libro', icon: BookOpenIcon(size: 36)),
-              _IconItem(name: 'Certificado', icon: CertificateAwardIcon(size: 36)),
+              _IconItem(
+                  name: 'Certificado', icon: CertificateAwardIcon(size: 36)),
               _IconItem(name: 'Idea Foco', icon: IdeaBulbIcon(size: 36)),
             ]),
             const SizedBox(height: 24),
@@ -407,244 +447,303 @@ class _ExampleAnimacionesScreenState extends State<ExampleAnimacionesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Catálogo de Animaciones Nativas')),
+      appBar:
+          AppBar(title: const Text('Catálogo de Animaciones (32 Animaciones)')),
       body: ListView(
         addAutomaticKeepAlives: false,
         padding: const EdgeInsets.all(16.0),
         children: [
-            const Text(
-              '🔥 Firebase & Sincronización en Nube',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    _AnimContainer(
-                      title: 'Sincronizando',
-                      widget: NativeCloudSync(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Guardando Datos',
-                      widget: NativeDataUpload(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Descargando Datos',
-                      widget: NativeDataDownload(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Base Desactivada',
-                      widget: NativeDatabaseOffline(size: 48),
-                    ),
-                  ],
-                ),
+          const Text(
+            '🤖 IA, Seguridad, Pagos y Logística Nativas',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                spacing: 16,
+                runSpacing: 16,
+                children: const [
+                  _AnimContainer(
+                    title: 'IA Pensando',
+                    widget: NativeAiThinkingOrbit(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Láser Huella',
+                    widget: NativeFingerprintScan(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Tarjeta NFC',
+                    widget: NativeCreditCardNfc(width: 56, height: 38),
+                  ),
+                  _AnimContainer(
+                    title: 'Gota Ola Agua',
+                    widget: NativeWaterWaveFill(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Camión Envío',
+                    widget: NativeTruckMoving(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Radar Pin GPS',
+                    widget: NativeRadarPin(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Anillo Progreso',
+                    widget: NativeRingProgress(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Escribiendo...',
+                    widget: NativeTypingIndicator(size: 32),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              '🏗️ 🎵 ⚽ 💊 🛒 🍔 💼 ✈️ 🎓 Animaciones Temáticas Industriales',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Wrap(
-                  alignment: WrapAlignment.spaceAround,
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: const [
-                    _AnimContainer(
-                      title: 'Excavando',
-                      widget: NativeExcavatorDigging(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Ecualizador',
-                      widget: NativeAudioEqualizer(width: 48, height: 36),
-                    ),
-                    _AnimContainer(
-                      title: 'Rebote Balón',
-                      widget: NativeSoccerBallBounce(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Pulso ECG',
-                      widget: NativeHeartbeatPulse(width: 54, height: 36),
-                    ),
-                    _AnimContainer(
-                      title: 'Píldora Halo',
-                      widget: NativePillDrip(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Badge Carrito',
-                      widget: NativeCartBadgePulse(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Vapor Café',
-                      widget: NativeCoffeeSteam(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Grafica Cripto',
-                      widget: NativeCryptoChartUp(width: 54, height: 36),
-                    ),
-                    _AnimContainer(
-                      title: 'Despegue Avión',
-                      widget: NativeFlightTakeoff(size: 48),
-                    ),
-                    _AnimContainer(
-                      title: 'Foco Idea',
-                      widget: NativeIdeaBulbGlow(size: 48),
-                    ),
-                  ],
-                ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            '🔥 Firebase & Sincronización en Nube',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                spacing: 16,
+                runSpacing: 16,
+                children: const [
+                  _AnimContainer(
+                    title: 'Sincronizando',
+                    widget: NativeCloudSync(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Guardando Datos',
+                    widget: NativeDataUpload(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Descargando Datos',
+                    widget: NativeDataDownload(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Base Desactivada',
+                    widget: NativeDatabaseOffline(size: 48),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Cargadores y Esferas',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    _AnimContainer(
-                      title: 'Spinner Arc',
-                      widget: NativeLoadingSpinner(size: 40),
-                    ),
-                    _AnimContainer(
-                      title: 'Corazón Latiente',
-                      widget: NativePulsingHeart(size: 44),
-                    ),
-                    _AnimContainer(
-                      title: 'Radar Ripple',
-                      widget: NativePulseRipple(size: 48),
-                    ),
-                  ],
-                ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            '🏗️ 🎵 ⚽ 💊 🛒 🍔 💼 ✈️ 🎓 Animaciones Temáticas Industriales',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                spacing: 16,
+                runSpacing: 16,
+                children: const [
+                  _AnimContainer(
+                    title: 'Excavando',
+                    widget: NativeExcavatorDigging(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Ecualizador',
+                    widget: NativeAudioEqualizer(width: 48, height: 36),
+                  ),
+                  _AnimContainer(
+                    title: 'Rebote Balón',
+                    widget: NativeSoccerBallBounce(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Pulso ECG',
+                    widget: NativeHeartbeatPulse(width: 54, height: 36),
+                  ),
+                  _AnimContainer(
+                    title: 'Píldora Halo',
+                    widget: NativePillDrip(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Badge Carrito',
+                    widget: NativeCartBadgePulse(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Vapor Café',
+                    widget: NativeCoffeeSteam(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Grafica Cripto',
+                    widget: NativeCryptoChartUp(width: 54, height: 36),
+                  ),
+                  _AnimContainer(
+                    title: 'Despegue Avión',
+                    widget: NativeFlightTakeoff(size: 48),
+                  ),
+                  _AnimContainer(
+                    title: 'Foco Idea',
+                    widget: NativeIdeaBulbGlow(size: 48),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Retroalimentación y Estado (Feedback)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Cargadores y Esferas',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                spacing: 16,
+                runSpacing: 16,
+                children: const [
+                  _AnimContainer(
+                    title: 'Spinner Arc',
+                    widget: NativeLoadingSpinner(size: 40),
+                  ),
+                  _AnimContainer(
+                    title: 'Corazón Latiente',
+                    widget: NativePulsingHeart(size: 44),
+                  ),
+                  _AnimContainer(
+                    title: 'Radar Ripple',
+                    widget: NativePulseRipple(size: 48),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: _replayCheckmark,
-                      child: _AnimContainer(
-                        title: 'Éxito (Toca aquí)',
-                        widget: NativeSuccessCheckmark(
-                          key: _checkmarkKey,
-                          size: 48,
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Retroalimentación y Estado (Feedback)',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  GestureDetector(
+                    onTap: _replayCheckmark,
+                    child: _AnimContainer(
+                      title: 'Éxito (Toca aquí)',
+                      widget: NativeSuccessCheckmark(
+                        key: _checkmarkKey,
+                        size: 48,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _replayCross,
+                    child: _AnimContainer(
+                      title: 'Error (Toca aquí)',
+                      widget: NativeErrorCross(key: _crossKey, size: 48),
+                    ),
+                  ),
+                  const _AnimContainer(
+                    title: 'Ondas Audio',
+                    widget: NativeWaveBars(height: 32),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Indicadores de UI y Botones',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Wrap(
+                    alignment: WrapAlignment.spaceAround,
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: const [
+                      _AnimContainer(
+                        title: 'Puntos Escribiendo',
+                        widget: NativeBouncingDots(size: 10),
+                      ),
+                      _AnimContainer(
+                        title: 'Badge con Halo',
+                        widget: NativePulseBadge(
+                          count: '9+',
+                          child: Icon(Icons.notifications_active, size: 32),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: _replayCross,
-                      child: _AnimContainer(
-                        title: 'Error (Toca aquí)',
-                        widget: NativeErrorCross(key: _crossKey, size: 48),
-                      ),
-                    ),
-                    const _AnimContainer(
-                      title: 'Ondas Audio',
-                      widget: NativeWaveBars(height: 32),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Botón con Destello Metallic Shimmer',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 12),
+                  NativeShimmerButton(
+                    text: 'Procesar Transacción',
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Indicadores de UI y Botones',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Carga de Contenido Esqueleto (Skeleton)',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  const NativeSkeletonShimmer(
+                    width: 54,
+                    height: 54,
+                    borderRadius: 27,
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        _AnimContainer(
-                          title: 'Puntos Escribiendo',
-                          widget: NativeBouncingDots(size: 10),
+                        NativeSkeletonShimmer(
+                          width: double.infinity,
+                          height: 14,
                         ),
-                        _AnimContainer(
-                          title: 'Badge con Halo',
-                          widget: NativePulseBadge(
-                            count: '9+',
-                            child: Icon(Icons.notifications_active, size: 32),
-                          ),
-                        ),
+                        SizedBox(height: 10),
+                        NativeSkeletonShimmer(width: 160, height: 12),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Botón con Destello Metallic Shimmer',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 12),
-                    NativeShimmerButton(
-                      text: 'Procesar Transacción',
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Carga de Contenido Esqueleto (Skeleton)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    const NativeSkeletonShimmer(
-                      width: 54,
-                      height: 54,
-                      borderRadius: 27,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          NativeSkeletonShimmer(
-                            width: double.infinity,
-                            height: 14,
-                          ),
-                          SizedBox(height: 10),
-                          NativeSkeletonShimmer(width: 160, height: 12),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _IconItem {

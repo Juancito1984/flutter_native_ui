@@ -13,10 +13,10 @@ A comprehensive, high-performance Material 3 **Native Vector Icons & 60–120 FP
 ## 🌟 Key Features
 
 - 🚀 **Zero External Dependencies**: Pure native canvas rendering with `CustomPainter` and `AnimationController` with zero SVG parsing overhead or external fonts.
-- 🎯 **66 Native Vector Icons**: Geometrically drawn and scalable without quality loss across 14 industry categories.
-- ⚡ **24 Ultra-Smooth Native Animations (60–120 FPS)**: Isolated rendering layers using `RepaintBoundary` for zero GPU repaint lag.
+- 🎯 **83 Native Vector Icons**: Geometrically drawn and scalable without quality loss across 19 industry categories.
+- ⚡ **32 Ultra-Smooth Native Animations (60–120 FPS)**: Isolated rendering layers using `RepaintBoundary` for zero GPU repaint lag.
 - 🌓 **ThemeData Adaptive**: Automatic support for Flutter light and dark theme color schemes.
-- 📦 **14 Industry Categories**: Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
+- 📦 **19 Industry Categories**: AI & GenAI, Biometrics & Security, Smart Home, Fitness & Sports, Logistics & GPS, Cloud, Social/Auth, Payments, Engineering, Music, Football, Pharmacy, E-Commerce, Food/Gastronomy, Finance, Travel, Education, Automotive, and System.
 
 ---
 
@@ -26,8 +26,8 @@ Explore the dedicated technical documentation, property tables, and copy-paste c
 
 | Module | Source File | Full Documentation | Summary of Functionality |
 | :--- | :--- | :--- | :--- |
-| **`Vector Icons`** | [`src/icons/`](../../lib/src/icons/) | [📖 Vector Icons Guide](vector_icons.md) | 66 native vector icons categorized into 14 industry groups with `size` and `color` parameters. |
-| **`Native Animations`** | [`src/animations/`](../../lib/src/animations/) | [📖 Native Animations Guide](native_animations.md) | 24 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` and `AnimationController`. |
+| **`Vector Icons`** | [`src/icons/`](../../lib/src/icons/) | [📖 Vector Icons Guide](vector_icons.md) | 83 native vector icons categorized into 19 industry groups with `size` and `color` parameters. |
+| **`Native Animations`** | [`src/animations/`](../../lib/src/animations/) | [📖 Native Animations Guide](native_animations.md) | 32 ultra-smooth 60–120 FPS native canvas animations isolated with `RepaintBoundary` and `AnimationController`. |
 | **`Performance & Architecture`** | [`lib/src/`](../../lib/src/) | [📖 Architecture Guide](performance_and_architecture.md) | GPU layer composition, zero dependencies, matrix vector scaling, and memory lifecycle management. |
 
 ---
@@ -38,7 +38,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.0.1
+  flutter_native_ui_nyk: ^1.1.0
 ```
 
 Run:
@@ -60,10 +60,11 @@ import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 Widget iconRow() {
   return const Row(
     children: [
-      FirebaseIcon(size: 36),
-      ShoppingBagIcon(size: 36),
-      CoffeeCupIcon(size: 36),
-      VisaIcon(size: 36),
+      BrainAiIcon(size: 36),
+      FingerprintScanIcon(size: 36),
+      SmartLockIcon(size: 36),
+      DumbbellIcon(size: 36),
+      PackageBoxIcon(size: 36),
     ],
   );
 }
@@ -80,9 +81,9 @@ import 'package:flutter_native_ui_nyk/flutter_native_ui_nyk.dart';
 Widget syncWidget() {
   return const Column(
     children: [
-      NativeCloudSync(size: 64),
+      NativeAiThinkingOrbit(size: 64),
       SizedBox(height: 16),
-      NativeCoffeeSteam(size: 64),
+      NativeCreditCardNfc(width: 64, height: 42),
     ],
   );
 }
