@@ -1,3 +1,9 @@
+## 1.1.2
+
+* **Cumplimiento y Calidad en pub.dev (Puntaje Máximo)**:
+  - Corrección de formato y eliminación de enlaces locales en el historial de cambios para cumplir estrictamente con las políticas de enlaces seguros de `pub.dev`.
+  - Actualización de las referencias de instalación y dependencias en la documentación.
+
 ## 1.1.1
 
 * **Mejora Mayor de DX: Clases Padre Centralizadas con Autocompletado IDE (`NativeIcons` y `NativeAnimations`)**:
@@ -10,7 +16,7 @@
   - **Modo Oscuro (`Brightness.dark`)**: Conmutación automática a acabado plano de alto contraste (`onSurface` y `primary`).
   - **100% Retrocompatible**: Se mantiene el soporte completo para instanciar directamente los widgets de clases individuales (`BrainAiIcon`, `FirebaseIcon`, `NativeCloudSync`, etc.).
 * **Actualización de la App de Ejemplo y Documentación Bilingüe**:
-  - App de ejemplo ([`example/lib/main.dart`](file:///C:/Users/ingej/StudioProjects/flutter_native_ui/example/lib/main.dart)) actualizada con ejemplos de `NativeIcons` y `NativeAnimations`.
+  - App de ejemplo (`example/lib/main.dart`) actualizada con ejemplos de `NativeIcons` y `NativeAnimations`.
   - Documentación bilingüe en `doc/es/` y `doc/en/` actualizada.
 
 ## 1.1.0

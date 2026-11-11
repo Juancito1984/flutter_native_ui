@@ -39,7 +39,7 @@ Agrega la dependencia en tu archivo `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.1.1
+  flutter_native_ui_nyk: ^1.1.2
 ```
 
 Ejecuta en la terminal:

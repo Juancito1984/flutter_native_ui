@@ -57,7 +57,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_native_ui_nyk: ^1.1.1
+  flutter_native_ui_nyk: ^1.1.2
 ```
 
 Run:
